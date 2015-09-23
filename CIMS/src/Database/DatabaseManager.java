@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import cims.Unit;
+import java.util.List;
 
 /**
  * *
@@ -78,6 +80,11 @@ public class DatabaseManager {
             }
             closeConnection();
         }
+    }
+    
+    public List<Unit> getUnits(String name, String emergency, String function, String available, String department, String regio, String level, String team)
+    {
+        
     }
 
 }

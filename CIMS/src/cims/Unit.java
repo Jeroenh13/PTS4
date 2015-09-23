@@ -6,12 +6,15 @@
 package cims;
 
 import java.io.Serializable;
+import Database.DatabaseManager;
 
 /**
  *
  * @author kitty
  */
 public class Unit implements Serializable{
+    
+    private DatabaseManager dbm;
     
     private String name = "";
     private String function = "";
@@ -134,7 +137,7 @@ public class Unit implements Serializable{
         this.appointedTo = appointedTo;
     }
     
-    public void Sort(String searchOn, String value)
+    public void sort(String name, String emergency, String function, String available, String department, String regio, String level, String team)
     {
         
     }
