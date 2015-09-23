@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UnitsAssignController">
+   <children>
+      <TabPane layoutX="4.0" layoutY="41.0" prefHeight="1035.0" prefWidth="1910.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="tpgAssignUnnits" text="Units indelen">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.19809825673534073" layoutX="3.0" layoutY="2.0" prefHeight="710.0" prefWidth="1264.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="250.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <ListView fx:id="lvIncident" layoutX="6.0" layoutY="5.0" prefHeight="974.0" prefWidth="239.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="985.0" minWidth="1645.0" prefHeight="744.0" prefWidth="1645.0">
+                                 <children>
+                                    <TableView layoutX="6.0" layoutY="7.0" prefHeight="498.0" prefWidth="1630.0">
+                                      <columns>
+                                        <TableColumn prefWidth="238.0" text="Personeel" />
+                                        <TableColumn prefWidth="130.0" text="Functie" />
+                                          <TableColumn prefWidth="164.0" text="Beschikbaar" />
+                                          <TableColumn prefWidth="107.0" text="Afdeling" />
+                                          <TableColumn prefWidth="140.0" text="Regio" />
+                                          <TableColumn prefWidth="170.0" text="Gemeente" />
+                                          <TableColumn prefWidth="106.0" text="Niveau" />
+                                          <TableColumn prefWidth="118.0" text="Team" />
+                                          <TableColumn prefWidth="248.0" text="Toegewezen aan" />
+                                          <TableColumn prefWidth="109.0" text="Begin tijd" />
+                                          <TableColumn prefWidth="99.0" text="Eind tijd" />
+                                      </columns>
+                                    </TableView>
+                                    <Label layoutX="14.0" layoutY="517.0" text="Zoek op naam:" />
+                                    <Label layoutX="14.0" layoutY="562.0" text="Functie" />
+                                    <Label layoutX="14.0" layoutY="597.0" text="Beschikbaar" />
+                                    <Label layoutX="14.0" layoutY="631.0" text="Afdeling" />
+                                    <Label layoutX="14.0" layoutY="665.0" text="Regio" />
+                                    <Label layoutX="350.0" layoutY="565.0" text="Gemeente" />
+                                    <Label layoutX="481.0" layoutY="615.0" text="Niveau" />
+                                    <Label layoutX="481.0" layoutY="647.0" text="Team" />
+                                    <Label layoutX="651.0" layoutY="544.0" text="Begintijd" />
+                                    <Label layoutX="655.0" layoutY="576.0" text="Eindtijd" />
+                                    <ComboBox layoutX="123.0" layoutY="560.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox layoutX="123.0" layoutY="593.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox layoutX="123.0" layoutY="626.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox layoutX="123.0" layoutY="659.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox layoutX="436.0" layoutY="561.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <TextField layoutX="123.0" layoutY="513.0" prefHeight="31.0" prefWidth="442.0" />
+                                    <Button fx:id="btnSearchUi" layoutX="571.0" layoutY="510.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
+                                        <graphic>
+                                            <ImageView fx:id="ivSearchSymbol" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                  <Image url="@../afbeeldingen/searchSymbool.png" />
+                                               </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tpUnits" text="Overzicht units">
+            <content>
+              <AnchorPane fx:id="tpgOverviewUnits" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Rapport">
+              <content>
+                <AnchorPane fx:id="tpgReport" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="btnLogIn" layoutX="1074.0" layoutY="6.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" text="Inloggen" />
+   </children>
+</AnchorPane>
