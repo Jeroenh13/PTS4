@@ -7,6 +7,7 @@ package cims;
 
 import java.io.Serializable;
 import Database.DatabaseManager;
+import java.util.HashMap;
 
 /**
  *
@@ -16,14 +17,14 @@ public class Unit implements Serializable{
     
     private DatabaseManager dbm;
     
-    private String name = "";
-    private String function = "";
-    private String available = "";
-    private String department = "";
-    private String town = "";
-    private int level = 0;
-    private String team = "";
-    private String appointedTo = "";
+    private String name;
+    private String function;
+    private String available;
+    private String department;
+    private String town;
+    private int level;
+    private String team;
+    private String appointedTo;
 
     /**
      * @return the name
@@ -137,8 +138,9 @@ public class Unit implements Serializable{
         this.appointedTo = appointedTo;
     }
     
-    public void sort(String name, String emergency, String function, String available, String department, String regio, String level, String team)
+    public void sort(HashMap hm)
     {
-        
+        //HASHMAP!!!!
+        //In db string = select * from view where key = value
     }
 }
