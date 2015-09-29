@@ -15,6 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 
 /**
  * FXML Controller class
@@ -24,16 +25,28 @@ import javafx.scene.control.Button;
 public class UnitsAssignFXController 
 implements Initializable 
 {
-    
-    //@FXML Button btnSearchUi;
+    // assign (for May)
+    @FXML ListView lvIncident;
+    @FXML TableView tvAssign;
+    @FXML TextField tfNameAss;
+    @FXML TextField tfBatchNrAss;
+    @FXML Button btnNameAss;
+    @FXML Button btnBatchNrAss;
+    @FXML ComboBox cbFunctionAss;
+    @FXML ComboBox cbAvailableAss;
+    @FXML ComboBox cbDepartmentAss;
+    @FXML ComboBox cbRegionAss;
+    @FXML ComboBox cbCommuneAss;
+    @FXML ComboBox cbNiveauAss;
+    @FXML ComboBox cbTeamAss;
     
     // overview (for Kitty)
     @FXML TextField tfName;
     @FXML TextField tfBatchNr;
-    @FXML TextField tfAccident;
+    @FXML TextField tfIncident;
     @FXML Button btnSearchName;
     @FXML Button btnSearchBatchNr;
-    @FXML Button btnSearchAccident;
+    @FXML Button btnSearchIncident;
     @FXML ComboBox cbAvailable;
     @FXML ComboBox cbFunction;
     @FXML ComboBox cbRegion;
@@ -54,6 +67,7 @@ implements Initializable
         // TODO
     }    
     
+    // <editor-fold desc="Overview">
     public void selectAvailable(Event evt) {
         
     }
@@ -90,11 +104,14 @@ implements Initializable
         
     }
     
-    public void searchAccident(Event evt) {
+    public void searchIncident(Event evt) {
         
     }
     
     public void setTable(){
         
     }
+    // </editor-fold>
+    // <editor-fold desc="Assign">
+    // </editor-fold>
 }
