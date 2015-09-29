@@ -8,6 +8,8 @@ package cims;
 import java.io.Serializable;
 import Database.DatabaseManager;
 import java.util.HashMap;
+import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -138,9 +140,12 @@ public class Unit implements Serializable{
         this.appointedTo = appointedTo;
     }
     
-    public void sort(HashMap hm)
+    public List<Unit> search(HashMap hm)
     {
         //HASHMAP!!!!
         //In db string = select * from view where key = value
+        //toevoegen aan table
+        //klooten in fxml required
+        return dbm.getUnits(hm);
     }
 }
