@@ -1,11 +1,12 @@
 package Database;
 
+import cims.Employee;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import cims.Unit;
+import cims.Helpline;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,13 +87,13 @@ public class DatabaseManager {
         }
     }
     
-    public List<Unit> getUnits(HashMap hm)
+    public ArrayList<Employee> getUnits(HashMap hm)
     {
         //String name, String emergency, String function, String available, String department, String regio, String level, String team
         
         boolean first = true;
         
-        List<Unit> u = new ArrayList<>();
+        ArrayList<Employee> employees = new ArrayList<>();
         try
         {
             Statement stat = conn.createStatement();
@@ -123,7 +124,7 @@ public class DatabaseManager {
             //System.out.println(ex.getErrorCode() + " -- " + ex.getMessage());
         }
         
-        return u;
+        return employees;
     }
 
 }

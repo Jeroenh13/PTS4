@@ -9,6 +9,6 @@ package cims;
  *
  * @author kitty
  */
-public class Police extends Unit {
+public class Police extends Helpline {
     
 }

@@ -5,7 +5,9 @@
  */
 package controller;
 
-import cims.Unit;
+import cims.Employee;
+import cims.Helpline;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -14,7 +16,7 @@ import java.util.TreeMap;
  * @author Anna-May
  */
 public class UnitsAssignControler {
-    private Unit unit;
+    private Helpline unit;
     private HashMap<String, TreeMap> specifications;
     
     public UnitsAssignControler(){
@@ -28,10 +30,11 @@ public class UnitsAssignControler {
         // wordt er hierbij ook gekeken of de persoon een functie heeft waarbij het die gegevens mag opvragen?
     }
     
-    public void getListOfPersons(){
+    public ArrayList<Employee> getListOfPersons(){
         // maak een query met de gegevens in de hashmap
         // bevraag het database voor een lijst met de gevraagde personen
         // return deze lijst voor de desbetreffende table
+        return unit.searchEmployees(specifications);
     }
     
     public void getTypeSpecifications(){
