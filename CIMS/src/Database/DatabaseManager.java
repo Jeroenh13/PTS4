@@ -82,9 +82,9 @@ public class DatabaseManager {
         }
     }
     
-    public List<Unit> getUnits(String name, String emergency, String function, String available, String department, String regio, String level, String team)
-    {
-        
-    }
+//    public List<Unit> getUnits(String name, String emergency, String function, String available, String department, String regio, String level, String team)
+//    {
+//        
+//    }
 
 }
