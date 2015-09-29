@@ -7,6 +7,7 @@ package gui;
 
 import javafx.fxml.FXML;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
@@ -67,7 +68,7 @@ implements Initializable
         // TODO
     }    
     
-    // <editor-fold desc="Overview">
+    // <editor-fold desc="Select comboxes: Overview & Assign">
     public void selectAvailable(Event evt) {
         
     }
@@ -85,6 +86,14 @@ implements Initializable
     }
     
     public void selectCommune(Event evt) {
+        
+    }
+    
+    public void selectNiveau(Event evt) {
+        
+    }
+    
+    public void selectTeam(Event evt) {
         
     }
     
@@ -107,11 +116,20 @@ implements Initializable
     public void searchIncident(Event evt) {
         
     }
-    
+    // </editor-fold>
+    // <editor-fold desc="Set tables: Overview & Assign">
     public void setTable(){
         
     }
+    
+    public void setTableAss(){
+        
+    }
     // </editor-fold>
-    // <editor-fold desc="Assign">
+    
+    // <editor-fold desc="Report">
+    // TO DO
     // </editor-fold>
+    
+    // TO DO Set listview of report and assign
 }
