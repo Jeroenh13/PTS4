@@ -5,6 +5,8 @@
  */
 package cims;
 
+import java.util.Map;
+
 /**
  *
  * @author Anna-May
@@ -19,8 +21,15 @@ public class Employee {
     private String team;
     private String appointedTo;
     
-    public Employee(){
-        
+    public Employee(String name, String function, String available, String department, String town, int level, String team, String appointedTo){
+        this.name = name;
+        this.function = function;
+        this.available = available;
+        this.department = department;
+        this.town = town;
+        this.level = level;
+        this.team = team;
+        this.appointedTo = appointedTo;
     }
     /**
      * @return the name
@@ -132,5 +141,5 @@ public class Employee {
      */
     public void setAppointedTo(String appointedTo) {
         this.appointedTo = appointedTo;
-    }
+    }    
 }

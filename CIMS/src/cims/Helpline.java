@@ -10,6 +10,7 @@ import Database.DatabaseManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.ObservableList;
 
 /**
@@ -22,7 +23,7 @@ public class Helpline implements Serializable{
     
     private String name;
     private ArrayList<Employee> employees;
-            
+    private Map<String, String> m;       
 
     /**
      * @return the name
@@ -49,7 +50,28 @@ public class Helpline implements Serializable{
         //toevoegen aan table
         //klooten in fxml required
         
+        m = hm;
+        
         //employees = dbm.getUnits(hm);
+        boolean first = true;
+        String query = "SELECT * FROM vwPersoneelMeldingen WHERE "; //klopt de naam van de view?
+        for (Map.Entry<String, String> entry : m.entrySet())
+        {
+            if (first == true)
+            {
+                query += entry.getKey().toString() + " = " + entry.getValue().toString();
+                first = false;
+            }
+            else
+            {
+                query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
+            }
+        }
+
+        query += ";";
+        
+        employees = dbm.getUnits(query);
+        
         return employees; 
     }
 }

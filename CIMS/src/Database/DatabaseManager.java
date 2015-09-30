@@ -88,35 +88,53 @@ public class DatabaseManager {
         }
     }
     
-    public ArrayList<Employee> getUnits(HashMap hm)
+    public ArrayList<Employee> getUnits(String query)
     {
         //String name, String emergency, String function, String available, String department, String regio, String level, String team
         
-        boolean first = true;
+        //boolean first = true;
+        String name;
+        String function;
+        String available;
+        String department;
+        String town;
+        int level;
+        String team;
+        String appointedTo;
         
         ArrayList<Employee> employees = new ArrayList<>();
         try
         {
             Statement stat = conn.createStatement();
-            String query = "SELECT * FROM vwPersoneelMelding WHERE "; //klopt de naam van de view?
-            for (Map.Entry<String, String> entry : hm.entrySet()) //why the fuck not??
-            {
-                if (first == true)
-                {
-                    query += entry.getKey().toString() + " = " + entry.getValue().toString();
-                    first = false;
-                }
-                else
-                {
-                    query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
-                }
-            }
-            
-            query += ";";
+//            String query = "SELECT * FROM vwPersoneelMelding WHERE "; //klopt de naam van de view?
+//            for (Map.Entry<String, String> entry : hm.entrySet()) //why the fuck not??
+//            {
+//                if (first == true)
+//                {
+//                    query += entry.getKey().toString() + " = " + entry.getValue().toString();
+//                    first = false;
+//                }
+//                else
+//                {
+//                    query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
+//                }
+//            }
+//            
+//            query += ";";
             ResultSet rs = stat.executeQuery(query);
             while (rs.next())
             {
-                //add to u
+                //add to employees
+                name = rs.getString("name");
+                function = rs.getString("function");
+                available = rs.getString("available");
+                department = rs.getString("department");
+                town = rs.getString("town");
+                level = rs.getInt("level");
+                team = rs.getString("team");
+                appointedTo = rs.getString("appointedTo");
+                Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
+                employees.add(e);
             }
         }
         catch (Exception ex)
