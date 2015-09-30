@@ -23,8 +23,7 @@ import javafx.scene.control.ListView;
  *
  * @author Anna-May
  */
-public class UnitsAssignFXController 
-implements Initializable 
+public class UnitsAssignFXController extends controller.UnitsAssignControler implements Initializable 
 {
     // assign (for May)
     @FXML ListView lvIncident;

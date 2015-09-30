@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 /**
  * *
@@ -125,6 +126,11 @@ public class DatabaseManager {
         }
         
         return employees;
+    }
+    
+    public HashMap<String, TreeSet> getSpeciafications(){
+        //haal alle speciaficaties op
+        return null;
     }
 
 }
