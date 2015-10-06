@@ -5,18 +5,25 @@
  */
 package gui;
 
+import i18n.localeSettings;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -25,6 +32,9 @@ import javafx.scene.control.ListView;
  */
 public class UnitsAssignFXController extends controller.UnitsAssignControler implements Initializable 
 {
+    
+    @FXML AnchorPane root;
+    
     // assign (for May)
     @FXML ListView lvIncident;
     @FXML TableView tvAssign;
@@ -64,8 +74,30 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         // TODO
     }    
+    
+    //temp int for testing locale 0 = en, 1 = nl
+    int tempLocale = 0;
+    public void setLocale(Event evt) {
+        if(tempLocale == 0)
+        {
+            localeSettings.setLocale("nl", "NL");
+            tempLocale = 1;
+        }
+        else{
+            localeSettings.setLocale("en", "US");
+            tempLocale = 0;
+        }
+        
+        Scene scene = root.getScene();
+        try {
+            scene.setRoot(FXMLLoader.load(getClass().getResource("unitsAssign.fxml"),localeSettings.getResourceBundle()));
+        } catch (IOException ex) {
+            Logger.getLogger(UnitsAssignFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     // <editor-fold desc="Select comboxes: Overview & Assign">
     public void selectAvailable(Event evt) {
