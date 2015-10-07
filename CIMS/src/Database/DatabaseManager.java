@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.CallableStatement;
 import cims.Helpline;
+import cims.Report;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,10 @@ import java.util.TreeSet;
 public class DatabaseManager {
 
     private Connection conn = null;
+
+    public DatabaseManager() {
+
+    }
 
     /**
      * *
@@ -40,16 +46,20 @@ public class DatabaseManager {
             return false;
         }
     }
-    
-    /***
+
+    /**
+     * *
      * Closes the connection
-     * @return succesrate 
+     *
+     * @return succesrate
      */
-    private boolean closeConnection(){
-        try{
-        conn.close();
-        return true;
-        }catch(Exception e){return false;}
+    private boolean closeConnection() {
+        try {
+            conn.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -87,11 +97,10 @@ public class DatabaseManager {
             closeConnection();
         }
     }
-    
-    public ArrayList<Employee> getUnits(String query)
-    {
+
+    public ArrayList<Employee> getUnits(String query) {
         //String name, String emergency, String function, String available, String department, String regio, String level, String team
-        
+
         //boolean first = true;
         String name;
         String function;
@@ -101,10 +110,9 @@ public class DatabaseManager {
         int level;
         String team;
         String appointedTo;
-        
+
         ArrayList<Employee> employees = new ArrayList<>();
-        try
-        {
+        try {
             Statement stat = conn.createStatement();
 //            String query = "SELECT * FROM vwPersoneelMelding WHERE "; //klopt de naam van de view?
 //            for (Map.Entry<String, String> entry : hm.entrySet()) //why the fuck not??
@@ -122,8 +130,7 @@ public class DatabaseManager {
 //            
 //            query += ";";
             ResultSet rs = stat.executeQuery(query);
-            while (rs.next())
-            {
+            while (rs.next()) {
                 //add to employees
                 name = rs.getString("name");
                 function = rs.getString("function");
@@ -136,19 +143,72 @@ public class DatabaseManager {
                 Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
                 employees.add(e);
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println("Something went wrong");
             //System.out.println(ex.getErrorCode() + " -- " + ex.getMessage());
         }
-        
+
         return employees;
     }
-    
-    public HashMap<String, TreeSet> getSpeciafications(){
+
+    public HashMap<String, TreeSet> getSpeciafications() {
         //haal alle speciaficaties op
         return null;
+    }
+
+    /**
+     * saves the report with the given items.
+     *
+     * @param repo report to add
+     * @param helplineid helplineid
+     * @return succes
+     */
+    public boolean saveReport(Report repo,int helplineid) {
+        boolean succes = false;
+        if (!openConnection()) {
+            return succes;
+        }
+        try {
+            CallableStatement cs = null;
+            cs = conn.prepareCall("{call spInjectReport(?,?,?,0)}");
+            cs.setString(1, repo.getDescription());
+            cs.setString(2, repo.getLocation());
+            cs.setInt(3, helplineid);
+            cs.execute();
+            succes = true;
+            cs.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return succes;
+    }
+
+    public ArrayList getHelpLines() {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select helplineID,name from Helpline");
+            ArrayList lines = new ArrayList<Helpline>();
+            while (result.next()) {
+                lines.add(new Helpline(result.getInt("helplineID"), result.getString("name")));
+            }
+            return lines;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 
 }
