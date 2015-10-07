@@ -10,6 +10,7 @@ import cims.Helpline;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -17,7 +18,8 @@ import java.util.TreeMap;
  */
 public class UnitsAssignControler {
     private Helpline unit;
-    private HashMap<String, TreeMap> specifications;
+    private HashMap<String, ObservableList> specificationTypes;
+    private HashMap<String, String> specifications;
     
     public UnitsAssignControler(){
         specifications = new HashMap<>();
@@ -41,5 +43,17 @@ public class UnitsAssignControler {
         //TO DO 
         //vraag alle specificatie types aan het database voor de desbetreffende unit
         //vul de hashmap hier meer met values, "Kies een optie" en de mogelijke waardes
+    }
+    
+    public void addSpecification(String key, String value){
+        specifications.put(key, value);
+    }
+    
+    public ObservableList getFunctionTypes(String key){
+        return specificationTypes.get(key);
+    }
+    
+    public void resetSpecifications(){
+        specifications.clear();
     }
 }
