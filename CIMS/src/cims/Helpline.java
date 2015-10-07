@@ -23,7 +23,7 @@ public class Helpline implements Serializable{
     
     private String name;
     private ArrayList<Employee> employees;
-    private Map<String, String> m;       
+    private Map<String, String> employeeMap;       
 
     /**
      * @return the name
@@ -43,19 +43,20 @@ public class Helpline implements Serializable{
         return employees; 
     }
     
-    public ArrayList<Employee> searchEmployees(HashMap hm)
+    public ArrayList<Employee> searchEmployees(HashMap employeeHashMap)
     {
         //HASHMAP!!!!
         //In db string = select * from view where key = value
         //toevoegen aan table
         //klooten in fxml required
         
-        m = hm;
+        employeeMap = employeeHashMap;
         
         //employees = dbm.getUnits(hm);
         boolean first = true;
-        String query = "SELECT * FROM vwPersoneelMeldingen WHERE "; //klopt de naam van de view?
-        for (Map.Entry<String, String> entry : m.entrySet())
+        String query = "SELECT * FROM vwEmployeeIncident WHERE ";
+        //iterator
+        for (Map.Entry<String, String> entry : employeeMap.entrySet())
         {
             if (first == true)
             {

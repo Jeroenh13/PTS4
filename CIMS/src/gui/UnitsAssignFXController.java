@@ -5,10 +5,13 @@
  */
 package gui;
 
+import cims.Employee;
 import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -17,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -54,7 +59,15 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML ComboBox cbCommune;
     @FXML DatePicker dtpFromDate;
     @FXML DatePicker dtpTillDate;
-    @FXML TableView tbOverview;
+    @FXML TableView<Employee> tbOverview = new TableView<Employee>();
+    @FXML TableColumn tcName = new TableColumn("Name");
+    @FXML TableColumn tcFunction = new TableColumn("Function");
+    @FXML TableColumn tcAvailable = new TableColumn("Available");
+    @FXML TableColumn tcDepartment = new TableColumn("Department");
+    @FXML TableColumn tcTown = new TableColumn("Town");
+    @FXML TableColumn tcLevel = new TableColumn("Level");
+    @FXML TableColumn tcTeam = new TableColumn("Team");
+    @FXML TableColumn tcAppointedTo = new TableColumn("AppointedTo");
 
     
     /**
@@ -118,7 +131,17 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     // </editor-fold>
     // <editor-fold desc="Set tables: Overview & Assign">
     public void setTable(){
-        
+        ArrayList<Employee> emps = this.getListOfPersons();
+        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
+        tcName.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Function"));
+        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Available"));
+        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Department"));
+        tcTown.setCellValueFactory(new PropertyValueFactory<Employee, String>("Town"));
+        tcLevel.setCellValueFactory(new PropertyValueFactory<Employee, String>("Level"));
+        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Team"));
+        tcAppointedTo.setCellValueFactory(new PropertyValueFactory<Employee, String>("AppointedTo"));
+        tbOverview.setItems(e);
     }
     
     public void setTableAss(){
