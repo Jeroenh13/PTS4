@@ -17,16 +17,16 @@ import javafx.collections.ObservableList;
  *
  * @author kitty
  */
-public class Helpline implements Serializable {
-
+public class Helpline implements Serializable{
+    
     private transient DatabaseManager dbm;
-
+    
     private String name;
     private int ID;
     private ArrayList<Employee> employees;
-<<<<<<< HEAD
-    private Map<String, String> m;
+    private Map<String, String> employeeMap;       
 
+    
     /**
      * initializes an empty Helpline
      */
@@ -41,8 +41,7 @@ public class Helpline implements Serializable {
         this.ID = ID;
         this.name = name;
     }
-    
-    
+        
     /**
      * Gets the ID
      *
@@ -60,10 +59,8 @@ public class Helpline implements Serializable {
     public void setID(int ID) {
         this.ID = ID;
     }
-=======
-    private Map<String, String> employeeMap;       
->>>>>>> origin/master
 
+    
     /**
      * @return the name
      */
@@ -77,32 +74,17 @@ public class Helpline implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public ArrayList<Employee> getEmployees(String name) {
-        return employees;
+        return employees; 
     }
-<<<<<<< HEAD
-
-    public ArrayList<Employee> searchEmployees(HashMap hm) {
-=======
     
     public ArrayList<Employee> searchEmployees(HashMap employeeHashMap)
     {
->>>>>>> origin/master
         //HASHMAP!!!!
         //In db string = select * from view where key = value
         //toevoegen aan table
         //klooten in fxml required
-<<<<<<< HEAD
-
-        m = hm;
-
-        //employees = dbm.getUnits(hm);
-        boolean first = true;
-        String query = "SELECT * FROM vwPersoneelMeldingen WHERE "; //klopt de naam van de view?
-        for (Map.Entry<String, String> entry : m.entrySet()) {
-            if (first == true) {
-=======
         
         employeeMap = employeeHashMap;
         
@@ -114,21 +96,23 @@ public class Helpline implements Serializable {
         {
             if (first == true)
             {
->>>>>>> origin/master
                 query += entry.getKey().toString() + " = " + entry.getValue().toString();
                 first = false;
-            } else {
+            }
+            else
+            {
                 query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
             }
         }
 
         query += ";";
-
+        
         employees = dbm.getUnits(query);
-
-        return employees;
+        
+        return employees; 
     }
-
+    
+    
     /**
      * Returns the helplines
      *
