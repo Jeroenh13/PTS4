@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UnitsAssignFXController">
    <children>
-      <TabPane layoutX="4.0" layoutY="41.0" prefHeight="950.0" prefWidth="1910.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tpUnits" layoutX="4.0" layoutY="41.0" prefHeight="950.0" prefWidth="1910.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tpgAssignUnnits" onSelectionChanged="#tabSwitch" text="Units indelen">
             <content>
@@ -27,15 +27,15 @@
                                     <TableView fx:id="tvAssign" layoutX="6.0" layoutY="6.0" prefHeight="639.0" prefWidth="1633.0">
                                       <columns>
                                           <TableColumn prefWidth="92.0" text="%batchNr" />
-                                        <TableColumn prefWidth="230.0" text="%staff" />
+                                          <TableColumn prefWidth="230.0" text="%staff" />
                                           <TableColumn prefWidth="97.0" text="Beschikbaar" />
-                                        <TableColumn prefWidth="143.0" text="Functie" />
+                                          <TableColumn prefWidth="143.0" text="Functie" />
                                           <TableColumn prefWidth="124.0" text="Afdeling" />
                                           <TableColumn prefWidth="169.0" text="Regio" />
                                           <TableColumn prefWidth="167.0" text="Gemeente" />
                                           <TableColumn prefWidth="276.0" text="Toegewezen aan" />
                                           <TableColumn prefWidth="78.0" text="Niveau" />
-                                          <TableColumn minWidth="0.0" prefWidth="76.0" text="Team" />
+                                          <TableColumn prefWidth="76.0" text="Team" />
                                           <TableColumn prefWidth="94.0" text="Begin tijd" />
                                           <TableColumn prefWidth="86.0" text="Eind tijd" />
                                       </columns>
@@ -115,7 +115,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tpUnits" onSelectionChanged="#tabSwitch" text="Overzicht units">
+          <Tab fx:id="tpgOverview" onSelectionChanged="#tabSwitch" text="Overzicht units">
             <content>
               <AnchorPane fx:id="tpgOverviewUnits" minHeight="800.0" minWidth="0.0" prefHeight="800.0" prefWidth="1910.0">
                      <children>
@@ -175,8 +175,8 @@
                         <Label fx:id="lblCommune" layoutX="434.0" layoutY="166.0" text="Gemeente" />
                         <Label fx:id="lblFromDate" layoutX="14.0" layoutY="200.0" text="Van" />
                         <Label fx:id="lblTillDate" layoutX="435.0" layoutY="200.0" text="tot" />
-                        <DatePicker fx:id="dtpFromDate" layoutX="130.0" layoutY="196.0" onAction="#selectDateFrom" />
-                        <DatePicker fx:id="dtpTillDate" layoutX="560.0" layoutY="196.0" onAction="#selectDateTill" />
+                        <DatePicker fx:id="dtpFromDate" layoutX="130.0" layoutY="196.0" />
+                        <DatePicker fx:id="dtpTillDate" layoutX="560.0" layoutY="196.0" />
                         <ComboBox fx:id="cbRegion" layoutX="130.0" layoutY="161.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
                         <ComboBox fx:id="cbFunction" layoutX="130.0" layoutY="126.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
                         <ComboBox fx:id="cbAvailable" layoutX="130.0" layoutY="91.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
@@ -185,9 +185,9 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab onSelectionChanged="#tabSwitch" text="Rapport">
+            <Tab fx:id="tpgReport" onSelectionChanged="#tabSwitch" text="Rapport">
               <content>
-                <AnchorPane fx:id="tpgReport" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane fx:id="tpgReportUnits" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
         </tabs>

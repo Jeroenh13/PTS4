@@ -32,6 +32,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+//import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -75,15 +76,18 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML ComboBox cbCommune;
     @FXML DatePicker dtpFromDate;
     @FXML DatePicker dtpTillDate;
-    @FXML TableView<Employee> tbOverview = new TableView<Employee>();
-    @FXML TableColumn tcName = new TableColumn("Name");
-    @FXML TableColumn tcFunction = new TableColumn("Function");
-    @FXML TableColumn tcAvailable = new TableColumn("Available");
-    @FXML TableColumn tcDepartment = new TableColumn("Department");
-    @FXML TableColumn tcTown = new TableColumn("Town");
-    @FXML TableColumn tcLevel = new TableColumn("Level");
-    @FXML TableColumn tcTeam = new TableColumn("Team");
-    @FXML TableColumn tcAppointedTo = new TableColumn("AppointedTo");
+    @FXML TableView<Employee> tbOverview;
+    @FXML TableColumn tcBatchNr;
+    @FXML TableColumn tcPerson;
+    @FXML TableColumn tcAvailable;
+    @FXML TableColumn tcFunction;
+    @FXML TableColumn tcDepartment;
+    @FXML TableColumn tcRegion;
+    @FXML TableColumn tcCommune;
+    @FXML TableColumn tcNiveau;
+    @FXML TableColumn tcTeam;
+    @FXML TableColumn tcFromDate;
+    @FXML TableColumn tcTillDate;
 
     HashMap<ComboBox, String> comboBoxes;
     /**
@@ -94,13 +98,13 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // make map of specifications to chose from on GUI
-        makeMapComboBoxes();
-        // get search specifications and subspecifications
-        getTypeSpecifications();
-        // fill comboboxes with subspecifications
-        fillComboBoxes();
-        // set tabel of assign unnits, fill with persons of helpline
-        setTableAss();
+//        makeMapComboBoxes();
+//        // get search specifications and subspecifications
+//        getTypeSpecifications();
+//        // fill comboboxes with subspecifications
+//        fillComboBoxes();
+//        // set tabel of assign unnits, fill with persons of helpline
+//        setTableAss();
     }    
     
     //temp int for testing locale 0 = en, 1 = nl
@@ -144,18 +148,35 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     }
     // </editor-fold>
     // <editor-fold desc="Set tables: Overview & Assign">
-    public void setTable(){
-        ArrayList<Employee> emps = this.getListOfPersons();
-        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
-        tcName.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Function"));
-        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Available"));
-        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Department"));
-        tcTown.setCellValueFactory(new PropertyValueFactory<Employee, String>("Town"));
-        tcLevel.setCellValueFactory(new PropertyValueFactory<Employee, String>("Level"));
-        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Team"));
-        tcAppointedTo.setCellValueFactory(new PropertyValueFactory<Employee, String>("AppointedTo"));
-        tbOverview.setItems(e);
+   public void setTable(){
+//        ArrayList<Employee> emps = this.getListOfPersons();
+//        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
+//        tcPerson.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+//        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Function"));
+//        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Available"));
+//        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Department"));
+//        tcTown.setCellValueFactory(new PropertyValueFactory<Employee, String>("Town"));
+//        tcNiveau.setCellValueFactory(new PropertyValueFactory<Employee, String>("Level"));
+//        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Team"));
+//        tcAppointedTo.setCellValueFactory(new PropertyValueFactory<Employee, String>("AppointedTo"));
+//        tbOverview.setItems(e);
+//        
+//        ArrayList<Employee> emps = this.getListOfPersons();
+//        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
+//        
+//        tcBatchNr.setCellValueFactory();
+//        tcPerson.setCellValueFactory();
+//        tcAvailable.setCellValueFactory();
+//        tcFunction.setCellValueFactory();
+//        tcDepartment.setCellValueFactory();
+//        tcRegion.setCellValueFactory();
+//        tcCommune.setCellValueFactory();
+//        tcNiveau.setCellValueFactory();
+//        tcTeam.setCellValueFactory();
+//        tcFromDate.setCellValueFactory();
+//        tcTillDate.setCellValueFactory();
+        
+        //tbOverview.setItems(e);
     }
     
     public void setTableAss(){
