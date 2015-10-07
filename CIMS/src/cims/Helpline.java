@@ -24,6 +24,7 @@ public class Helpline implements Serializable {
     private String name;
     private int ID;
     private ArrayList<Employee> employees;
+<<<<<<< HEAD
     private Map<String, String> m;
 
     /**
@@ -59,6 +60,9 @@ public class Helpline implements Serializable {
     public void setID(int ID) {
         this.ID = ID;
     }
+=======
+    private Map<String, String> employeeMap;       
+>>>>>>> origin/master
 
     /**
      * @return the name
@@ -77,12 +81,19 @@ public class Helpline implements Serializable {
     public ArrayList<Employee> getEmployees(String name) {
         return employees;
     }
+<<<<<<< HEAD
 
     public ArrayList<Employee> searchEmployees(HashMap hm) {
+=======
+    
+    public ArrayList<Employee> searchEmployees(HashMap employeeHashMap)
+    {
+>>>>>>> origin/master
         //HASHMAP!!!!
         //In db string = select * from view where key = value
         //toevoegen aan table
         //klooten in fxml required
+<<<<<<< HEAD
 
         m = hm;
 
@@ -91,6 +102,19 @@ public class Helpline implements Serializable {
         String query = "SELECT * FROM vwPersoneelMeldingen WHERE "; //klopt de naam van de view?
         for (Map.Entry<String, String> entry : m.entrySet()) {
             if (first == true) {
+=======
+        
+        employeeMap = employeeHashMap;
+        
+        //employees = dbm.getUnits(hm);
+        boolean first = true;
+        String query = "SELECT * FROM vwEmployeeIncident WHERE ";
+        //iterator
+        for (Map.Entry<String, String> entry : employeeMap.entrySet())
+        {
+            if (first == true)
+            {
+>>>>>>> origin/master
                 query += entry.getKey().toString() + " = " + entry.getValue().toString();
                 first = false;
             } else {

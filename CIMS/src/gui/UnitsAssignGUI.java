@@ -5,6 +5,7 @@
  */
 package gui;
 
+import i18n.localeSettings;
 import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -24,7 +25,7 @@ extends Application
     @Override
     public void start(Stage stage) throws Exception {
        
-        Parent root = FXMLLoader.load(getClass().getResource("unitsAssign.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("unitsAssign.fxml"),localeSettings.getResourceBundle());
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
