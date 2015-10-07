@@ -5,6 +5,7 @@
  */
 package gui;
 
+import cims.Employee;
 import i18n.localeSettings;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +26,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -86,17 +91,16 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         // TODO
     }    
     
-    //temp int for testing locale 0 = en, 1 = nl
-    int tempLocale = 0;
+    
     public void setLocale(Event evt) {
-        if(tempLocale == 0)
+        if(localeSettings.tempLocale == 0)
         {
             localeSettings.setLocale("nl", "NL");
-            tempLocale = 1;
+            localeSettings.tempLocale = 1;
         }
         else{
             localeSettings.setLocale("en", "US");
-            tempLocale = 0;
+            localeSettings.tempLocale = 0;
         }
         
         Scene scene = root.getScene();
