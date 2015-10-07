@@ -5,14 +5,19 @@
  */
 package gui;
 
+import cims.Employee;
 import i18n.localeSettings;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +28,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -32,6 +40,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public class UnitsAssignFXController extends controller.UnitsAssignControler implements Initializable 
 {
+    @FXML Tab tpgAssignUnnits;
+    @FXML Tab tpgOverview;
+    @FXML Tab tpgReport;
     
     @FXML AnchorPane root;
     
@@ -74,7 +85,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML TableColumn tcTeam = new TableColumn("Team");
     @FXML TableColumn tcAppointedTo = new TableColumn("AppointedTo");
 
-    
+    HashMap<ComboBox, String> comboBoxes;
     /**
      * Initializes the controller class.
      * @param url
@@ -82,8 +93,14 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        // TODO
+        // make map of specifications to chose from on GUI
+        makeMapComboBoxes();
+        // get search specifications and subspecifications
+        getTypeSpecifications();
+        // fill comboboxes with subspecifications
+        fillComboBoxes();
+        // set tabel of assign unnits, fill with persons of helpline
+        setTableAss();
     }    
     
     //temp int for testing locale 0 = en, 1 = nl
@@ -108,40 +125,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     }
     
     // <editor-fold desc="Select comboxes: Overview & Assign">
-    public void selectAvailable(Event evt) {
-        
-    }
-    
-    public void selectFunction(Event evt) {
-        
-    }
-    
-    public void selectRegion(Event evt) {
-        
-    }
-    
-    public void selectDepartment(Event evt) {
-        
-    }
-    
-    public void selectCommune(Event evt) {
-        
-    }
-    
-    public void selectNiveau(Event evt) {
-        
-    }
-    
-    public void selectTeam(Event evt) {
-        
-    }
-    
-    public void selectDateFrom(Event evt) {
-        
-    }
-    
-    public void selectDateTill(Event evt) {
-        
+    public void select(Event evt) {
+        ComboBox combo = (ComboBox) evt.getSource(); 
+        String value = comboBoxes.get(combo);
+        addSpecification(value, (String) combo.getSelectionModel().getSelectedItem());
     }
     
     public void searchName(Event evt) {
@@ -181,4 +168,45 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     // </editor-fold>
     
     // TO DO Set listview of report and assign
+    
+    
+    public void tabSwitch(Event evt){
+        Tab tab = (Tab) evt.getSource();
+        
+        if(tab == tpgAssignUnnits){
+            resetSpecifications();
+            setTableAss();
+        } else if (tab == tpgOverview) {
+            resetSpecifications();
+            setTable();
+        } else if (tab == tpgReport){
+            
+        }
+    }
+    
+    private void fillComboBoxes(){
+        for(Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){ 
+            ComboBox comboB = entry.getKey();
+            String value = entry.getValue();
+            
+            comboB.setItems(getFunctionTypes(value));
+        }
+    }
+    
+    // TO DO inhoud van databasemanager verkrijgen 
+    private void makeMapComboBoxes(){
+        comboBoxes = new HashMap<>();
+        comboBoxes.put(cbAvailable, "available");
+        comboBoxes.put(cbFunction, "function");
+        comboBoxes.put(cbRegion, "region");
+        comboBoxes.put(cbDepartment, "department");
+        comboBoxes.put(cbCommune, "commune");
+        comboBoxes.put(cbFunctionAss, "function");
+        comboBoxes.put(cbAvailableAss, "available");
+        comboBoxes.put(cbDepartmentAss, "department");
+        comboBoxes.put(cbRegionAss, "region");
+        comboBoxes.put(cbCommuneAss, "commune");
+        comboBoxes.put(cbNiveauAss, "niveau");
+        comboBoxes.put(cbTeamAss, "team");
+    }
 }

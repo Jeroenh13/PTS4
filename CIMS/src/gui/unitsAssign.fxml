@@ -11,7 +11,7 @@
    <children>
       <TabPane layoutX="4.0" layoutY="41.0" prefHeight="950.0" prefWidth="1910.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="tpgAssignUnnits" text="Units indelen">
+          <Tab fx:id="tpgAssignUnnits" onSelectionChanged="#tabSwitch" text="Units indelen">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="913.0" prefWidth="1910.0">
                      <children>
@@ -48,11 +48,11 @@
                                     <Label fx:id="lblCommuneAss" layoutX="350.0" layoutY="733.0" text="Gemeente" />
                                     <Label fx:id="lblNiveauAss" layoutX="351.0" layoutY="766.0" text="Niveau" />
                                     <Label fx:id="lblTeamAss" layoutX="350.0" layoutY="800.0" text="Team" />
-                                    <ComboBox fx:id="cbFunctionAss" layoutX="123.0" layoutY="728.0" prefHeight="31.0" prefWidth="200.0" />
-                                    <ComboBox fx:id="cbAvailableAss" layoutX="123.0" layoutY="761.0" prefHeight="31.0" prefWidth="200.0" />
-                                    <ComboBox fx:id="cbDepartmentAss" layoutX="123.0" layoutY="794.0" prefHeight="31.0" prefWidth="200.0" />
-                                    <ComboBox fx:id="cbRegionAss" layoutX="123.0" layoutY="827.0" prefHeight="31.0" prefWidth="200.0" />
-                                    <ComboBox fx:id="cbCommuneAss" layoutX="436.0" layoutY="729.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbFunctionAss" layoutX="123.0" layoutY="728.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbAvailableAss" layoutX="123.0" layoutY="761.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbDepartmentAss" layoutX="123.0" layoutY="794.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbRegionAss" layoutX="123.0" layoutY="827.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbCommuneAss" layoutX="436.0" layoutY="729.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
                                     <TextField fx:id="tfNameAss" layoutX="123.0" layoutY="681.0" prefHeight="31.0" prefWidth="442.0" />
                                     <Button fx:id="btnNameAss" layoutX="571.0" layoutY="678.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
                                         <graphic>
@@ -63,8 +63,8 @@
                                             </ImageView>
                                         </graphic>
                                     </Button>
-                                    <ComboBox fx:id="cbNiveauAss" layoutX="436.0" layoutY="762.0" prefHeight="31.0" prefWidth="200.0" />
-                                    <ComboBox fx:id="cbTeamAss" layoutX="436.0" layoutY="795.0" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbNiveauAss" layoutX="436.0" layoutY="762.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="cbTeamAss" layoutX="436.0" layoutY="795.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
                                     <Label fx:id="lblBatchNrAss" layoutX="350.0" layoutY="838.0" text="BatchNr." />
                                     <TextField fx:id="tfBatchNrAss" layoutX="436.0" layoutY="833.0" prefHeight="31.0" prefWidth="127.0" />
                                     <Button fx:id="btnBatchNrAss" layoutX="571.0" layoutY="830.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
@@ -115,7 +115,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tpUnits" text="Overzicht units">
+          <Tab fx:id="tpUnits" onSelectionChanged="#tabSwitch" text="Overzicht units">
             <content>
               <AnchorPane fx:id="tpgOverviewUnits" minHeight="800.0" minWidth="0.0" prefHeight="800.0" prefWidth="1910.0">
                      <children>
@@ -177,15 +177,15 @@
                         <Label fx:id="lblTillDate" layoutX="435.0" layoutY="200.0" text="tot" />
                         <DatePicker fx:id="dtpFromDate" layoutX="130.0" layoutY="196.0" onAction="#selectDateFrom" />
                         <DatePicker fx:id="dtpTillDate" layoutX="560.0" layoutY="196.0" onAction="#selectDateTill" />
-                        <ComboBox fx:id="cbRegion" layoutX="130.0" layoutY="161.0" onAction="#selectRegion" prefHeight="31.0" prefWidth="218.0" />
-                        <ComboBox fx:id="cbFunction" layoutX="130.0" layoutY="126.0" onAction="#selectFunction" prefHeight="31.0" prefWidth="218.0" />
-                        <ComboBox fx:id="cbAvailable" layoutX="130.0" layoutY="91.0" onAction="#selectAvailable" prefHeight="31.0" prefWidth="218.0" />
-                        <ComboBox fx:id="cbDepartment" layoutX="560.0" layoutY="127.0" onAction="#selectDepartment" prefHeight="31.0" prefWidth="218.0" />
-                        <ComboBox fx:id="cbCommune" layoutX="560.0" layoutY="161.0" onAction="#selectCommune" prefHeight="31.0" prefWidth="218.0" />
+                        <ComboBox fx:id="cbRegion" layoutX="130.0" layoutY="161.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
+                        <ComboBox fx:id="cbFunction" layoutX="130.0" layoutY="126.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
+                        <ComboBox fx:id="cbAvailable" layoutX="130.0" layoutY="91.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
+                        <ComboBox fx:id="cbDepartment" layoutX="560.0" layoutY="127.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
+                        <ComboBox fx:id="cbCommune" layoutX="560.0" layoutY="161.0" onAction="#select" prefHeight="31.0" prefWidth="218.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Rapport">
+            <Tab onSelectionChanged="#tabSwitch" text="Rapport">
               <content>
                 <AnchorPane fx:id="tpgReport" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
