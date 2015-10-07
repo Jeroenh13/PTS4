@@ -15,6 +15,9 @@ public class localeSettings {
 
     private localeSettings() {}
 
+    //temp int for testing locale 0 = en, 1 = nl
+    public static int tempLocale = 0;
+    
     public static String lang = "en";
     public static String country = "US";
 

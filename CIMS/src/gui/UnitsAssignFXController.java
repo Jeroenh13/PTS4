@@ -107,17 +107,16 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
 //        setTableAss();
     }    
     
-    //temp int for testing locale 0 = en, 1 = nl
-    int tempLocale = 0;
+    
     public void setLocale(Event evt) {
-        if(tempLocale == 0)
+        if(localeSettings.tempLocale == 0)
         {
             localeSettings.setLocale("nl", "NL");
-            tempLocale = 1;
+            localeSettings.tempLocale = 1;
         }
         else{
             localeSettings.setLocale("en", "US");
-            tempLocale = 0;
+            localeSettings.tempLocale = 0;
         }
         
         Scene scene = root.getScene();
