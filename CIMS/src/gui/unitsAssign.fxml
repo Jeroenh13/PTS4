@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UnitsAssignFXController">
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UnitsAssignFXController">
    <children>
       <TabPane layoutX="4.0" layoutY="41.0" prefHeight="950.0" prefWidth="1910.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -26,8 +26,8 @@
                                  <children>
                                     <TableView fx:id="tvAssign" layoutX="6.0" layoutY="6.0" prefHeight="639.0" prefWidth="1633.0">
                                       <columns>
-                                          <TableColumn prefWidth="92.0" text="BatchNr." />
-                                        <TableColumn prefWidth="230.0" text="Personeel" />
+                                          <TableColumn prefWidth="92.0" text="%batchNr" />
+                                        <TableColumn prefWidth="230.0" text="%staff" />
                                           <TableColumn prefWidth="97.0" text="Beschikbaar" />
                                         <TableColumn prefWidth="143.0" text="Functie" />
                                           <TableColumn prefWidth="124.0" text="Afdeling" />
@@ -193,5 +193,6 @@
         </tabs>
       </TabPane>
       <Button fx:id="btnLogIn" layoutX="1713.0" layoutY="5.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" text="Inloggen" />
+      <Button fx:id="btnLanguage" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#setLocale" text="Language" />
    </children>
 </AnchorPane>
