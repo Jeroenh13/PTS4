@@ -159,23 +159,23 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
 //        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Team"));
 //        tcAppointedTo.setCellValueFactory(new PropertyValueFactory<Employee, String>("AppointedTo"));
 //        tbOverview.setItems(e);
-//        
-//        ArrayList<Employee> emps = this.getListOfPersons();
-//        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
-//        
-//        tcBatchNr.setCellValueFactory();
-//        tcPerson.setCellValueFactory();
-//        tcAvailable.setCellValueFactory();
-//        tcFunction.setCellValueFactory();
-//        tcDepartment.setCellValueFactory();
-//        tcRegion.setCellValueFactory();
-//        tcCommune.setCellValueFactory();
-//        tcNiveau.setCellValueFactory();
-//        tcTeam.setCellValueFactory();
-//        tcFromDate.setCellValueFactory();
-//        tcTillDate.setCellValueFactory();
         
-        //tbOverview.setItems(e);
+        ArrayList<Employee> emps = this.getListOfPersons();
+        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
+        
+        tcBatchNr.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcPerson.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcRegion.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcCommune.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcNiveau.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcFromDate.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        tcTillDate.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
+        
+        tbOverview.setItems(e);
     }
     
     public void setTableAss(){
