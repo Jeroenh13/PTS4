@@ -24,9 +24,10 @@ import java.util.TreeSet;
 public class DatabaseManager {
 
     private Connection conn = null;
+    private ArrayList<String> specifications;
 
     public DatabaseManager() {
-
+        this.specifications = new ArrayList<>();
     }
 
     /**
@@ -97,8 +98,9 @@ public class DatabaseManager {
             closeConnection();
         }
     }
-
-    public ArrayList<Employee> getUnits(String query) {
+    
+    // <editor-fold desc="UnitsAssign">
+    public ArrayList<Employee> getEmployees(String query) {
         //String name, String emergency, String function, String available, String department, String regio, String level, String team
 
         //boolean first = true;
@@ -140,8 +142,8 @@ public class DatabaseManager {
                 level = rs.getInt("level");
                 team = rs.getString("team");
                 appointedTo = rs.getString("appointedTo");
-                Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
-                employees.add(e);
+                //Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
+                //employees.add(e);
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong");
@@ -150,11 +152,23 @@ public class DatabaseManager {
 
         return employees;
     }
-
-    public HashMap<String, TreeSet> getSpeciafications() {
-        //haal alle speciaficaties op
-        return null;
+    
+    public ArrayList<String> getSpeciafications(String helpline) {
+        specifications.clear();
+        String query = "DESCRIBE vwemployees";
+        
+        // haal elke fieldID op en stop hem in de lijst specifications
+        return specifications;
     }
+    
+    public HashMap<String, TreeSet> getSpeciaficationsValues(String query) {
+        HashMap<String, TreeSet> specificationValues = new HashMap<>();
+        // haal de waardes per specificatie met DISTINCT uit de vwemployees en vul de hashmap
+        
+        return specificationValues;
+    }
+    
+    // </editor-fold>
 
     /**
      * saves the report with the given items.

@@ -19,9 +19,9 @@ public class Employee {
     private String town;
     private int level;
     private String team;
-    private String appointedTo;
+    private Report appointedTo;
     
-    public Employee(String name, String function, String available, String department, String town, int level, String team, String appointedTo){
+    public Employee(String name, String function, String available, String department, String town, int level, String team, Report appointedTo){
         this.name = name;
         this.function = function;
         this.available = available;
@@ -132,14 +132,14 @@ public class Employee {
     /**
      * @return the appointedTo
      */
-    public String getAppointedTo() {
+    public Report getAppointedTo() {
         return appointedTo;
     }
 
     /**
      * @param appointedTo the appointedTo to set
      */
-    public void setAppointedTo(String appointedTo) {
+    public void setAppointedTo(Report appointedTo) {
         this.appointedTo = appointedTo;
     }    
 }

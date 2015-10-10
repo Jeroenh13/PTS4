@@ -26,18 +26,18 @@
                                  <children>
                                     <TableView fx:id="tvAssign" layoutX="6.0" layoutY="6.0" prefHeight="639.0" prefWidth="1633.0">
                                       <columns>
-                                          <TableColumn prefWidth="92.0" text="%badgeNr" />
-                                          <TableColumn prefWidth="230.0" text="%staff" />
-                                          <TableColumn prefWidth="97.0" text="%available" />
-                                          <TableColumn prefWidth="143.0" text="%function" />
-                                          <TableColumn prefWidth="124.0" text="%department" />
-                                          <TableColumn prefWidth="169.0" text="%region" />
-                                          <TableColumn prefWidth="167.0" text="%commune" />
-                                          <TableColumn prefWidth="276.0" text="%assignedto" />
-                                          <TableColumn prefWidth="78.0" text="%level" />
-                                          <TableColumn prefWidth="76.0" text="%team" />
-                                          <TableColumn prefWidth="94.0" text="%starttime" />
-                                          <TableColumn prefWidth="86.0" text="%endtime" />
+                                          <TableColumn fx:id="tcBatchNrAss" prefWidth="92.0" text="%badgeNr" />
+                                          <TableColumn fx:id="tcPersonAss" prefWidth="230.0" text="%staff" />
+                                          <TableColumn fx:id="tcAvailableAss" prefWidth="97.0" text="%available" />
+                                          <TableColumn fx:id="tcFunctionAss" prefWidth="143.0" text="%function" />
+                                          <TableColumn fx:id="tcDepartmentAss" prefWidth="124.0" text="%department" />
+                                          <TableColumn fx:id="tcRegionAss" prefWidth="169.0" text="%region" />
+                                          <TableColumn fx:id="tcCommuneAss" prefWidth="167.0" text="%commune" />
+                                          <TableColumn fx:id="tcIncidentAss" prefWidth="276.0" text="%assignedto" />
+                                          <TableColumn fx:id="tcNiveauAss" prefWidth="78.0" text="%level" />
+                                          <TableColumn fx:id="tcTeamAss" prefWidth="76.0" text="%team" />
+                                          <TableColumn fx:id="tcFromDateAss" prefWidth="94.0" text="%starttime" />
+                                          <TableColumn fx:id="tcTillDateAss" prefWidth="86.0" text="%endtime" />
                                       </columns>
                                     </TableView>
                                     <Label fx:id="lblNameAss" layoutX="14.0" layoutY="685.0" text="%searchforname" />
@@ -65,9 +65,9 @@
                                     </Button>
                                     <ComboBox fx:id="cbNiveauAss" layoutX="436.0" layoutY="762.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
                                     <ComboBox fx:id="cbTeamAss" layoutX="436.0" layoutY="795.0" onAction="#select" prefHeight="31.0" prefWidth="200.0" />
-                                    <Label fx:id="lblBatchNrAss" layoutX="350.0" layoutY="838.0" text="%badgeNr" />
-                                    <TextField fx:id="tfBatchNrAss" layoutX="436.0" layoutY="833.0" prefHeight="31.0" prefWidth="127.0" />
-                                    <Button fx:id="btnBatchNrAss" layoutX="571.0" layoutY="830.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
+                                    <Label fx:id="lblBadgeNrAss" layoutX="350.0" layoutY="838.0" text="%badgeNr" />
+                                    <TextField fx:id="tfBadgeNrAss" layoutX="436.0" layoutY="833.0" prefHeight="31.0" prefWidth="127.0" />
+                                    <Button fx:id="btnBadgeNrAss" layoutX="571.0" layoutY="830.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
                                        <graphic>
                                           <ImageView fx:id="ivSearchSymbol1" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -121,18 +121,18 @@
                      <children>
                         <TableView fx:id="tbOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0">
                            <columns>
-                              <TableColumn prefWidth="92.0" text="BatchNr." />
-                              <TableColumn prefWidth="230.0" text="Personeel" />
-                              <TableColumn prefWidth="97.0" text="Beschikbaar" />
-                              <TableColumn prefWidth="143.0" text="Functie" />
-                              <TableColumn prefWidth="124.0" text="Afdeling" />
-                              <TableColumn prefWidth="169.0" text="Regio" />
-                              <TableColumn prefWidth="167.0" text="Gemeente" />
-                              <TableColumn prefWidth="308.0" text="Ongeval" />
+                              <TableColumn fx:id="tcBatchNr" prefWidth="92.0" text="BadgeNr." />
+                              <TableColumn fx:id="tcPerson" prefWidth="230.0" text="Personeel" />
+                              <TableColumn fx:id="tcAvailable" prefWidth="97.0" text="Beschikbaar" />
+                              <TableColumn fx:id="tcFunction" prefWidth="143.0" text="Functie" />
+                              <TableColumn fx:id="tcDepartment" prefWidth="124.0" text="Afdeling" />
+                              <TableColumn fx:id="tcRegion" prefWidth="169.0" text="Regio" />
+                              <TableColumn fx:id="tcCommune" prefWidth="167.0" text="Gemeente" />
+                              <TableColumn fx:id="tcIncident" prefWidth="308.0" text="Ongeval" />
                               <TableColumn prefWidth="101.0" text="Niveau" />
-                              <TableColumn minWidth="0.0" prefWidth="118.0" text="Team" />
-                              <TableColumn prefWidth="172.0" text="Begin datum" />
-                              <TableColumn minWidth="0.0" prefWidth="163.0" text="Eind datum" />
+                              <TableColumn fx:id="tcTeam" minWidth="0.0" prefWidth="118.0" text="Team" />
+                              <TableColumn fx:id="tcFromDate" prefWidth="172.0" text="Begin datum" />
+                              <TableColumn fx:id="tcTillDate" minWidth="0.0" prefWidth="163.0" text="Eind datum" />
                            </columns>
                         </TableView>
                         <Label fx:id="lblName" layoutX="14.0" layoutY="21.0" text="Zoek op naam" />

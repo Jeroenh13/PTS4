@@ -47,13 +47,13 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     
     @FXML AnchorPane root;
     
-    // assign (for May)
+    // assign
     @FXML ListView lvIncident;
     @FXML TableView tvAssign;
     @FXML TextField tfNameAss;
     @FXML TextField tfBatchNrAss;
     @FXML Button btnNameAss;
-    @FXML Button btnBatchNrAss;
+    @FXML Button btnBadgeNrAss;
     @FXML ComboBox cbFunctionAss;
     @FXML ComboBox cbAvailableAss;
     @FXML ComboBox cbDepartmentAss;
@@ -61,8 +61,20 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML ComboBox cbCommuneAss;
     @FXML ComboBox cbNiveauAss;
     @FXML ComboBox cbTeamAss;
+    @FXML TableColumn tcBatchNrAss;
+    @FXML TableColumn tcPersonAss;
+    @FXML TableColumn tcAvailableAss;
+    @FXML TableColumn tcFunctionAss;
+    @FXML TableColumn tcDepartmentAss;
+    @FXML TableColumn tcRegionAss;
+    @FXML TableColumn tcCommuneAss;
+    @FXML TableColumn tcIncidentAss;
+    @FXML TableColumn tcNiveauAss;
+    @FXML TableColumn tcTeamAss;
+    @FXML TableColumn tcFromDateAss;
+    @FXML TableColumn tcTillDateAss;
     
-    // overview (for Kitty)
+    // overview
     @FXML TextField tfName;
     @FXML TextField tfBatchNr;
     @FXML TextField tfIncident;
@@ -84,6 +96,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML TableColumn tcDepartment;
     @FXML TableColumn tcRegion;
     @FXML TableColumn tcCommune;
+    @FXML TableColumn tcIncident;
     @FXML TableColumn tcNiveau;
     @FXML TableColumn tcTeam;
     @FXML TableColumn tcFromDate;
