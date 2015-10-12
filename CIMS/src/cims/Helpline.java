@@ -30,8 +30,8 @@ public class Helpline implements Serializable{
     /**
      * initializes an empty Helpline
      */
-    public Helpline()
-    {}
+    public Helpline(){
+    }
     
     /**
      * Creates a helpline with set values
@@ -111,6 +111,8 @@ public class Helpline implements Serializable{
         
         return employees; 
     }
+    
+    // haal de waardes per specificatie met DISTINCT uit de vwemployees en vul de hashmap
     
     
     /**

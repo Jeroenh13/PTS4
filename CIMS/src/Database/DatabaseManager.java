@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * *
@@ -24,10 +26,8 @@ import java.util.TreeSet;
 public class DatabaseManager {
 
     private Connection conn = null;
-    private ArrayList<String> specifications;
 
     public DatabaseManager() {
-        this.specifications = new ArrayList<>();
     }
 
     /**
@@ -153,17 +153,83 @@ public class DatabaseManager {
         return employees;
     }
     
-    public ArrayList<String> getSpeciafications(String helpline) {
-        specifications.clear();
+    public HashMap<String, ObservableList> getSpeciafications(HashMap<String, ObservableList> specifications) {
         String query = "DESCRIBE vwemployees";
+        String type;
+        String spec;
         
-        // haal elke fieldID op en stop hem in de lijst specifications
+        if (!openConnection()) {
+            return null;
+        }
+        
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery(query);
+
+            while (result.next()) {
+                type = result.getString("Type"); // can be int(11), varchar(255) or datetime
+                spec = result.getString("Field"); 
+                if(!"datetime".equals(type) && !"Name".equals(spec) && !"BadgeNR".equals(spec)){ 
+                    specifications.put(spec, FXCollections.observableArrayList());
+                }else if ("datetime".equals(type) || "Name".equals(spec) || "BadgeNR".equals(spec)){
+                    specifications.put(spec, null);
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            specifications = null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
         return specifications;
     }
     
-    public HashMap<String, TreeSet> getSpeciaficationsValues(String query) {
-        HashMap<String, TreeSet> specificationValues = new HashMap<>();
-        // haal de waardes per specificatie met DISTINCT uit de vwemployees en vul de hashmap
+    public HashMap<String, ObservableList> getSpeciaficationsValues(String query, HashMap<String, ObservableList> specificationValues) {       
+        ObservableList<String> valuesSpec;
+        String spec;
+        
+        if (!openConnection()) {
+            return null;
+        }
+        
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery(query);
+
+            while (result.next()) {
+                for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()){
+                    if(entry.getValue() != null){
+                        spec = entry.getKey();
+                        valuesSpec = entry.getValue();
+                        String value = result.getString(spec);
+                        if(!valuesSpec.contains(value)){
+                            valuesSpec.add(value);
+                        }
+                    }
+                }
+            } 
+        } catch (Exception e) {
+            System.out.println(e);
+            specificationValues = null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
         
         return specificationValues;
     }

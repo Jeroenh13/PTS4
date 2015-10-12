@@ -5,11 +5,14 @@
  */
 package controller;
 
+import Database.DatabaseManager;
+import Database.QueryBuilder;
 import cims.Employee;
 import cims.Helpline;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -17,12 +20,20 @@ import javafx.collections.ObservableList;
  * @author Anna-May
  */
 public class UnitsAssignControler {
-    private Helpline unit;
+    private Helpline helpline;
     private HashMap<String, ObservableList> specificationTypes;
-    private HashMap<String, String> specifications;
+    private HashMap<String, String> mySpecifications;
+    private DatabaseManager dbm;
+    private QueryBuilder queryBuilder;
     
     public UnitsAssignControler(){
-        specifications = new HashMap<>();
+        this.specificationTypes = new HashMap<>();
+        this.mySpecifications = new HashMap<>();
+        this.dbm = new DatabaseManager();
+        this.queryBuilder = new QueryBuilder();
+        
+        // for test
+        helpline = new Helpline(1,"Politie");
     }
     
     public void logIn(String name, String password){
@@ -36,24 +47,30 @@ public class UnitsAssignControler {
         // maak een query met de gegevens in de hashmap
         // bevraag het database voor een lijst met de gevraagde personen
         // return deze lijst voor de desbetreffende table
-        return unit.searchEmployees(specifications);
+        return helpline.searchEmployees(mySpecifications);
     }
     
-    public void getTypeSpecifications(){
-        //TO DO 
-        //vraag alle specificatie types aan het database voor de desbetreffende unit
-        //vul de hashmap hier meer met values, "Kies een optie" en de mogelijke waardes
+    public HashMap<String, ObservableList> getSpecificationsTypes(){
+         return specificationTypes;
     }
     
-    public void addSpecification(String key, String value){
-        specifications.put(key, value);
+    public void fillSpecificationsTypes(){     
+        dbm.getSpeciafications(specificationTypes);
+        String query = queryBuilder.getSpecificationValues(helpline.getName(), specificationTypes);
+        dbm.getSpeciaficationsValues(query,specificationTypes);
     }
     
-    public ObservableList getFunctionTypes(String key){
-        return specificationTypes.get(key);
+    public void adjustSpecification(String key, String value){
+        // reset, add or adjust
+        mySpecifications.put(key, value);
     }
+    
+    
+//    public ObservableList getFunctionTypes(String key){
+//        return specificationTypes.get(key);
+//    }
     
     public void resetSpecifications(){
-        specifications.clear();
+        mySpecifications.clear();
     }
 }

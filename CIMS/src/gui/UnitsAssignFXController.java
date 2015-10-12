@@ -27,11 +27,15 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 //import javafx.scene.layout.AnchorPane;
 
 /**
@@ -73,6 +77,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML TableColumn tcTeamAss;
     @FXML TableColumn tcFromDateAss;
     @FXML TableColumn tcTillDateAss;
+    @FXML GridPane grid;
     
     // overview
     @FXML TextField tfName;
@@ -118,6 +123,8 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
 //        fillComboBoxes();
 //        // set tabel of assign unnits, fill with persons of helpline
 //        setTableAss();
+        fillSpecificationsTypes();
+        makeMapComboBoxes();
     }    
     
     
@@ -144,7 +151,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     public void select(Event evt) {
         ComboBox combo = (ComboBox) evt.getSource(); 
         String value = comboBoxes.get(combo);
-        addSpecification(value, (String) combo.getSelectionModel().getSelectedItem());
+        adjustSpecification(value, (String) combo.getSelectionModel().getSelectedItem());
     }
     
     public void searchName(Event evt) {
@@ -217,29 +224,53 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
-    private void fillComboBoxes(){
-        for(Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){ 
-            ComboBox comboB = entry.getKey();
-            String value = entry.getValue();
-            
-            comboB.setItems(getFunctionTypes(value));
-        }
-    }
+//    private void fillComboBoxes(){
+//        for(Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){ 
+//            ComboBox comboB = entry.getKey();
+//            String value = entry.getValue();
+//            
+//            comboB.setItems(getFunctionTypes(value));
+//        }
+//    }
     
     // TO DO inhoud van databasemanager verkrijgen 
     private void makeMapComboBoxes(){
         comboBoxes = new HashMap<>();
-        comboBoxes.put(cbAvailable, "available");
-        comboBoxes.put(cbFunction, "function");
-        comboBoxes.put(cbRegion, "region");
-        comboBoxes.put(cbDepartment, "department");
-        comboBoxes.put(cbCommune, "commune");
-        comboBoxes.put(cbFunctionAss, "function");
-        comboBoxes.put(cbAvailableAss, "available");
-        comboBoxes.put(cbDepartmentAss, "department");
-        comboBoxes.put(cbRegionAss, "region");
-        comboBoxes.put(cbCommuneAss, "commune");
-        comboBoxes.put(cbNiveauAss, "niveau");
-        comboBoxes.put(cbTeamAss, "team");
+        int width = 185;
+        grid.gridLinesVisibleProperty().set(true); 
+        grid.getColumnConstraints().clear();
+        
+        HashMap<String, ObservableList> specifications = getSpecificationsTypes();
+        int column, row = -1;
+        double dbForCount;
+        for (Map.Entry<String, ObservableList> entry : specifications.entrySet()){
+            ObservableList items = entry.getValue();
+            if(items != null){
+                // set comboboxes
+                ComboBox cbTypes = new ComboBox();
+                cbTypes.setMinWidth(width); 
+                cbTypes.setMaxWidth(width);
+                String key = entry.getKey();
+                comboBoxes.put(cbTypes, key);
+                
+                dbForCount = comboBoxes.size();
+                dbForCount = dbForCount/4.0;
+                column = (int) Math.ceil(dbForCount)*2-1;
+                
+                row++;
+                if(row == 4){
+                    row = 0;
+                }
+                
+                grid.add(cbTypes,column,row);
+                cbTypes.setItems(items);
+                
+                // set labels
+                Label lbl = new Label();
+                lbl.setText("%" + key);
+                
+                grid.add(lbl,column - 1,row);
+            }
+        }
     }
 }
