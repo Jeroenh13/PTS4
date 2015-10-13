@@ -41,6 +41,7 @@ public final class QueryBuilder {
         return queryGetPersonsAss;
     }
     
+    //the missing method
     public String getSpecificationValues(String helpline, HashMap<String, ObservableList> specifications){
         String querySpecValues = "SELECT ";
         boolean first = true;
