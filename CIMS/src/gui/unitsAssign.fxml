@@ -118,7 +118,7 @@
                      <children>
                         <TableView fx:id="tbOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0">
                            <columns>
-                              <TableColumn fx:id="tcBatchNr" prefWidth="92.0" text="%badgeNr." />
+                              <TableColumn fx:id="tcBatchNr" prefWidth="92.0" text="%badgeNr" />
                               <TableColumn fx:id="tcPerson" prefWidth="230.0" text="%staff" />
                               <TableColumn fx:id="tcAvailable" prefWidth="97.0" text="%available" />
                               <TableColumn fx:id="tcFunction" prefWidth="143.0" text="%function" />
