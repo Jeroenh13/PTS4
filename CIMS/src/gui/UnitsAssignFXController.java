@@ -267,7 +267,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
                 
                 // set labels
                 Label lbl = new Label();
-                lbl.setText("%" + key);
+                lbl.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
                 
                 grid.add(lbl,column - 1,row);
             }
