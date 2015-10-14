@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,6 +32,8 @@ public class ControlRoomController implements Initializable {
     private Button btnSave;
     @FXML
     private TextArea taDescription;
+    @FXML
+    private TextField txtTitle;
     @FXML
     private ComboBox cbEmergency;
     @FXML
@@ -62,7 +65,7 @@ public class ControlRoomController implements Initializable {
         for (cbItem item : listItems) {
             lines.add(new Helpline(item.getID(), item.toString()));        
         }
-        report = new Report(0, taDescription.getText(), null, null, null,lines );
+        report = new Report(0, taDescription.getText(), null, null, null,lines,txtTitle.getText() );
         if (report.saveReport()) {
             JOptionPane.showMessageDialog(null, "Succesvol toegevoegt", "Succes", 1);
             listItems.clear();

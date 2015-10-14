@@ -250,10 +250,11 @@ public class DatabaseManager {
         }
         try {
             CallableStatement cs = null;
-            cs = conn.prepareCall("{call spInjectReport(?,?,?,0)}");
+            cs = conn.prepareCall("{call spInjectReport(?,?,?,0,?)}");
             cs.setString(1, repo.getDescription());
             cs.setString(2, repo.getLocation());
             cs.setInt(3, helplineid);
+            cs.setString(4, repo.getTitle());
             cs.execute();
             succes = true;
             cs.close();

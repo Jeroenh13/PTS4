@@ -20,6 +20,7 @@ public class Report {
     private String ExtraInformation;
     private String Location;
     private String Weather;
+    private String title;
     private ArrayList<Helpline> helpLines;
 
     /**
@@ -40,13 +41,14 @@ public class Report {
      * @param weather
      * @param helpline
      */
-    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline) {
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline,String title) {
         this.reportID = reportID;
         this.description = description;
         this.ExtraInformation = extraInformation;
         this.Location = location;
         this.Weather = weather;
         this.helpLines = helpline;
+        this.title = title;
     }
 
     /**
@@ -138,6 +140,25 @@ public class Report {
     public void setWeather(String Weather) {
         this.Weather = Weather;
     }
+    
+     /**
+     * gets the title
+     *
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * sets the title
+     *
+     * @param title title to be set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     
     public boolean saveReport()
     {
