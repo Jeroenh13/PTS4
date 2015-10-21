@@ -149,6 +149,9 @@ public class DatabaseManager {
             System.out.println("Something went wrong");
             //System.out.println(ex.getErrorCode() + " -- " + ex.getMessage());
         }
+        finally{
+            closeConnection();
+        }
 
         return employees;
     }
@@ -185,6 +188,7 @@ public class DatabaseManager {
             try {
                 result.close();
                 statement.close();
+                closeConnection();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -226,6 +230,7 @@ public class DatabaseManager {
             try {
                 result.close();
                 statement.close();
+                closeConnection();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -262,6 +267,9 @@ public class DatabaseManager {
         } catch (Exception e) {
             System.out.println(e);
         }
+        finally{
+            closeConnection();
+        }
         return succes;
     }
 
@@ -286,6 +294,7 @@ public class DatabaseManager {
             try {
                 result.close();
                 statement.close();
+                closeConnection();
             } catch (Exception e) {
                 System.out.println(e);
             }
