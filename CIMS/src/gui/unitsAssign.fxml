@@ -42,7 +42,7 @@
                                     </TableView>
                                     <Label fx:id="lblNameAss" layoutX="14.0" layoutY="685.0" text="%searchforname" />
                                     <TextField fx:id="tfNameAss" layoutX="123.0" layoutY="681.0" prefHeight="31.0" prefWidth="442.0" />
-                                    <Button fx:id="btnNameAss" layoutX="571.0" layoutY="678.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
+                                    <Button fx:id="btnSearchAss" layoutX="774.0" layoutY="854.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="210.0" text="search">
                                         <graphic>
                                             <ImageView fx:id="ivSearchSymbol" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                                                <image>
@@ -53,15 +53,6 @@
                                     </Button>
                                     <Label fx:id="lblBadgeNrAss" layoutX="646.0" layoutY="686.0" text="%badgeNr" />
                                     <TextField fx:id="tfBadgeNrAss" layoutX="732.0" layoutY="681.0" prefHeight="31.0" prefWidth="127.0" />
-                                    <Button fx:id="btnBadgeNrAss" layoutX="867.0" layoutY="678.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="65.0">
-                                       <graphic>
-                                          <ImageView fx:id="ivSearchSymbol1" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../afbeeldingen/searchSymbool.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                     <TitledPane fx:id="tlpAddPersons" animated="false" layoutX="993.0" layoutY="654.0" prefHeight="242.0" prefWidth="640.0" text="%addpersonnel">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="482.0">
@@ -94,7 +85,7 @@
                                           </AnchorPane>
                                       </content>
                                     </TitledPane>
-                                    <GridPane fx:id="gdpComboAss" hgap="5.0" layoutX="16.0" layoutY="718.0" prefHeight="174.0" prefWidth="974.0">
+                                    <GridPane fx:id="gdpComboAss" hgap="5.0" layoutX="16.0" layoutY="718.0" prefHeight="136.0" prefWidth="974.0" vgap="8.0">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -136,29 +127,11 @@
                         <Label fx:id="lblBatchNr" layoutX="559.0" layoutY="21.0" text="Zoek op batchNr." />
                         <Label fx:id="lblIncident" layoutX="919.0" layoutY="21.0" text="Zoek op ongeval" />
                         <TextField fx:id="tfName" layoutX="121.0" layoutY="16.0" prefHeight="31.0" prefWidth="303.0" />
-                        <TextField fx:id="tfBatchNr" layoutX="685.0" layoutY="16.0" prefHeight="31.0" prefWidth="103.0" />
+                        <TextField fx:id="tfBadgeNr" layoutX="685.0" layoutY="16.0" prefHeight="31.0" prefWidth="103.0" />
                         <TextField fx:id="tfIncident" layoutX="1049.0" layoutY="16.0" prefHeight="31.0" prefWidth="303.0" />
-                        <Button fx:id="btnSearchBatchNr" layoutX="795.0" layoutY="13.0" mnemonicParsing="false" onAction="#searchBatchNr" prefHeight="31.0" prefWidth="65.0">
-                           <graphic>
-                              <ImageView fx:id="ivSearchSymbol11" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../afbeeldingen/searchSymbool.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="SearchName" layoutX="431.0" layoutY="13.0" mnemonicParsing="false" onAction="#searchName" prefHeight="31.0" prefWidth="65.0">
+                        <Button fx:id="btnSearch" layoutX="1050.0" layoutY="228.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="302.0" text="search">
                            <graphic>
                               <ImageView fx:id="ivSearchSymbol12" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../afbeeldingen/searchSymbool.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="btnSearchIncident" layoutX="1359.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchIncident" prefHeight="31.0" prefWidth="65.0">
-                           <graphic>
-                              <ImageView fx:id="ivSearchSymbol13" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../afbeeldingen/searchSymbool.png" />
                                  </image>
@@ -169,7 +142,7 @@
                         <Label fx:id="lblTillDate" layoutX="435.0" layoutY="235.0" text="tot" />
                         <DatePicker fx:id="dtpFromDate" layoutX="130.0" layoutY="231.0" />
                         <DatePicker fx:id="dtpTillDate" layoutX="560.0" layoutY="231.0" />
-                        <GridPane fx:id="gdpCombo" hgap="5.0" layoutX="14.0" layoutY="55.0" prefHeight="174.0" prefWidth="974.0">
+                        <GridPane fx:id="gdpCombo" hgap="5.0" layoutX="14.0" layoutY="55.0" prefHeight="174.0" prefWidth="974.0" vgap="8.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

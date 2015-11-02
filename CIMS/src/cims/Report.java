@@ -17,9 +17,9 @@ public class Report {
     private DatabaseManager dbm;
     private int reportID;
     private String description;
-    private String ExtraInformation;
-    private String Location;
-    private String Weather;
+    private String extraInformation;
+    private String location;
+    private String weather;
     private String title;
     private ArrayList<Helpline> helpLines;
 
@@ -40,15 +40,20 @@ public class Report {
      * @param location
      * @param weather
      * @param helpline
+     * @param title
      */
-    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline,String title) {
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title) {
         this.reportID = reportID;
         this.description = description;
-        this.ExtraInformation = extraInformation;
-        this.Location = location;
-        this.Weather = weather;
+        this.extraInformation = extraInformation;
+        this.location = location;
+        this.weather = weather;
         this.helpLines = helpline;
         this.title = title;
+    }
+    
+    public Report(String description, String title){
+        
     }
 
     /**
@@ -93,7 +98,7 @@ public class Report {
      * @return the extra information
      */
     public String getExtraInformation() {
-        return ExtraInformation;
+        return extraInformation;
     }
 
     /**
@@ -102,7 +107,7 @@ public class Report {
      * @param ExtraInformation the information to be set
      */
     public void setExtraInformation(String ExtraInformation) {
-        this.ExtraInformation = ExtraInformation;
+        this.extraInformation = ExtraInformation;
     }
 
     /**
@@ -111,7 +116,7 @@ public class Report {
      * @return the location of the report
      */
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     /**
@@ -120,7 +125,7 @@ public class Report {
      * @param Location location to be set
      */
     public void setLocation(String Location) {
-        this.Location = Location;
+        this.location = Location;
     }
 
     /**
@@ -129,7 +134,7 @@ public class Report {
      * @return the weather
      */
     public String getWeather() {
-        return Weather;
+        return weather;
     }
 
     /**
@@ -138,7 +143,7 @@ public class Report {
      * @param Weather weather to be set
      */
     public void setWeather(String Weather) {
-        this.Weather = Weather;
+        this.weather = Weather;
     }
     
      /**

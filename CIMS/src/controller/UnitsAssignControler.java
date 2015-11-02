@@ -9,6 +9,8 @@ import Database.DatabaseManager;
 import Database.QueryBuilder;
 import cims.Employee;
 import cims.Helpline;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -73,4 +75,15 @@ public class UnitsAssignControler {
     public void resetSpecifications(){
         mySpecifications.clear();
     }
+    
+    public void search(String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate){
+        String query = queryBuilder.search(mySpecifications, name, badgeNr, incident, fromDate, tillDate);
+        dbm.getEmployees(query, specificationTypes);
+//        if(fromDate == null){
+//            //query = queryBuilder.searchWithoutDate();
+//        }else{
+//            //query = queryBuilder.searchWithDate();
+//        }
+    }
+    //LocalDateTime localtDateAndTime = LocalDateTime.now();
 }

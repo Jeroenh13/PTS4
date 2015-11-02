@@ -100,48 +100,31 @@ public class DatabaseManager {
     }
     
     // <editor-fold desc="UnitsAssign">
-    public ArrayList<Employee> getEmployees(String query) {
-        //String name, String emergency, String function, String available, String department, String regio, String level, String team
-
-        //boolean first = true;
-        String name;
-        String function;
-        String available;
-        String department;
-        String town;
+    public ObservableList<Employee> getEmployees(String query, HashMap<String, ObservableList> specificationTypes) {
+        //String name, function, available, department, town, team, appointedTo;
+        ArrayList<String> values = new ArrayList<>();
         int level;
-        String team;
-        String appointedTo;
-
-        ArrayList<Employee> employees = new ArrayList<>();
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+        
+        if (!openConnection()) {
+            return null;
+        }
+        
+        ResultSet result = null;
+        Statement statement = null;
+        
         try {
             Statement stat = conn.createStatement();
-//            String query = "SELECT * FROM vwPersoneelMelding WHERE "; //klopt de naam van de view?
-//            for (Map.Entry<String, String> entry : hm.entrySet()) //why the fuck not??
-//            {
-//                if (first == true)
-//                {
-//                    query += entry.getKey().toString() + " = " + entry.getValue().toString();
-//                    first = false;
-//                }
-//                else
-//                {
-//                    query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
-//                }
-//            }
-//            
-//            query += ";";
             ResultSet rs = stat.executeQuery(query);
+            
             while (rs.next()) {
-                //add to employees
-                name = rs.getString("name");
-                function = rs.getString("function");
-                available = rs.getString("available");
-                department = rs.getString("department");
-                town = rs.getString("town");
-                level = rs.getInt("level");
-                team = rs.getString("team");
-                appointedTo = rs.getString("appointedTo");
+                values.clear();
+                for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()){
+                    values.add(rs.getString(entry.getKey()));
+                }
+                // ophalen ongeval 
+                // employe maken, let op attributen
+                
                 //Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
                 //employees.add(e);
             }
@@ -174,9 +157,9 @@ public class DatabaseManager {
             while (result.next()) {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
                 spec = result.getString("Field"); 
-                if(!"datetime".equals(type) && !"Name".equals(spec) && !"BadgeNR".equals(spec)){ 
+                if(!"datetime".equals(type) && !"Name".equals(spec) && !"BadgeNR".equals(spec) && !"Title".equals(spec) && !"Description".equals(spec) && !"Helpline".equals(spec)){ 
                     specifications.put(spec, FXCollections.observableArrayList());
-                }else if ("datetime".equals(type) || "Name".equals(spec) || "BadgeNR".equals(spec)){
+                }else{
                     specifications.put(spec, null);
                 }
             }

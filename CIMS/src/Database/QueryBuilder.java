@@ -5,6 +5,7 @@
  */
 package Database;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,13 +18,56 @@ import javafx.collections.ObservableList;
  * @author Anna-May
  */
 public final class QueryBuilder {
-    public static String searchOverview(HashMap hmOverviewValues){
-        String queryGetPersonsOv = "";
-        return null;
+    public static String search(HashMap<String, String> hmValues, String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate){
+        String queryGetPersons = "SELECT * FROM vwemployees WHERE ";
+        
+        boolean first = true;
+        for (Map.Entry<String, String> entry : hmValues.entrySet()){
+            if(first == false){
+                queryGetPersons+= " AND ";
+            }else{
+                first = false;
+            }
+            queryGetPersons += entry.getKey() + " = '"+ entry.getValue() + "'";
+        }
+        
+        if(!name.equals("")){
+            if(first == false){
+                queryGetPersons+= " AND ";
+            }else{
+                first = false;
+            }
+            queryGetPersons += "Name ='" + name + "' ";
+        }
+        if(!incident.equals("")){
+            if(first == false){
+                queryGetPersons+= " AND ";
+            }else{
+                first = false;
+            }
+            queryGetPersons += "Title ='" + incident + "' ";
+        }
+        if(badgeNr != -1){
+            if(first == false){
+                queryGetPersons+= " AND ";
+            }else{
+                first = false;
+            }
+            queryGetPersons += "BadgeNR =" + badgeNr + " ";
+        }
+//        if(fromDate != null && tillDate != null){
+//            queryGetPersons += "AND Name =" + name + " ";
+//        }
+        
+        
+        
+        queryGetPersons += ";";
+        
+        return queryGetPersons;
     } 
     
-    public static String searchAssign(HashMap hmAssignValues){
-        String queryGetPersonsAss = "SELECT * FROM vwEmployeeIncident";
+    public static String searchWithoutDate(HashMap hmAssignValues){
+        String queryGetPersonsAss = "SELECT * FROM vwemployees";
         
         if(!hmAssignValues.isEmpty()){
             queryGetPersonsAss+= " WHERE ";

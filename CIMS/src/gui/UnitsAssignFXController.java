@@ -10,6 +10,8 @@ import i18n.localeSettings;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,16 +57,8 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML ListView lvIncident;
     @FXML TableView tvAssign;
     @FXML TextField tfNameAss;
-    @FXML TextField tfBatchNrAss;
-    @FXML Button btnNameAss;
-    @FXML Button btnBadgeNrAss;
-    @FXML ComboBox cbFunctionAss;
-    @FXML ComboBox cbAvailableAss;
-    @FXML ComboBox cbDepartmentAss;
-    @FXML ComboBox cbRegionAss;
-    @FXML ComboBox cbCommuneAss;
-    @FXML ComboBox cbNiveauAss;
-    @FXML ComboBox cbTeamAss;
+    @FXML TextField tfBadgeNrAss;
+    @FXML Button btnSearchAss;
     @FXML TableColumn tcBatchNrAss;
     @FXML TableColumn tcPersonAss;
     @FXML TableColumn tcAvailableAss;
@@ -81,16 +75,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     
     // overview
     @FXML TextField tfName;
-    @FXML TextField tfBatchNr;
+    @FXML TextField tfBadgeNr;
     @FXML TextField tfIncident;
-    @FXML Button btnSearchName;
-    @FXML Button btnSearchBatchNr;
-    @FXML Button btnSearchIncident;
-    @FXML ComboBox cbAvailable;
-    @FXML ComboBox cbFunction;
-    @FXML ComboBox cbRegion;
-    @FXML ComboBox cbDepartment;
-    @FXML ComboBox cbCommune;
+    @FXML Button btnSearch;
     @FXML DatePicker dtpFromDate;
     @FXML DatePicker dtpTillDate;
     @FXML TableView<Employee> tbOverview;
@@ -108,7 +95,6 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML TableColumn tcTillDate;
     @FXML GridPane gdpCombo;
 
-    HashMap<ComboBox, String> comboBoxesAss;
     HashMap<ComboBox, String> comboBoxes;
     /**
      * Initializes the controller class.
@@ -127,7 +113,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
 //        setTableAss();
         fillSpecificationsTypes();
         makeMapComboBoxes();
-        makeMapComboBoxesAss();
+        //makeMapComboBoxesAss();
     }    
     
     
@@ -157,16 +143,27 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         adjustSpecification(value, (String) combo.getSelectionModel().getSelectedItem());
     }
     
-    public void searchName(Event evt) {
-        
-    }
-    
-    public void searchBatchNr(Event evt) {
-        
-    }
-    
-    public void searchIncident(Event evt) {
-        
+    public void search(Event evt) { 
+        int badgeNr;
+        if(evt.getSource() == btnSearchAss){
+            if(tfBadgeNrAss.getText().equals("")){ 
+                badgeNr = -1;
+            }else{
+                badgeNr = Integer.parseInt(tfBadgeNrAss.getText());
+            }
+            search(tfNameAss.getText(), badgeNr, "", null, null);
+            setTableAss();
+        } else if(evt.getSource() == btnSearch){
+            if(tfBadgeNr.getText().equals("")){ 
+                badgeNr = -1;
+            }else{
+                badgeNr = Integer.parseInt(tfBadgeNr.getText());
+            }
+            LocalDate fromDate = dtpFromDate.getValue();
+            LocalDate tillDate = dtpTillDate.getValue();
+            search(tfName.getText(), badgeNr, tfIncident.getText(), fromDate, tillDate);
+            setTable();
+        }
     }
     // </editor-fold>
     // <editor-fold desc="Set tables: Overview & Assign">
@@ -227,54 +224,14 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
-    // TO DO inhoud van databasemanager verkrijgen 
-    private void makeMapComboBoxesAss(){
-        comboBoxesAss = new HashMap<>();
-        int width = 185;
-        //gdpComboAss.gridLinesVisibleProperty().set(true); 
-        gdpComboAss.getColumnConstraints().clear();
-        
-        HashMap<String, ObservableList> specifications = getSpecificationsTypes();
-        int column, row = -1;
-        double dbForCount;
-        for (Map.Entry<String, ObservableList> entry : specifications.entrySet()){
-            ObservableList items = entry.getValue();
-            if(items != null){
-                // set comboboxes
-                ComboBox cbTypes = new ComboBox();
-                cbTypes.setMinWidth(width); 
-                cbTypes.setMaxWidth(width);
-                String key = entry.getKey();
-                comboBoxesAss.put(cbTypes, key);
-                
-                dbForCount = comboBoxesAss.size();
-                dbForCount = dbForCount/4.0;
-                column = (int) Math.ceil(dbForCount)*2-1;
-                
-                row++;
-                if(row == 4){
-                    row = 0;
-                }
-                
-                //gdpCombo.add(cbTypes,column,row);
-                gdpComboAss.add(cbTypes,column,row);
-                cbTypes.setItems(items);
-                
-                // set labels
-                Label lbl = new Label();
-                lbl.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
-                
-                //gdpCombo.add(lbl, column - 1, row);
-                gdpComboAss.add(lbl,column - 1,row);
-            }
-        }
-    }
-    
     private void makeMapComboBoxes(){
         comboBoxes = new HashMap<>();
         int width = 185;
-        //gdpCombo.gridLinesVisibleProperty().set(true); 
+        // reset size of columns and rows
         gdpCombo.getColumnConstraints().clear();
+        gdpCombo.getRowConstraints().clear();
+        gdpComboAss.getColumnConstraints().clear();
+        gdpComboAss.getRowConstraints().clear();
         
         HashMap<String, ObservableList> specifications = getSpecificationsTypes();
         int column, row = -1;
@@ -282,30 +239,59 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         for (Map.Entry<String, ObservableList> entry : specifications.entrySet()){
             ObservableList items = entry.getValue();
             if(items != null){
-                // set comboboxes
+                // make comboboxes
                 ComboBox cbTypes = new ComboBox();
+                ComboBox cbTypesAss = new ComboBox();
+                
+                // set events on comboboxes
+                cbTypes.setOnAction((event) -> {
+                    select(event);
+                });
+                cbTypesAss.setOnAction((event) -> {
+                    select(event);
+                });
+                
+                // set size and content comboboxes
                 cbTypes.setMinWidth(width); 
                 cbTypes.setMaxWidth(width);
+                cbTypes.setItems(items);
+                cbTypesAss.setMinWidth(width); 
+                cbTypesAss.setMaxWidth(width);
+                cbTypesAss.setItems(items);
+                // add comboboxes to HashMap
                 String key = entry.getKey();
                 comboBoxes.put(cbTypes, key);
+                comboBoxes.put(cbTypesAss, key);
                 
-                dbForCount = comboBoxes.size();
+                // calculate positions for the grids 
+                // --> column
+                dbForCount = comboBoxes.size()/2;
                 dbForCount = dbForCount/4.0;
                 column = (int) Math.ceil(dbForCount)*2-1;
-                
+                // --> row
                 row++;
                 if(row == 4){
                     row = 0;
                 }
                 
+                // add comboboxes to grids
                 gdpCombo.add(cbTypes,column,row);
-                cbTypes.setItems(items);
+                gdpComboAss.add(cbTypesAss,column,row);
                 
-                // set labels
+                // make labels
                 Label lbl = new Label();
+                Label lblAss = new Label();
+                // set size and text labels
+                lbl.setMinWidth(width/2); 
+                lbl.setMaxWidth(width/2);
                 lbl.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
+                lblAss.setMinWidth(width/2); 
+                lblAss.setMaxWidth(width/2);
+                lblAss.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
                 
+                // add labels to the grids
                 gdpCombo.add(lbl,column - 1,row);
+                gdpComboAss.add(lblAss,column - 1,row);
             }
         }
     }

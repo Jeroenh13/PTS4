@@ -107,7 +107,7 @@ public class Helpline implements Serializable{
 
         query += ";";
         
-        employees = dbm.getEmployees(query);
+        //employees = dbm.getEmployees(query);
         
         return employees; 
     }
