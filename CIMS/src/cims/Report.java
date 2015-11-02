@@ -6,6 +6,7 @@
 package cims;
 
 import Database.DatabaseManager;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +23,8 @@ public class Report {
     private String weather;
     private String title;
     private ArrayList<Helpline> helpLines;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     /**
      * *
@@ -30,7 +33,22 @@ public class Report {
     public Report() {
 
     }
-
+    
+    /**
+     * *
+     * creates a new empty report
+     * @param description
+     * @param title
+     * @param startDate
+     * @param endDate
+     */
+    public Report(String description, String title, LocalDateTime startDate, LocalDateTime endDate) {
+        this.description = description;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    
     /**
      * creates a new filled report
      *
