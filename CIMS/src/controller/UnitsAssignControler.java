@@ -7,14 +7,10 @@ package controller;
 
 import Database.DatabaseManager;
 import Database.QueryBuilder;
-import cims.Employee;
 import cims.Helpline;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
-import javafx.collections.FXCollections;
+import java.util.LinkedHashMap;
 import javafx.collections.ObservableList;
 
 /**
@@ -26,13 +22,11 @@ public class UnitsAssignControler {
     private HashMap<String, ObservableList> specificationTypes;
     private HashMap<String, String> mySpecifications;
     private DatabaseManager dbm;
-    private QueryBuilder queryBuilder;
     
     public UnitsAssignControler(){
-        this.specificationTypes = new HashMap<>();
+        this.specificationTypes = new LinkedHashMap<>();
         this.mySpecifications = new HashMap<>();
         this.dbm = new DatabaseManager();
-        this.queryBuilder = new QueryBuilder();
         
         // for test
         helpline = new Helpline(1,"Politie");
@@ -45,20 +39,17 @@ public class UnitsAssignControler {
         // wordt er hierbij ook gekeken of de persoon een functie heeft waarbij het die gegevens mag opvragen?
     }
     
-    public ArrayList<Employee> getListOfPersons(){
-        // maak een query met de gegevens in de hashmap
-        // bevraag het database voor een lijst met de gevraagde personen
-        // return deze lijst voor de desbetreffende table
-        return helpline.searchEmployees(mySpecifications);
+    public HashMap<String, ObservableList> getSpecificationsTypes(){
+        return specificationTypes;
     }
     
-    public HashMap<String, ObservableList> getSpecificationsTypes(){
-         return specificationTypes;
+    public Helpline getHelpline(){
+        return helpline;
     }
     
     public void fillSpecificationsTypes(){     
         dbm.getSpeciafications(specificationTypes);
-        String query = queryBuilder.getSpecificationValues(helpline.getName(), specificationTypes);
+        String query = QueryBuilder.getSpecificationValues(helpline.getName(), specificationTypes);
         dbm.getSpeciaficationsValues(query,specificationTypes);
     }
     
@@ -67,23 +58,15 @@ public class UnitsAssignControler {
         mySpecifications.put(key, value);
     }
     
-    
-//    public ObservableList getFunctionTypes(String key){
-//        return specificationTypes.get(key);
-//    }
-    
     public void resetSpecifications(){
         mySpecifications.clear();
     }
     
-    public void search(String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate){
-        String query = queryBuilder.search(mySpecifications, name, badgeNr, incident, fromDate, tillDate);
-        dbm.getEmployees(query, specificationTypes);
-//        if(fromDate == null){
-//            //query = queryBuilder.searchWithoutDate();
-//        }else{
-//            //query = queryBuilder.searchWithDate();
-//        }
+    public void search(boolean ass,String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate){
+        helpline.searchEmployees(specificationTypes, mySpecifications, ass, name, badgeNr, incident, fromDate, tillDate);
     }
-    //LocalDateTime localtDateAndTime = LocalDateTime.now();
+    
+    public void getIncidents(){
+        helpline.getIncidents();
+    }
 }

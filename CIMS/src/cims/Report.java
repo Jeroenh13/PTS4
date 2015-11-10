@@ -200,4 +200,9 @@ public class Report {
         }
         return succes;
     }
+    
+    @Override
+    public String toString(){
+        return title;
+    }
 }

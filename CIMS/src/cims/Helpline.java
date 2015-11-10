@@ -7,10 +7,13 @@ package cims;
 
 import java.io.Serializable;
 import Database.DatabaseManager;
+import Database.QueryBuilder;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -23,9 +26,10 @@ public class Helpline implements Serializable{
     
     private String name;
     private int ID;
-    private ArrayList<Employee> employees;
-    private Map<String, String> employeeMap;       
-
+    private ObservableList<Employee> employees; 
+    private ObservableList<Employee> employeesAss;
+    private ObservableList<Report> reports;
+    //private QueryBuilder queryBuilder;
     
     /**
      * initializes an empty Helpline
@@ -40,6 +44,11 @@ public class Helpline implements Serializable{
     {
         this.ID = ID;
         this.name = name;
+        this.dbm = new DatabaseManager();
+        //this.queryBuilder = new QueryBuilder();
+        this.employees = FXCollections.observableArrayList();
+        this.employeesAss = FXCollections.observableArrayList();
+        this.reports = FXCollections.observableArrayList();
     }
         
     /**
@@ -75,41 +84,31 @@ public class Helpline implements Serializable{
         this.name = name;
     }
     
-    public ArrayList<Employee> getEmployees(String name) {
+    public ObservableList<Employee> getEmployees() {
         return employees; 
     }
     
-    public ArrayList<Employee> searchEmployees(HashMap employeeHashMap)
-    {
-        //HASHMAP!!!!
-        //In db string = select * from view where key = value
-        //toevoegen aan table
-        //klooten in fxml required
-        
-        employeeMap = employeeHashMap;
-        
-        //employees = dbm.getUnits(hm);
-        boolean first = true;
-        String query = "SELECT * FROM vwEmployeeIncident WHERE ";
-        //iterator
-        for (Map.Entry<String, String> entry : employeeMap.entrySet())
-        {
-            if (first == true)
-            {
-                query += entry.getKey().toString() + " = " + entry.getValue().toString();
-                first = false;
-            }
-            else
-            {
-                query += "AND " + entry.getKey().toString() + " = " + entry.getValue().toString();
-            }
+    public ObservableList<Employee> getEmployeesAss() {
+        return employeesAss; 
+    }
+    
+    public ObservableList<Report> getReports(){
+        return reports;
+    }
+    
+    public void searchEmployees(HashMap<String, ObservableList> specificationTypes, HashMap<String, String> mySpecifications, boolean ass,String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate)
+    {   
+        String query = QueryBuilder.search(ass, mySpecifications, name, badgeNr, incident, fromDate, tillDate, this.name);
+        if(ass == true){
+            dbm.getEmployees(query, specificationTypes, employeesAss);
+        }else{
+            dbm.getEmployees(query, specificationTypes, employees);
         }
-
-        query += ";";
-        
-        //employees = dbm.getEmployees(query);
-        
-        return employees; 
+    }
+    
+    public void getIncidents(){
+        String query = QueryBuilder.getIncidentsHelpline(this.name);
+        dbm.getIncidents(query, reports);
     }
     
     // haal de waardes per specificatie met DISTINCT uit de vwemployees en vul de hashmap
@@ -121,7 +120,7 @@ public class Helpline implements Serializable{
      * @return a list of helplines
      */
     public ArrayList<Helpline> getLines() {
-        dbm = new DatabaseManager();
+        //dbm = new DatabaseManager();
         return dbm.getHelpLines();
     }
 }

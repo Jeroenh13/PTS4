@@ -38,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 //import javafx.scene.layout.AnchorPane;
 
 /**
@@ -55,7 +56,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     
     // assign
     @FXML ListView lvIncident;
-    @FXML TableView tvAssign;
+    @FXML TableView<Employee> tvAssign;
     @FXML TextField tfNameAss;
     @FXML TextField tfBadgeNrAss;
     @FXML Button btnSearchAss;
@@ -80,7 +81,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML Button btnSearch;
     @FXML DatePicker dtpFromDate;
     @FXML DatePicker dtpTillDate;
-    @FXML TableView<Employee> tbOverview;
+    @FXML TableView<Employee> tvOverview;
     @FXML TableColumn tcBatchNr;
     @FXML TableColumn tcPerson;
     @FXML TableColumn tcAvailable;
@@ -112,8 +113,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
 //        // set tabel of assign unnits, fill with persons of helpline
 //        setTableAss();
         fillSpecificationsTypes();
-        makeMapComboBoxes();
-        //makeMapComboBoxesAss();
+        makeComboBoxesAndColumns();
+        search(true, "", -1, "", null, null);
+        search(false, "", -1, "", null, null);
+        setListviewIncidents();
     }    
     
     
@@ -151,8 +154,8 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             }else{
                 badgeNr = Integer.parseInt(tfBadgeNrAss.getText());
             }
-            search(tfNameAss.getText(), badgeNr, "", null, null);
-            setTableAss();
+            search(true, tfNameAss.getText(), badgeNr, "", null, null);
+            tvAssign.setItems(getHelpline().getEmployeesAss());
         } else if(evt.getSource() == btnSearch){
             if(tfBadgeNr.getText().equals("")){ 
                 badgeNr = -1;
@@ -161,46 +164,12 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             }
             LocalDate fromDate = dtpFromDate.getValue();
             LocalDate tillDate = dtpTillDate.getValue();
-            search(tfName.getText(), badgeNr, tfIncident.getText(), fromDate, tillDate);
-            setTable();
+            search(false, tfName.getText(), badgeNr, tfIncident.getText(), fromDate, tillDate);
         }
     }
     // </editor-fold>
     // <editor-fold desc="Set tables: Overview & Assign">
-   public void setTable(){
-//        ArrayList<Employee> emps = this.getListOfPersons();
-//        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
-//        tcPerson.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-//        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Function"));
-//        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Available"));
-//        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Department"));
-//        tcTown.setCellValueFactory(new PropertyValueFactory<Employee, String>("Town"));
-//        tcNiveau.setCellValueFactory(new PropertyValueFactory<Employee, String>("Level"));
-//        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Team"));
-//        tcAppointedTo.setCellValueFactory(new PropertyValueFactory<Employee, String>("AppointedTo"));
-//        tbOverview.setItems(e);
-        
-        ArrayList<Employee> emps = this.getListOfPersons();
-        ObservableList<Employee> e = FXCollections.observableArrayList(emps);
-        
-        tcBatchNr.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcPerson.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcAvailable.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcFunction.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcDepartment.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcRegion.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcCommune.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcNiveau.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcTeam.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcFromDate.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        tcTillDate.setCellValueFactory(new PropertyValueFactory<Employee, String>("Name"));
-        
-        tbOverview.setItems(e);
-    }
-    
-    public void setTableAss(){
-        
-    }
+   
     // </editor-fold>
     
     // <editor-fold desc="Report">
@@ -224,7 +193,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
-    private void makeMapComboBoxes(){
+    private void makeComboBoxesAndColumns(){
         comboBoxes = new HashMap<>();
         int width = 185;
         // reset size of columns and rows
@@ -233,12 +202,16 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         gdpComboAss.getColumnConstraints().clear();
         gdpComboAss.getRowConstraints().clear();
         
+        tvOverview.getColumns().clear();
+        tvAssign.getColumns().clear();
+        
         HashMap<String, ObservableList> specifications = getSpecificationsTypes();
         int column, row = -1;
         double dbForCount;
         for (Map.Entry<String, ObservableList> entry : specifications.entrySet()){
             ObservableList items = entry.getValue();
-            if(items != null){
+            String key = entry.getKey();
+            if(items.get(0).equals("no selection")){ 
                 // make comboboxes
                 ComboBox cbTypes = new ComboBox();
                 ComboBox cbTypesAss = new ComboBox();
@@ -255,11 +228,12 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
                 cbTypes.setMinWidth(width); 
                 cbTypes.setMaxWidth(width);
                 cbTypes.setItems(items);
+                cbTypes.setValue("no selection");
                 cbTypesAss.setMinWidth(width); 
                 cbTypesAss.setMaxWidth(width);
                 cbTypesAss.setItems(items);
+                cbTypesAss.setValue("no selection");
                 // add comboboxes to HashMap
-                String key = entry.getKey();
                 comboBoxes.put(cbTypes, key);
                 comboBoxes.put(cbTypesAss, key);
                 
@@ -284,15 +258,57 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
                 // set size and text labels
                 lbl.setMinWidth(width/2); 
                 lbl.setMaxWidth(width/2);
-                lbl.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
+                //lbl.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
+                lbl.setText(key);
                 lblAss.setMinWidth(width/2); 
                 lblAss.setMaxWidth(width/2);
-                lblAss.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
+                lblAss.setText(key);
+                //lblAss.setText(localeSettings.getResourceBundle().getString(key.toLowerCase()));
                 
                 // add labels to the grids
                 gdpCombo.add(lbl,column - 1,row);
                 gdpComboAss.add(lblAss,column - 1,row);
-            }
+                setTables(key);
+            }else if(items.get(0).equals("table")){
+                setTables(key);
+            }    
         }
+        
+        tvOverview.setItems(getHelpline().getEmployees());
+        tvAssign.setItems(getHelpline().getEmployeesAss());
+        //tvAssign.setColumnResizePolicy();
+        
+        //tvAssign.setColumnResizePolicy((TableView.ResizeFeatures param) -> true);
+        
+    }
+    
+    private void setTables(String key){
+        TableColumn tc = new TableColumn();
+        TableColumn tcAss = new TableColumn();
+        tc.setText(key);
+        tcAss.setText(key);
+        
+        tc.setCellValueFactory(
+            new PropertyValueFactory<>(key)
+        );
+        tcAss.setCellValueFactory(
+            new PropertyValueFactory<>(key) //Employee,String
+        );
+        
+        tc.setResizable(true); 
+        tcAss.setResizable(true);
+        int widthh = 135;
+        tc.setMaxWidth(widthh);
+        tc.setMinWidth(widthh);
+        tcAss.setMaxWidth(widthh);
+        tcAss.setMinWidth(widthh);
+
+        tvOverview.getColumns().add(tc);
+        tvAssign.getColumns().add(tcAss);
+    }
+    
+    private void setListviewIncidents(){
+        getIncidents();
+        lvIncident.setItems(getHelpline().getReports());
     }
 }

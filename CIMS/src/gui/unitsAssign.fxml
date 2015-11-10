@@ -107,7 +107,7 @@
             <content>
               <AnchorPane fx:id="tpgOverviewUnits" minHeight="800.0" minWidth="0.0" prefHeight="800.0" prefWidth="1910.0">
                      <children>
-                        <TableView fx:id="tbOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0">
+                        <TableView fx:id="tvOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0">
                            <columns>
                               <TableColumn fx:id="tcBatchNr" prefWidth="92.0" text="%badgeNr" />
                               <TableColumn fx:id="tcPerson" prefWidth="230.0" text="%staff" />

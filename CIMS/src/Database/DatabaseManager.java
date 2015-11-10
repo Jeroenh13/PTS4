@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.sql.CallableStatement;
 import cims.Helpline;
 import cims.Report;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,8 @@ public class DatabaseManager {
      */
     private boolean openConnection() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://athena01.fhict.local/dbi298273?user=dbi298273&password=AbEc65A52w");
+            //conn = DriverManager.getConnection("jdbc:mysql://athena01.fhict.local/dbi298273?user=dbi298273&password=AbEc65A52w");
+            conn = DriverManager.getConnection("jdbc:mysql://athena01.fhict.local/dbi296086?user=dbi296086&password=PqGVPb5cuG");
             return true;
         } catch (SQLException e) {
             conn = null;
@@ -100,11 +103,10 @@ public class DatabaseManager {
     }
     
     // <editor-fold desc="UnitsAssign">
-    public ObservableList<Employee> getEmployees(String query, HashMap<String, ObservableList> specificationTypes) {
-        //String name, function, available, department, town, team, appointedTo;
-        ArrayList<String> values = new ArrayList<>();
+    public ObservableList<Employee> getEmployees(String query, HashMap<String, ObservableList> specificationTypes, ObservableList<Employee> employees) {
+        HashMap<String, String> values = new HashMap<>();
         int level;
-        ObservableList<Employee> employees = FXCollections.observableArrayList();
+        employees.clear();
         
         if (!openConnection()) {
             return null;
@@ -120,17 +122,37 @@ public class DatabaseManager {
             while (rs.next()) {
                 values.clear();
                 for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()){
-                    values.add(rs.getString(entry.getKey()));
+                    values.put(entry.getKey(), rs.getString(entry.getKey()));
                 }
-                // ophalen ongeval 
-                // employe maken, let op attributen
                 
-                //Employee e = new Employee(name, function, available, department, town, level, team, appointedTo);
-                //employees.add(e);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime startReport = null;
+                LocalDateTime endReport = null;
+                if(values.get("ReportStartDate") != null){
+                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter); 
+                }
+                if(values.get("ReportEndDate") != null){
+                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter); 
+                }
+                
+                Report report = new Report(values.get("description"), values.get("title"), startReport, endReport); 
+                
+                LocalDateTime startEmp = null;
+                LocalDateTime endEmp = null;
+                if(values.get("start") != null){
+                    startEmp =LocalDateTime.parse(values.get("start"), formatter); 
+                }
+                if(values.get("end") != null){
+                    endEmp = LocalDateTime.parse(values.get("end"), formatter);
+                }
+                
+                int badgeNr = Integer.parseInt(values.get("badgeNR"));
+                Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"),values.get("level"), values.get("team"),report,startEmp,endEmp);
+                employees.add(employee);
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong");
-            //System.out.println(ex.getErrorCode() + " -- " + ex.getMessage());
+            System.out.println(ex.getMessage());
         }
         finally{
             closeConnection();
@@ -140,7 +162,7 @@ public class DatabaseManager {
     }
     
     public HashMap<String, ObservableList> getSpeciafications(HashMap<String, ObservableList> specifications) {
-        String query = "DESCRIBE vwemployees";
+        String query = "DESCRIBE vwemployee";
         String type;
         String spec;
         
@@ -157,10 +179,16 @@ public class DatabaseManager {
             while (result.next()) {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
                 spec = result.getString("Field"); 
-                if(!"datetime".equals(type) && !"Name".equals(spec) && !"BadgeNR".equals(spec) && !"Title".equals(spec) && !"Description".equals(spec) && !"Helpline".equals(spec)){ 
-                    specifications.put(spec, FXCollections.observableArrayList());
-                }else{
-                    specifications.put(spec, null);
+                ObservableList<String> input = FXCollections.observableArrayList();
+                if(("description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)){
+                    input.add("report");
+                    specifications.put(spec, input);
+                }else if(!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)){
+                    input.add("no selection");
+                    specifications.put(spec, input);
+                }else if(!"helpline".equals(spec)){
+                    input.add("table");
+                    specifications.put(spec, input);
                 }
             }
             
@@ -196,7 +224,7 @@ public class DatabaseManager {
 
             while (result.next()) {
                 for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()){
-                    if(entry.getValue() != null){
+                    if(entry.getValue().get(0).equals("no selection")){ 
                         spec = entry.getKey();
                         valuesSpec = entry.getValue();
                         String value = result.getString(spec);
@@ -220,6 +248,35 @@ public class DatabaseManager {
         }
         
         return specificationValues;
+    }
+    
+    public ObservableList getIncidents(String query, ObservableList<Report> reports) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery(query);
+            while (result.next()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime start = LocalDateTime.parse(result.getString("ReportStartDate"), formatter);
+                reports.add(new Report(result.getString("description"), result.getString("title"), start, null));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return reports;
     }
     
     // </editor-fold>
@@ -283,5 +340,4 @@ public class DatabaseManager {
             }
         }
     }
-
 }
