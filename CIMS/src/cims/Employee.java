@@ -130,7 +130,11 @@ public class Employee {
      * @return the title of report for tableview
      */
     public String getTitle() {
-        return assignedTo.getTitle();
+        if(assignedTo != null){
+            return assignedTo.getTitle();
+        }else{
+            return " ";
+        }
     }
 
     /**
@@ -215,5 +219,15 @@ public class Employee {
      */
     public void setEnd(LocalDateTime end) {
         this.end = end;
+    }
+    
+    @Override
+    public String toString(){
+        return this.name + " " + this.function;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

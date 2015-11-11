@@ -109,10 +109,18 @@ public class Helpline implements Serializable{
     public void getIncidents(){
         String query = QueryBuilder.getIncidentsHelpline(this.name);
         dbm.getIncidents(query, reports);
+        
+        // bind employees to report
+        for(Employee emp: employeesAss){
+            if(emp.getAssignedTo() != null){
+                for(Report report: reports){
+                    if(report.getReportID() == emp.getAssignedTo().getReportID()){
+                        report.addEmployee(emp); 
+                    }
+                }
+            }
+        }
     }
-    
-    // haal de waardes per specificatie met DISTINCT uit de vwemployees en vul de hashmap
-    
     
     /**
      * Returns the helplines

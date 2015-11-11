@@ -7,10 +7,16 @@ package controller;
 
 import Database.DatabaseManager;
 import Database.QueryBuilder;
+import cims.Employee;
 import cims.Helpline;
+import cims.Report;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -19,9 +25,12 @@ import javafx.collections.ObservableList;
  */
 public class UnitsAssignControler {
     private Helpline helpline;
-    private HashMap<String, ObservableList> specificationTypes;
-    private HashMap<String, String> mySpecifications;
-    private DatabaseManager dbm;
+    private final HashMap<String, ObservableList> specificationTypes;
+    private final HashMap<String, String> mySpecifications;
+    private final DatabaseManager dbm;
+    private Report selectedReport;
+    private Employee selectedEmployee;
+    private ObservableList<Employee> changedEmpsForReport;
     
     public UnitsAssignControler(){
         this.specificationTypes = new LinkedHashMap<>();
@@ -68,5 +77,58 @@ public class UnitsAssignControler {
     
     public void getIncidents(){
         helpline.getIncidents();
+    }
+    
+    public void setSelectedEmployee(Employee emp){
+        this.selectedEmployee = emp;
+    }
+    
+    public void setSelectedReport(Report report){
+        this.selectedReport = report;
+        this.changedEmpsForReport = FXCollections.observableArrayList(selectedReport.getEmployees());
+//        for(Employee emp :selectedReport.getEmployees()){
+//            try {
+//                changedEmpsForReport.add((Employee) emp.clone());
+//            } catch (CloneNotSupportedException ex) {
+//                Logger.getLogger(UnitsAssignControler.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+        //selectedReport.getEmployees()
+    }
+    
+    public Employee getSelectedEmployee(){
+        return this.selectedEmployee;
+    }
+    
+    public Report getSelectedReport(){
+        return this.selectedReport;
+    }
+    
+    public boolean addEmployee(){
+        boolean succeded = false;
+        if(!changedEmpsForReport.contains(this.selectedEmployee)){ 
+            this.changedEmpsForReport.add(this.selectedEmployee);
+            succeded = true;
+        }
+        return succeded;
+    }
+    
+    public void removeEmployee(){
+        this.changedEmpsForReport.remove(this.selectedEmployee);
+    }
+    
+    public boolean adjustDate(LocalDateTime start, LocalDateTime end){
+        boolean succeded = false;
+        selectedEmployee.setStart(start);
+        selectedEmployee.setEnd(end);
+        return succeded;
+    }
+    
+    public void saveEmpForReport(){
+        this.selectedReport.setEmployees(FXCollections.observableList(this.changedEmpsForReport));
+    }
+    
+    public ObservableList getEmployeesForReport(){
+        return this.changedEmpsForReport;
     }
 }

@@ -8,6 +8,8 @@ package cims;
 import Database.DatabaseManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -25,6 +27,7 @@ public class Report {
     private ArrayList<Helpline> helpLines;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private ObservableList<Employee> employees;
 
     /**
      * *
@@ -37,16 +40,19 @@ public class Report {
     /**
      * *
      * creates a new empty report
+     * @param reportID
      * @param description
      * @param title
      * @param startDate
      * @param endDate
      */
-    public Report(String description, String title, LocalDateTime startDate, LocalDateTime endDate) {
+    public Report(int reportID, String description, String title, LocalDateTime startDate, LocalDateTime endDate) {
+        this.reportID = reportID;
         this.description = description;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.employees = FXCollections.observableArrayList();
     }
     
     /**
@@ -199,6 +205,31 @@ public class Report {
             System.out.println(e);
         }
         return succes;
+    }
+    
+    public LocalDateTime getStartDate(){
+        return this.startDate;
+    }
+    
+    public boolean addEmployee(Employee emp){
+        boolean succeded = false;
+        if(!employees.contains(emp)){ 
+            this.employees.add(emp);
+            succeded = true;
+        }
+        return succeded;
+    }
+    
+    public void removeEmployee(Employee emp){
+        this.employees.remove(emp);
+    }
+    
+    public ObservableList<Employee> getEmployees() {
+        return this.employees;
+    }
+    
+    public void setEmployees(ObservableList<Employee> emps){
+        this.employees = emps;
     }
     
     @Override

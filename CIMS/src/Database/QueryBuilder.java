@@ -95,7 +95,7 @@ public final class QueryBuilder {
     }
     
     public static String getIncidentsHelpline(String helpline){
-        String query = "SELECT DISTINCT title, helpline, description, ReportStartDate FROM vwEmployeeAss WHERE helpline = '"+ helpline +"' AND ReportEndDate is null AND ReportStartDate is not null;";
+        String query = "SELECT DISTINCT reportID ,title, helpline, description, ReportStartDate FROM vwEmployeeAss WHERE helpline = '"+ helpline +"' AND ReportStartDate is not null;";
         return query;
     }
 }

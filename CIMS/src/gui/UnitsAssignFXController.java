@@ -6,31 +6,41 @@
 package gui;
 
 import cims.Employee;
+import cims.Report;
 import i18n.localeSettings;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -60,19 +70,22 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML TextField tfNameAss;
     @FXML TextField tfBadgeNrAss;
     @FXML Button btnSearchAss;
-    @FXML TableColumn tcBatchNrAss;
-    @FXML TableColumn tcPersonAss;
-    @FXML TableColumn tcAvailableAss;
-    @FXML TableColumn tcFunctionAss;
-    @FXML TableColumn tcDepartmentAss;
-    @FXML TableColumn tcRegionAss;
-    @FXML TableColumn tcCommuneAss;
-    @FXML TableColumn tcIncidentAss;
-    @FXML TableColumn tcNiveauAss;
-    @FXML TableColumn tcTeamAss;
-    @FXML TableColumn tcFromDateAss;
-    @FXML TableColumn tcTillDateAss;
+    @FXML ListView lvReportEmps;
     @FXML GridPane gdpComboAss;
+    @FXML Label lblStartDateAss;
+    @FXML Label lblDescriptionAss;
+    @FXML Button btnRemovePerson;
+    @FXML DatePicker dtpBeginDateAss;
+    @FXML DatePicker dtpEndDateAss;
+    @FXML Slider sdrEndHour;
+    @FXML Slider sdrEndMinute;
+    @FXML Label lblEndMinutes;
+    @FXML Label lblEndHours;
+    @FXML Slider sdrStartHour;
+    @FXML Slider sdrStartMinute;
+    @FXML Label lblStartMinutes;
+    @FXML Label lblStartHours;
+    @FXML Button btnSavePersons;
     
     // overview
     @FXML TextField tfName;
@@ -82,21 +95,14 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML DatePicker dtpFromDate;
     @FXML DatePicker dtpTillDate;
     @FXML TableView<Employee> tvOverview;
-    @FXML TableColumn tcBatchNr;
-    @FXML TableColumn tcPerson;
-    @FXML TableColumn tcAvailable;
-    @FXML TableColumn tcFunction;
-    @FXML TableColumn tcDepartment;
-    @FXML TableColumn tcRegion;
-    @FXML TableColumn tcCommune;
-    @FXML TableColumn tcIncident;
-    @FXML TableColumn tcNiveau;
-    @FXML TableColumn tcTeam;
-    @FXML TableColumn tcFromDate;
-    @FXML TableColumn tcTillDate;
     @FXML GridPane gdpCombo;
+    @FXML Label lblStartDate;
+    @FXML Label lblDescription;
 
     HashMap<ComboBox, String> comboBoxes;
+//    Employee selectReportEmployee;
+//    Employee selectEmployeeTv;
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -116,7 +122,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         makeComboBoxesAndColumns();
         search(true, "", -1, "", null, null);
         search(false, "", -1, "", null, null);
-        setListviewIncidents();
+        setIncidents(); 
     }    
     
     
@@ -307,8 +313,113 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tvAssign.getColumns().add(tcAss);
     }
     
-    private void setListviewIncidents(){
+    private void setIncidents(){
         getIncidents();
         lvIncident.setItems(getHelpline().getReports());
+        
+        lvIncident.getSelectionModel().selectedItemProperty().addListener((ObservableValue observable, Object oldValue, Object newValue) -> {
+            setSelectedReport((Report) newValue);
+            //setSelectedReport(Report report)
+            lvReportEmps.setItems(this.getEmployeesForReport());
+            lblDescriptionAss.setText("Omschrijving:\n" + getSelectedReport().getDescription());
+            lblStartDateAss.setText("Startdatum en tijd: " + getSelectedReport().getStartDate().toString()); 
+        });
+        
+        lvReportEmps.getSelectionModel().selectedItemProperty().addListener((ObservableValue observable, Object oldValue, Object newValue) -> {
+            if(oldValue != null){
+                LocalDateTime start = this.getSelectedEmployee().getStart();
+                LocalDateTime end = this.getSelectedEmployee().getEnd();
+                if(dtpBeginDateAss.getValue() != null){
+                    LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
+                    start = LocalDateTime.of(dtpBeginDateAss.getValue(), startTime);
+                }
+                if(dtpEndDateAss.getValue() != null){
+                    LocalTime endTime = LocalTime.of((int)sdrEndHour.getValue(),(int)sdrEndMinute.getValue());
+                    end = LocalDateTime.of(dtpEndDateAss.getValue(), endTime);
+                }
+                
+                this.adjustDate(start, end);
+            }
+            if (lvReportEmps.getSelectionModel().getSelectedItem() != null) {
+                Employee selectedEmp = (Employee) newValue;
+                tvAssign.getSelectionModel().select(selectedEmp);
+                if(selectedEmp.getStart() != null){
+                    dtpBeginDateAss.setValue(selectedEmp.getStart().toLocalDate()); 
+                }
+                if(selectedEmp.getEnd() != null){
+                    dtpEndDateAss.setValue(selectedEmp.getEnd().toLocalDate());
+                }
+                
+                if(this.getSelectedReport().getEmployees().contains(selectedEmp)){ 
+                    btnRemovePerson.setDisable(true);
+                }else{
+                    btnRemovePerson.setDisable(false);
+                }
+            }
+        });
+        
+        tvAssign.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (tvAssign.getSelectionModel().getSelectedItem() != null) {
+                setSelectedEmployee((Employee) newValue);
+                if(lvReportEmps.getItems().contains(getSelectedEmployee())){
+                    lvReportEmps.getSelectionModel().select(getSelectedEmployee()); 
+                }else{
+                    Platform.runLater(() -> lvReportEmps.getSelectionModel().clearSelection());
+                }
+            }
+        });
+        
+        DecimalFormat decimalFormat = new DecimalFormat("00");
+        
+        lblStartMinutes.setText(decimalFormat.format(sdrStartMinute.getValue()));
+        lblStartHours.setText(decimalFormat.format(sdrStartHour.getValue()));
+        
+        sdrStartMinute.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            lblStartMinutes.setText(decimalFormat.format(new_val));
+        });
+        
+        sdrStartHour.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            lblStartHours.setText(decimalFormat.format(new_val));
+        });
+        
+        lblEndMinutes.setText(decimalFormat.format(sdrEndMinute.getValue()));
+        lblEndHours.setText(decimalFormat.format(sdrEndHour.getValue()));
+        
+        sdrEndMinute.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            lblEndMinutes.setText(decimalFormat.format(new_val));
+        });
+        
+        sdrEndHour.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
+            lblEndHours.setText(decimalFormat.format(new_val));
+        });
+    }
+    
+    public void addEmployeeToReport(Event evt){
+        if(getSelectedEmployee().getAssignedTo() == null){
+            if(!this.addEmployee()){
+                giveAlartInformation("Medewerker al toegekend aan een incident.");
+            }
+        }else{
+            giveAlartInformation("Medewerker al toegekend aan een incident.");
+        }
+    }
+    
+    private void giveAlartInformation(String message){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
+    }
+    
+    public void removeEmployeeToReport(Event evt){
+        if(this.lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
+            this.removeEmployee();
+        }
+    }
+    
+    public void saveEmployeeToReport(Event evt){
+        this.saveEmpForReport();
     }
 }

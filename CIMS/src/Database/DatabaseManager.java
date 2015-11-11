@@ -135,7 +135,10 @@ public class DatabaseManager {
                     endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter); 
                 }
                 
-                Report report = new Report(values.get("description"), values.get("title"), startReport, endReport); 
+                Report report = null;
+                if(values.get("reportID") != null){
+                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport); 
+                }
                 
                 LocalDateTime startEmp = null;
                 LocalDateTime endEmp = null;
@@ -180,7 +183,7 @@ public class DatabaseManager {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
                 spec = result.getString("Field"); 
                 ObservableList<String> input = FXCollections.observableArrayList();
-                if(("description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)){
+                if(("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)){
                     input.add("report");
                     specifications.put(spec, input);
                 }else if(!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)){
@@ -262,7 +265,7 @@ public class DatabaseManager {
             while (result.next()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime start = LocalDateTime.parse(result.getString("ReportStartDate"), formatter);
-                reports.add(new Report(result.getString("description"), result.getString("title"), start, null));
+                reports.add(new Report(result.getInt("reportID"), result.getString("description"), result.getString("title"), start, null));
             }
         } catch (Exception e) {
             System.out.println(e);
