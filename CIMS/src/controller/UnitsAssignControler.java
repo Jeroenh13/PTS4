@@ -117,18 +117,18 @@ public class UnitsAssignControler {
         this.changedEmpsForReport.remove(this.selectedEmployee);
     }
     
-    public boolean adjustDate(LocalDateTime start, LocalDateTime end){
+    public boolean adjustDate(LocalDateTime start, LocalDateTime end, Employee emp){
         boolean succeded = false;
-        selectedEmployee.setStart(start);
-        selectedEmployee.setEnd(end);
+        emp.setStart(start);
+        emp.setEnd(end);
         return succeded;
     }
     
     public void saveEmpForReport(){
-        this.selectedReport.setEmployees(FXCollections.observableList(this.changedEmpsForReport));
+        selectedReport.setEmployees(FXCollections.observableList(this.changedEmpsForReport));
     }
     
-    public ObservableList getEmployeesForReport(){
-        return this.changedEmpsForReport;
+    public ObservableList<Employee> getEmployeesForReport(){
+        return changedEmpsForReport;
     }
 }

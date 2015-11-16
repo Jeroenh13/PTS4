@@ -99,9 +99,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     @FXML Label lblStartDate;
     @FXML Label lblDescription;
 
-    HashMap<ComboBox, String> comboBoxes;
-//    Employee selectReportEmployee;
-//    Employee selectEmployeeTv;
+    private HashMap<ComboBox, String> comboBoxes;
+    private boolean selectLvEmpsFirst;
+    private boolean selectTvEmpsFirst;
     
     /**
      * Initializes the controller class.
@@ -122,6 +122,8 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         makeComboBoxesAndColumns();
         search(true, "", -1, "", null, null);
         search(false, "", -1, "", null, null);
+        selectLvEmpsFirst = false;
+        selectTvEmpsFirst = false;
         setIncidents(); 
     }    
     
@@ -325,48 +327,111 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             lblStartDateAss.setText("Startdatum en tijd: " + getSelectedReport().getStartDate().toString()); 
         });
         
-        lvReportEmps.getSelectionModel().selectedItemProperty().addListener((ObservableValue observable, Object oldValue, Object newValue) -> {
-            if(oldValue != null){
-                LocalDateTime start = this.getSelectedEmployee().getStart();
-                LocalDateTime end = this.getSelectedEmployee().getEnd();
-                if(dtpBeginDateAss.getValue() != null){
-                    LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
-                    start = LocalDateTime.of(dtpBeginDateAss.getValue(), startTime);
+        lvReportEmps.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // if there was a value selected before clicking on new value, save the changes
+            Employee oldEmp = (Employee) oldValue;
+            Employee newEmp = (Employee) newValue;
+            
+            if(oldEmp != null && newEmp != null){
+                if(oldEmp.getBadgeNR() == newEmp.getBadgeNR()){
+                    return;
+                }else{
+                    selectLvEmpsFirst = true;
                 }
-                if(dtpEndDateAss.getValue() != null){
-                    LocalTime endTime = LocalTime.of((int)sdrEndHour.getValue(),(int)sdrEndMinute.getValue());
-                    end = LocalDateTime.of(dtpEndDateAss.getValue(), endTime);
-                }
-                
-                this.adjustDate(start, end);
+            }else if(oldEmp == null && newEmp == null){
+                return;
+            }else if(selectTvEmpsFirst != true){
+                selectLvEmpsFirst = true;
             }
-            if (lvReportEmps.getSelectionModel().getSelectedItem() != null) {
-                Employee selectedEmp = (Employee) newValue;
-                tvAssign.getSelectionModel().select(selectedEmp);
-                if(selectedEmp.getStart() != null){
-                    dtpBeginDateAss.setValue(selectedEmp.getStart().toLocalDate()); 
+            
+            if(oldEmp != null){
+                if(this.getEmployeesForReport().contains(oldEmp)){ 
+                    LocalDateTime start = oldEmp.getStart();
+                    LocalDateTime end = oldEmp.getEnd();
+
+                    if(dtpBeginDateAss.getValue() != null){
+                        LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
+                        start = LocalDateTime.of(dtpBeginDateAss.getValue(), startTime);
+                    }
+
+                    if(dtpEndDateAss.getValue() != null){
+                        LocalTime endTime = LocalTime.of((int)sdrEndHour.getValue(),(int)sdrEndMinute.getValue());
+                        end = LocalDateTime.of(dtpEndDateAss.getValue(), endTime);
+                    }
+
+                    this.adjustDate(start, end, oldEmp);
                 }
-                if(selectedEmp.getEnd() != null){
-                    dtpEndDateAss.setValue(selectedEmp.getEnd().toLocalDate());
+            }
+
+            if (newEmp != null) {
+                if(newEmp.getStart() != null){
+                    dtpBeginDateAss.setValue(newEmp.getStart().toLocalDate()); 
+                    sdrStartHour.setValue(newEmp.getStart().getHour());
+                    sdrStartMinute.setValue(newEmp.getStart().getMinute()); 
+                }else{
+                    dtpBeginDateAss.setValue(null);
+                    sdrStartHour.setValue(0);
+                    sdrStartMinute.setValue(0);
                 }
-                
-                if(this.getSelectedReport().getEmployees().contains(selectedEmp)){ 
+                if(newEmp.getEnd() != null){
+                    dtpEndDateAss.setValue(newEmp.getEnd().toLocalDate());
+                    sdrEndHour.setValue(newEmp.getEnd().getHour());
+                    sdrEndMinute.setValue(newEmp.getEnd().getMinute()); 
+                }else{
+                    dtpEndDateAss.setValue(null);
+                    sdrEndHour.setValue(0);
+                    sdrEndMinute.setValue(0);
+                }
+
+                if(this.getSelectedReport().getEmployees().contains(newEmp)){ 
                     btnRemovePerson.setDisable(true);
                 }else{
                     btnRemovePerson.setDisable(false);
                 }
-            }
+                
+                setSelectedEmployee(newEmp);
+                if(selectTvEmpsFirst == false){
+                    tvAssign.getSelectionModel().select(newEmp);
+                }
+            }else{
+                dtpBeginDateAss.setValue(null);
+                dtpEndDateAss.setValue(null);
+                sdrStartHour.setValue(0);
+                sdrStartMinute.setValue(0);
+                sdrEndHour.setValue(0);
+                sdrEndMinute.setValue(0);
+            }  
+            selectLvEmpsFirst = false;
         });
         
         tvAssign.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (tvAssign.getSelectionModel().getSelectedItem() != null) {
-                setSelectedEmployee((Employee) newValue);
-                if(lvReportEmps.getItems().contains(getSelectedEmployee())){
-                    lvReportEmps.getSelectionModel().select(getSelectedEmployee()); 
-                }else{
-                    Platform.runLater(() -> lvReportEmps.getSelectionModel().clearSelection());
-                }
+            if(selectLvEmpsFirst == true){
+                selectLvEmpsFirst = false;
+                return;
             }
+            
+            if(newValue != null && oldValue != null){
+                if(oldValue.getBadgeNR() == newValue.getBadgeNR()){
+                    return;
+                }else{
+                    selectTvEmpsFirst = true;
+                }
+            }else if(oldValue == null && newValue == null){
+                return;
+            }else{
+                selectTvEmpsFirst = true;
+            }
+            
+            if (newValue != null) { 
+                if(!getEmployeesForReport().contains(newValue)){
+                    lvReportEmps.getSelectionModel().clearSelection();
+                }else {
+                    lvReportEmps.getSelectionModel().select(newValue);  // Platform.runLater(() -> {  });
+                }
+                setSelectedEmployee(newValue);
+            }
+            
+            selectTvEmpsFirst = false;
         });
         
         DecimalFormat decimalFormat = new DecimalFormat("00");
@@ -395,12 +460,19 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     }
     
     public void addEmployeeToReport(Event evt){
-        if(getSelectedEmployee().getAssignedTo() == null){
-            if(!this.addEmployee()){
+        if(getSelectedEmployee() != null){
+            if(getSelectedEmployee().getAssignedTo() == null){
+                if(!this.addEmployee()){
+                    giveAlartInformation("Medewerker al toegekend aan een incident.");
+                }
+                else{
+                    this.lvReportEmps.getSelectionModel().select(getSelectedEmployee());
+                }
+            }else{
                 giveAlartInformation("Medewerker al toegekend aan een incident.");
             }
         }else{
-            giveAlartInformation("Medewerker al toegekend aan een incident.");
+            giveAlartInformation("No employee selected.");
         }
     }
     
@@ -415,11 +487,11 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     
     public void removeEmployeeToReport(Event evt){
         if(this.lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
-            this.removeEmployee();
+            removeEmployee();
         }
     }
     
     public void saveEmployeeToReport(Event evt){
-        this.saveEmpForReport();
+        saveEmpForReport();
     }
 }
