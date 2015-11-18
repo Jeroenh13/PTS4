@@ -29,7 +29,6 @@ public class Helpline implements Serializable{
     private ObservableList<Employee> employees; 
     private ObservableList<Employee> employeesAss;
     private ObservableList<Report> reports;
-    //private QueryBuilder queryBuilder;
     
     /**
      * initializes an empty Helpline
@@ -107,7 +106,10 @@ public class Helpline implements Serializable{
     }
     
     public void getIncidents(){
-        String query = QueryBuilder.getIncidentsHelpline(this.name);
+        reports.clear();
+        String query = QueryBuilder.getNewIncidentsHelpline(this.name);
+        dbm.getNewIncidents(query, reports);
+        query = QueryBuilder.getIncidentsHelpline(this.name);
         dbm.getIncidents(query, reports);
         
         // bind employees to report
@@ -130,5 +132,17 @@ public class Helpline implements Serializable{
     public ArrayList<Helpline> getLines() {
         //dbm = new DatabaseManager();
         return dbm.getHelpLines();
+    }
+    
+    public Employee getEmployeeWithID(int id){
+        Employee emp = null;
+        
+        for(Employee emplo: this.employeesAss){
+                if(emplo.getBadgeNR() == id){
+                    emp = emplo;
+                }
+        }
+        
+        return emp;
     }
 }
