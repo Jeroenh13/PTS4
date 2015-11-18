@@ -6,6 +6,8 @@
 package cims;
 
 import Database.DatabaseManager;
+import Server.clientSocket;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -15,7 +17,7 @@ import javafx.collections.ObservableList;
  *
  * @author Bas
  */
-public class Report {
+public class Report implements Serializable {
 
     private DatabaseManager dbm;
     private int reportID;
@@ -27,7 +29,7 @@ public class Report {
     private ArrayList<Helpline> helpLines;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private ObservableList<Employee> employees;
+    private transient ObservableList<Employee> employees;
 
     /**
      * *
@@ -36,10 +38,11 @@ public class Report {
     public Report() {
 
     }
-    
+
     /**
      * *
      * creates a new empty report
+     *
      * @param reportID
      * @param description
      * @param title
@@ -54,7 +57,7 @@ public class Report {
         this.endDate = endDate;
         this.employees = FXCollections.observableArrayList();
     }
-    
+
     /**
      * creates a new filled report
      *
@@ -75,9 +78,9 @@ public class Report {
         this.helpLines = helpline;
         this.title = title;
     }
-    
-    public Report(String description, String title){
-        
+
+    public Report(String description, String title) {
+
     }
 
     /**
@@ -169,8 +172,8 @@ public class Report {
     public void setWeather(String Weather) {
         this.weather = Weather;
     }
-    
-     /**
+
+    /**
      * gets the title
      *
      * @return the title
@@ -187,53 +190,50 @@ public class Report {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
-    public boolean saveReport()
-    {
+
+    public boolean saveReport() {
         boolean succes = false;
         dbm = new DatabaseManager();
-        try{
-            for(Helpline help : helpLines)
-            {
-                succes = dbm.saveReport(this,help.getID());
+        try {
+            for (Helpline help : helpLines) {
+                succes = dbm.saveReport(this, help.getID());
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             succes = false;
             System.out.println(e);
         }
+
+        clientSocket cs = new clientSocket(this);
         return succes;
     }
-    
-    public LocalDateTime getStartDate(){
+
+    public LocalDateTime getStartDate() {
         return this.startDate;
     }
-    
-    public boolean addEmployee(Employee emp){
+
+    public boolean addEmployee(Employee emp) {
         boolean succeded = false;
-        if(!employees.contains(emp)){ 
+        if (!employees.contains(emp)) {
             this.employees.add(emp);
             succeded = true;
         }
         return succeded;
     }
-    
-    public void removeEmployee(Employee emp){
+
+    public void removeEmployee(Employee emp) {
         this.employees.remove(emp);
     }
-    
+
     public ObservableList<Employee> getEmployees() {
         return this.employees;
     }
-    
-    public void setEmployees(ObservableList<Employee> emps){
+
+    public void setEmployees(ObservableList<Employee> emps) {
         this.employees = emps;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return title;
     }
 }

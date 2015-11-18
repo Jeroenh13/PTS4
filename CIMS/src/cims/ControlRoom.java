@@ -39,9 +39,10 @@ public class ControlRoom extends Application {
             /*
              Pane controlRoom = (Pane)FXMLLoader.load(CIMS.class.getResource("/gui/ControlRoom.fxml"));
              Scene scene = new Scene(controlRoom);
-             primaryStage.setScene(scene);
-             primaryStage.setTitle("Control Room");
-             primaryStage.show();*/
+             stage.setScene(scene);
+             stage.setTitle("Control Room");
+             stage.show();
+             */
         } catch (Exception e) {
             System.out.println(e);
         }

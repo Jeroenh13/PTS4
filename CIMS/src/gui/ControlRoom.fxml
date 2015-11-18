@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.ControlRoomController">
+<AnchorPane fx:controller="controller.ControlRoomController" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" >
    <children>
       <Pane layoutX="605.0" layoutY="35.0" prefHeight="725.0" prefWidth="644.0" style="-fx-background-color: red;" />
       <Label fx:id="lblDescription" layoutX="31.0" layoutY="69.0" text="Omschrijving Ongeval">
