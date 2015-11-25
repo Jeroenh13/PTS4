@@ -24,25 +24,14 @@
                               </AnchorPane>
                             <AnchorPane minHeight="905.0" minWidth="1645.0" prefHeight="600.0" prefWidth="1645.0">
                                  <children>
-                                    <TableView fx:id="tvAssign" prefHeight="643.0" prefWidth="1633.0">
+                                    <TableView fx:id="tvAssign" layoutX="5.0" layoutY="322.0" prefHeight="379.0" prefWidth="1631.0">
                                       <columns>
-                                          <TableColumn fx:id="tcBatchNrAss" prefWidth="92.0" text="%badgeNr" />
-                                          <TableColumn fx:id="tcPersonAss" prefWidth="230.0" text="%staff" />
-                                          <TableColumn fx:id="tcAvailableAss" prefWidth="97.0" text="%available" />
-                                          <TableColumn fx:id="tcFunctionAss" prefWidth="143.0" text="%function" />
-                                          <TableColumn fx:id="tcDepartmentAss" prefWidth="124.0" text="%department" />
-                                          <TableColumn fx:id="tcRegionAss" prefWidth="169.0" text="%region" />
-                                          <TableColumn fx:id="tcCommuneAss" prefWidth="167.0" text="%commune" />
-                                          <TableColumn fx:id="tcIncidentAss" prefWidth="276.0" text="%assignedto" />
-                                          <TableColumn fx:id="tcNiveauAss" prefWidth="78.0" text="%level" />
-                                          <TableColumn fx:id="tcTeamAss" prefWidth="76.0" text="%team" />
-                                          <TableColumn fx:id="tcFromDateAss" prefWidth="94.0" text="%starttime" />
                                           <TableColumn fx:id="tcTillDateAss" prefWidth="86.0" text="%endtime" />
                                       </columns>
                                     </TableView>
-                                    <Label fx:id="lblNameAss" layoutX="14.0" layoutY="685.0" text="%searchforname" />
-                                    <TextField fx:id="tfNameAss" layoutX="123.0" layoutY="681.0" prefHeight="31.0" prefWidth="442.0" />
-                                    <Button fx:id="btnSearchAss" layoutX="774.0" layoutY="854.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="210.0" text="search">
+                                    <Label fx:id="lblNameAss" layoutX="13.0" layoutY="713.0" text="%searchforname" />
+                                    <TextField fx:id="tfNameAss" layoutX="122.0" layoutY="709.0" prefHeight="31.0" prefWidth="442.0" />
+                                    <Button fx:id="btnSearchAss" layoutX="883.0" layoutY="705.0" mnemonicParsing="false" onAction="#search" prefHeight="36.0" prefWidth="210.0" text="search">
                                         <graphic>
                                             <ImageView fx:id="ivSearchSymbol" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                                                <image>
@@ -51,23 +40,14 @@
                                             </ImageView>
                                         </graphic>
                                     </Button>
-                                    <Label fx:id="lblBadgeNrAss" layoutX="646.0" layoutY="686.0" text="%badgeNr" />
-                                    <TextField fx:id="tfBadgeNrAss" layoutX="732.0" layoutY="681.0" prefHeight="31.0" prefWidth="127.0" />
-                                    <TitledPane fx:id="tlpAddPersons" animated="false" layoutX="993.0" layoutY="654.0" prefHeight="242.0" prefWidth="640.0" text="%addpersonnel">
+                                    <Label fx:id="lblBadgeNrAss" layoutX="645.0" layoutY="714.0" text="%badgeNr" />
+                                    <TextField fx:id="tfBadgeNrAss" layoutX="731.0" layoutY="709.0" prefHeight="31.0" prefWidth="127.0" />
+                                    <TitledPane fx:id="tlpAddPersons" animated="false" layoutX="774.0" layoutY="9.0" prefHeight="306.0" prefWidth="640.0" text="%addpersonnel">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="482.0">
                                              <children>
-                                                <ListView layoutX="5.0" layoutY="7.0" prefHeight="196.0" prefWidth="251.0" />
-                                                <Button fx:id="btnAddPerson" layoutX="261.0" layoutY="9.0" mnemonicParsing="false">
-                                                    <graphic>
-                                                      <ImageView fx:id="ivAddSymbol1" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@../afbeeldingen/addSymbool.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                </Button>
-                                                <Button fx:id="btnRemovePerson" layoutX="261.0" layoutY="165.0" mnemonicParsing="false">
+                                                <ListView fx:id="lvReportEmps" layoutX="5.0" layoutY="7.0" prefHeight="262.0" prefWidth="251.0" />
+                                                <Button fx:id="btnRemovePerson" layoutX="261.0" layoutY="234.0" mnemonicParsing="false" onAction="#removeEmployeeToReport">
                                                     <graphic>
                                                       <ImageView fx:id="ivRemoveSymbol1" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -76,16 +56,28 @@
                                                       </ImageView>
                                                    </graphic>
                                                 </Button>
-                                                <Label fx:id="lblBeginTime" layoutX="329.0" layoutY="56.0" text="%starttime" />
-                                                <Label fx:id="lblEndTime" layoutX="328.0" layoutY="89.0" text="%endtime" />
-                                                <DatePicker fx:id="dtpBeginTime" layoutX="400.0" layoutY="52.0" />
-                                                <DatePicker fx:id="dtpEndTime" layoutX="400.0" layoutY="84.0" />
-                                                <Button fx:id="btnSavePersons" layoutX="400.0" layoutY="122.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="218.0" text="%save" />
+                                                <Label fx:id="lblBeginTime" layoutX="302.0" layoutY="37.0" text="%starttime" />
+                                                <Label fx:id="lblEndTime" layoutX="305.0" layoutY="147.0" text="%endtime" />
+                                                <Button fx:id="btnSavePersons" layoutX="385.0" layoutY="238.0" mnemonicParsing="false" onAction="#saveEmployeeToReport" prefHeight="31.0" prefWidth="247.0" text="%save" />
+                                                <Slider fx:id="sdrEndHour" layoutX="385.0" layoutY="149.0" majorTickUnit="3.0" max="23.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                <Slider fx:id="sdrEndMinute" layoutX="385.0" layoutY="193.0" majorTickUnit="15.0" max="59.0" minorTickCount="15" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                <Label fx:id="lblEndHours" layoutX="540.0" layoutY="168.0" text="15" textAlignment="RIGHT" />
+                                                <Label fx:id="lblStartDate" layoutX="301.0" layoutY="10.0" text="startDate" />
+                                                <Label fx:id="lblTimeBind" layoutX="557.0" layoutY="167.0" text=":" />
+                                                <Label fx:id="lblEndMinutes" layoutX="561.0" layoutY="168.0" text="30" />
+                                                <Label fx:id="lblEndDateAss" layoutX="307.0" layoutY="120.0" text="endDate" />
+                                                <DatePicker fx:id="dtpEndDateAss" layoutX="385.0" layoutY="115.0" prefHeight="31.0" prefWidth="247.0" />
+                                                <Label fx:id="lblStartMinutes" layoutX="559.0" layoutY="58.0" text="30" />
+                                                <Label fx:id="lblTimeBind1" layoutX="555.0" layoutY="57.0" text=":" />
+                                                <Label fx:id="lblStartHours" layoutX="538.0" layoutY="58.0" text="15" textAlignment="RIGHT" />
+                                                <Slider fx:id="sdrStartMinute" layoutX="385.0" layoutY="75.0" majorTickUnit="15.0" max="59.0" minorTickCount="15" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                <Slider fx:id="sdrStartHour" layoutX="385.0" layoutY="36.0" majorTickUnit="3.0" max="23.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                <DatePicker fx:id="dtpBeginDateAss" layoutX="385.0" layoutY="3.0" prefHeight="31.0" prefWidth="246.0" />
                                              </children>
                                           </AnchorPane>
                                       </content>
                                     </TitledPane>
-                                    <GridPane fx:id="gdpComboAss" hgap="5.0" layoutX="16.0" layoutY="718.0" prefHeight="136.0" prefWidth="974.0" vgap="8.0">
+                                    <GridPane fx:id="gdpComboAss" hgap="5.0" layoutX="14.0" layoutY="744.0" prefHeight="136.0" prefWidth="974.0" vgap="8.0">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -96,6 +88,17 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                     </GridPane>
+                                    <Button fx:id="btnAddPerson" layoutX="1423.0" layoutY="278.0" mnemonicParsing="false" onAction="#addEmployeeToReport" text="Medewerker toevoegen">
+                                        <graphic>
+                                          <ImageView fx:id="ivAddSymbol1" fitHeight="31.0" fitWidth="26.0" layoutX="590.0" layoutY="513.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../afbeeldingen/addSymbool.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Label fx:id="lblDescriptionAss" alignment="TOP_LEFT" layoutX="10.0" layoutY="39.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="703.0" text="Omschrijving:" />
+                                    <Label fx:id="lblStartDateAss" layoutX="10.0" layoutY="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="400.0" text="Startdatum en tijd:" />
                                  </children>
                               </AnchorPane>
                           </items>
@@ -107,22 +110,7 @@
             <content>
               <AnchorPane fx:id="tpgOverviewUnits" minHeight="800.0" minWidth="0.0" prefHeight="800.0" prefWidth="1910.0">
                      <children>
-                        <TableView fx:id="tbOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0">
-                           <columns>
-                              <TableColumn fx:id="tcBatchNr" prefWidth="92.0" text="%badgeNr" />
-                              <TableColumn fx:id="tcPerson" prefWidth="230.0" text="%staff" />
-                              <TableColumn fx:id="tcAvailable" prefWidth="97.0" text="%available" />
-                              <TableColumn fx:id="tcFunction" prefWidth="143.0" text="%function" />
-                              <TableColumn fx:id="tcDepartment" prefWidth="124.0" text="%department" />
-                              <TableColumn fx:id="tcRegion" prefWidth="169.0" text="%region" />
-                              <TableColumn fx:id="tcCommune" prefWidth="167.0" text="%commune" />
-                              <TableColumn fx:id="tcIncident" prefWidth="308.0" text="%description" />
-                              <TableColumn prefWidth="101.0" text="%level" />
-                              <TableColumn fx:id="tcTeam" minWidth="0.0" prefWidth="118.0" text="%team" />
-                              <TableColumn fx:id="tcFromDate" prefWidth="172.0" text="%starttime" />
-                              <TableColumn fx:id="tcTillDate" minWidth="0.0" prefWidth="163.0" text="%endtime" />
-                           </columns>
-                        </TableView>
+                        <TableView fx:id="tvOverview" layoutX="11.0" layoutY="268.0" prefHeight="638.0" prefWidth="1889.0" />
                         <Label fx:id="lblName" layoutX="14.0" layoutY="21.0" text="Zoek op naam" />
                         <Label fx:id="lblBatchNr" layoutX="559.0" layoutY="21.0" text="Zoek op batchNr." />
                         <Label fx:id="lblIncident" layoutX="919.0" layoutY="21.0" text="Zoek op ongeval" />
@@ -153,6 +141,8 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
+                        <Label fx:id="lblStartDate" layoutX="1360.0" layoutY="19.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="540.0" text="Startdatum en tijd:" />
+                        <Label fx:id="lblDescription" alignment="TOP_LEFT" layoutX="1360.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="216.0" prefWidth="540.0" text="Omschrijving:" />
                      </children></AnchorPane>
             </content>
           </Tab>

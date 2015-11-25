@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Anna-May
  */
 public class Employee {
-    private int badgeNr;
+    private int badgeNR;
     private String name;
     private String available;
     private String function;
@@ -26,9 +26,9 @@ public class Employee {
     private LocalDateTime start;
     private LocalDateTime end;
     
-    public Employee(int badgeNr, String name, String function, String available, String department, String region, String commune, String level, String team, 
+    public Employee(int badgeNR, String name, String function, String available, String department, String region, String commune, String level, String team, 
             Report assignedTo, LocalDateTime start, LocalDateTime end){
-        this.badgeNr = badgeNr;
+        this.badgeNR = badgeNR;
         this.name = name;
         this.available = available;
         this.function = function;
@@ -43,10 +43,10 @@ public class Employee {
     }
     
     /**
-     * @return the name
+     * @return the badgenummer as String
      */
-    public int getBadgeNr() {
-        return badgeNr;
+    public int getBadgeNR() {
+        return badgeNR; //String.valueOf(
     }
     
     /**
@@ -125,12 +125,23 @@ public class Employee {
     public LocalDateTime getEnd() {
         return end;
     }
+    
+    /**
+     * @return the title of report for tableview
+     */
+    public String getTitle() {
+        if(assignedTo != null){
+            return assignedTo.getTitle();
+        }else{
+            return " ";
+        }
+    }
 
     /**
      * @param badgeNr the badgenr to set
      */
     public void setBadgeNr(int badgeNr) {
-        this.badgeNr = badgeNr;
+        this.badgeNR = badgeNr;
     }
     
     /**
@@ -208,5 +219,15 @@ public class Employee {
      */
     public void setEnd(LocalDateTime end) {
         this.end = end;
+    }
+    
+    @Override
+    public String toString(){
+        return this.name + " " + this.function;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
