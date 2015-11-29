@@ -5,6 +5,7 @@
  */
 package cims;
 
+import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -28,24 +29,21 @@ public class ControlRoom extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws IOException {
+        
+        /*
 
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/ControlRoom.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/ControlRoom.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();*/
 
-            /*
-             Pane controlRoom = (Pane)FXMLLoader.load(CIMS.class.getResource("/gui/ControlRoom.fxml"));
-             Scene scene = new Scene(controlRoom);
-             stage.setScene(scene);
-             stage.setTitle("Control Room");
-             stage.show();
-             */
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
+        
+         Pane controlRoom = (Pane)FXMLLoader.load(CIMS.class.getResource("/gui/ControlRoom.fxml"));
+         Scene scene = new Scene(controlRoom);
+         stage.setScene(scene);
+         stage.setTitle("Control Room");
+         stage.show();
+         
     }
 }
