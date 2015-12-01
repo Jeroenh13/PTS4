@@ -119,7 +119,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         setIncidents(); 
     }    
     
-    
+    /**
+     * Method for setting i8 settings
+     * @param evt 
+     */
     public void setLocale(Event evt) {
         if(localeSettings.tempLocale == 0)
         {
@@ -139,12 +142,21 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method to select (add, adjust or remove) values for the search due to the combo-boxes
+     * @param evt 
+     */
     public void select(Event evt) {
         ComboBox combo = (ComboBox) evt.getSource(); 
         String value = comboBoxes.get(combo);
         adjustSpecification(value, (String) combo.getSelectionModel().getSelectedItem());
     }
     
+    /**
+     * Method being fired by clicking on the button to search employees with previously selected values at the combo-boxes 
+     * and values of the text-fields 
+     * @param evt 
+     */
     public void search(Event evt) { 
         int badgeNr;  
         if(evt.getSource() == btnSearchAss || evt.getSource() == btnSavePersons){
@@ -166,6 +178,11 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method being fired when switching tabs
+     * Selecting an other tab will reset the content of the new selected tab
+     * @param evt 
+     */
     public void tabSwitch(Event evt){
         Tab tab = (Tab) evt.getSource();
         
@@ -180,6 +197,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method to place and set labels and combo-boxes with values for selection
+     */
     private void makeComboBoxesAndColumns(){
         comboBoxes = new HashMap<>();
         int width = 185;
@@ -265,6 +285,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tvAssign.setItems(getHelpline().getEmployeesAss());
     }
     
+    /**
+     * Method to add a column to the assign and overview tab
+     * @param key 
+     */
     private void setTables(String key){
         TableColumn tc = new TableColumn();
         TableColumn tcAss = new TableColumn();
@@ -290,6 +314,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tvAssign.getColumns().add(tcAss);
     }
     
+    /**
+     * Method to set the report that aren't closed and to set action-events and values of corresponding controls
+     */
     private void setIncidents(){
         getIncidents();
         lvIncident.setItems(getHelpline().getReports());
@@ -424,7 +451,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             lblEndHours.setText(decimalFormat.format(new_val));
         });
         
-        this.tvOverview.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+        tvOverview.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             if(newValue.getAssignedTo() != null){
                 lblStartDate.setText("Startdatum en tijd: " +newValue.getAssignedTo().getStartDate().toString());
                 lblDescription.setText("Omschrijving:\n"+ newValue.getAssignedTo().getDescription());
@@ -435,6 +462,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         });
     }
     
+    /**
+     * Method to add a employee to a reserved list for employees of a report
+     * @param evt 
+     */
     public void addEmployeeToReport(Event evt){
         if(getSelectedEmployee() != null){
             if(getSelectedEmployee().getAssignedTo() == null){
@@ -452,6 +483,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method to give an information alert when needed
+     * @param message 
+     */
     private void giveAlartInformation(String message){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
@@ -461,12 +496,20 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         alert.showAndWait();
     }
     
+    /**
+     * Method being called by a event to remove a employee from the reserved list for a report 
+     * @param evt 
+     */
     public void removeEmployeeToReport(Event evt){
         if(this.lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
             removeEmployee();
         }
     }
     
+    /**
+     * Method being called by a event to save the adjusted, removed and added employees for a specific report
+     * @param evt 
+     */
     public void saveEmployeeToReport(Event evt){
         Employee lastSelect = null;
         if(lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
@@ -492,6 +535,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method to reset the combo-boxes on the gridpane of the unitassign tab
+     */
     private void resetSearchControlsAss(){
         if(comboBoxes != null){
             for (Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){
@@ -506,6 +552,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tfNameAss.setText(""); 
     }
     
+    /**
+     * Method to reset the combo-boxes on the gridpane of the overview tab
+     */
     private void resetSearchControls(){
         if(comboBoxes != null){
             for (Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){
@@ -520,10 +569,14 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tfName.setText("");
     }
     
+    /**
+     * Method to get en set the new LocalDataTime values for the start-date and end-date of the employee
+     * @param emp 
+     */
     private void adjustAddedPerson(Employee emp){
         if(getEmployeesForReport().contains(emp)){ 
-            LocalDateTime start = emp.getStart();
-            LocalDateTime end = emp.getEnd();
+            LocalDateTime start;
+            LocalDateTime end;
 
             if(dtpBeginDateAss.getValue() != null){
                 LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
