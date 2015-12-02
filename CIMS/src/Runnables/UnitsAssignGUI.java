@@ -3,30 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package Runnables;
 
 import i18n.localeSettings;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
  *
- * @author Jeroen Hendriks
+ * @author Anna-May
  */
-public class OnTheRoadController extends Application {
-
-     @Override
+public class UnitsAssignGUI 
+extends Application
+{
+    
+    @Override
     public void start(Stage stage) throws Exception {
        
-        Parent root = FXMLLoader.load(getClass().getResource("OnTheRoad.fxml"),localeSettings.getResourceBundle());
+        Parent root = FXMLLoader.load(getClass().getResource("unitsAssign.fxml"),localeSettings.getResourceBundle());
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
