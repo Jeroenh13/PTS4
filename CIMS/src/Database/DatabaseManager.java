@@ -10,6 +10,7 @@ import java.sql.CallableStatement;
 import cims.Helpline;
 import cims.Report;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -150,13 +151,18 @@ public class DatabaseManager {
                     endEmp = LocalDateTime.parse(values.get("end"), formatter);
                 }
                 
-                int badgeNr = Integer.parseInt(values.get("badgeNR"));
+                int badgeNr = -1;
+                if(values.get("badgeNR")!= null){
+                    badgeNr = Integer.parseInt(values.get("badgeNR"));
+                }
+                
                 Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"),values.get("level"), values.get("team"),report,startEmp,endEmp);
                 employees.add(employee);
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong");
             System.out.println(ex.getMessage());
+            System.out.println(ex);
         }
         finally{
             closeConnection();
@@ -254,6 +260,35 @@ public class DatabaseManager {
         return specificationValues;
     }
     
+    public ObservableList getNewIncidents(String query, ObservableList<Report> reports) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery(query);
+            while (result.next()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                LocalDateTime start = LocalDateTime.parse(result.getString("start"), formatter);
+                reports.add(new Report(result.getInt("reportID"), result.getString("description"), result.getString("title"), start, null));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return reports;
+    }
+    
     public ObservableList getIncidents(String query, ObservableList<Report> reports) {
         if (!openConnection()) {
             return null;
@@ -282,6 +317,182 @@ public class DatabaseManager {
         
         return reports;
     }
+    
+    public int getIdHelpLineReport(int reportID, String helpline){
+        int id = -1;
+        
+        String query = "SELECT * from `helplinereport` `hr`, `helpline` `h` WHERE `ReportID` ="+reportID+" AND `h`.`HelplineID` = `hr`.`HelplineID` AND `Name`= '" + helpline +"'";
+        
+        if (!openConnection()) {
+            return id;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery(query);
+            while (result.next()) {
+                id = result.getInt("ID");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return id;
+    }
+    
+    public boolean updateEmployeeForReport(Employee emp, Report report, String helpline){
+        
+        boolean succes = false;
+        
+        int id = getIdHelpLineReport(report.getReportID(), helpline);
+        
+        if (!openConnection()) {
+            return succes;
+        }
+        
+        String query;
+        Timestamp start = Timestamp.valueOf(emp.getStart());
+        Timestamp end;
+        if(emp.getEnd()!= null){
+            end = Timestamp.valueOf(emp.getEnd());
+            query = "UPDATE `helplinevehiclereport` SET `EmpFromDate` = STR_TO_DATE('"+ start.toString().substring(0, 19) +"','%Y-%c-%e %T') , `EmpTillDate` = STR_TO_DATE('"+ end.toString().substring(0, 19) +"','%Y-%c-%e %T') WHERE `EmployeeID` ="+ emp.getBadgeNR() +" AND `ReportID` = " + id + ";";
+        }else{
+            query = "UPDATE `helplinevehiclereport` SET `EmpFromDate` = STR_TO_DATE('"+ start.toString().substring(0, 19) +"','%Y-%c-%e %T'), `EmpTillDate` = null  WHERE `EmployeeID` ="+ emp.getBadgeNR() +" AND `ReportID` = " + id + ";";
+        }
+        
+        Statement statement = null;
+        try {
+            conn.setAutoCommit(true); 
+            statement = conn.createStatement();
+            int h = statement.executeUpdate(query);
+            System.out.println(h);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return succes;
+    }
+    
+    
+    
+    public boolean insertEmployeeForReport(Employee emp, Report report, String helpline){
+        int id = getIdHelpLineReport(report.getReportID(), helpline);
+        
+        boolean succes = false;
+        if (!openConnection()) {
+            return succes;
+        }
+        
+        Timestamp start = Timestamp.valueOf(emp.getStart());
+        
+        String enddate = "null";
+        if(emp.getEnd()!= null){
+            Timestamp end;
+            end = Timestamp.valueOf(emp.getEnd());
+            enddate = end.toString().substring(0, 19);
+            enddate = "STR_TO_DATE('" + enddate.substring(0, 19)+ "' ,'%Y-%c-%e %T')";
+        }
+        
+        String query = "INSERT INTO `helplinevehiclereport` (`EmployeeID`, `ReportID`, `EmpFromDate`, `EmpTillDate`) VALUES ("+ emp.getBadgeNR()+","+id+", STR_TO_DATE('"+ start.toString().substring(0, 19)+ "' ,'%Y-%c-%e %T'), " + enddate +");";
+        
+        Statement statement = null;
+        try {
+            conn.setAutoCommit(true); 
+            statement = conn.createStatement();
+            statement.executeUpdate(query);
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            try {
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return succes;
+    }
+//    public boolean saveEmployeeForReport(Report report, ObservableList<Employee> employees) { // ArrayList<String> queries
+//        boolean succes = false;
+//        String queryUpdate = "UPDATE helplinevehiclereport SET EmpFromDate = ? ,EmpTillDate = ? WHERE EmployeeID = ? AND ReportID = ?;";
+//        String queryInsert = "INSERT INTO helplinevehiclereport (EmployeeID, ReportID, EmpFromDate, EmpTillDate) VALUES (? ,? ,?, ?);";
+//        
+//        if (!openConnection()) {
+//            return succes;
+//        }
+//        
+//        try {
+//            boolean found = false;
+//            for(Employee emp: employees){
+//                //PreparedStatement preparedStmt = null;
+//                Statement statement = null;
+//                conn.setAutoCommit(true); 
+//                for(Employee empR: report.getEmployees()){
+//                    if(empR.getBadgeNR() == emp.getBadgeNR()){
+//                        found = true;
+//                        Timestamp timestamp = Timestamp.valueOf(emp.getStart());
+//                        java.sql.Timestamp date = new java.sql.Timestamp(timestamp.getTime()); // IN_TIMESTAMP_FORMAT.parse( (String)value ).getTime() , IN_TIMESTAMP_FORMAT.parse( emp.getStart().toString()).getTime().get
+//                        //preparedStmt = conn.prepareStatement(queryUpdate);
+//                        //statement.executeQuery(query);
+////                        preparedStmt.setTimestamp(1, date);
+////                        //preparedStmt.setString(1, emp.getStart().toString());
+////                        if(emp.getEnd()!= null){
+////                            Timestamp timesp = Timestamp.valueOf(emp.getEnd());
+////                            java.sql.Timestamp datee = new java.sql.Timestamp(timesp.getTime());
+////                            preparedStmt.setTimestamp(2, datee);
+////                            
+////                            //preparedStmt.setString(2, emp.getEnd().toString());
+////                        }else{
+////                            //preparedStmt.setString(2, "");
+////                            preparedStmt.setTimestamp(2, null);
+////                        }
+////                        preparedStmt.setInt(3, emp.getBadgeNR());
+////                        preparedStmt.setInt(4, report.getReportID());
+//                    }
+//                }
+//
+//                if(found == false){
+//                    preparedStmt = conn.prepareStatement(queryInsert);
+//                    preparedStmt.setInt(1, emp.getBadgeNR());
+//                    preparedStmt.setInt(2, report.getReportID());
+//                    preparedStmt.setString(3, emp.getStart().toString());
+//                    preparedStmt.setString(4, emp.getEnd().toString());
+//                    boolean f= preparedStmt.execute();
+//                    System.out.println(f);
+//                    //preparedStmt.get
+//                }else{
+//                    //int f = preparedStmt.executeUpdate();
+//                    boolean f= preparedStmt.execute();
+//                    System.out.println(f);
+//                }
+//
+//                found = false;
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        finally{
+//            closeConnection();
+//        }
+//        return succes;
+//    }
     
     // </editor-fold>
 

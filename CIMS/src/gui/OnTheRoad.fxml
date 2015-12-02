@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1009.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OnTheRoadFXController">
+   <children>
+      <SplitPane dividerPositions="0.2313803376365442, 0.7428003972194638" layoutX="59.0" layoutY="91.0" prefHeight="453.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0">
+               <children>
+                  <Label layoutX="77.0" layoutY="14.0" text="Info" textAlignment="CENTER">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true" />
+                  <MediaView fx:id="mvTest" fitHeight="200.0" fitWidth="200.0" layoutX="15.0" layoutY="391.0" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="396.0">
+               <children>
+                  <TableView fx:id="tvjfjfjfjffjjfjjfjfjjfjfjfff" layoutX="14.0" layoutY="14.0" prefHeight="601.0" prefWidth="483.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <columns>
+                        <TableColumn minWidth="-1.0" prefWidth="483.0" text="Column X" />
+                     </columns>
+                  </TableView>
+               </children></AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="377.0">
+               <children>
+                  <TextArea fx:id="taChat" layoutX="14.0" layoutY="14.0" prefHeight="496.0" prefWidth="269.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                  <TextField fx:id="tfSendChat" layoutX="14.0" layoutY="523.0" prefHeight="97.0" prefWidth="213.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="66.0" />
+                  <Button fx:id="btnSendChat" layoutX="227.0" layoutY="523.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="47.0" text="Stuur" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

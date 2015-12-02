@@ -180,6 +180,8 @@ public class Employee {
     }
     
     /**
+     * Sets commune
+     * 
      * @param commune the commune to set
      */
     public void setCommune(String commune) {
@@ -187,6 +189,8 @@ public class Employee {
     }
     
     /**
+     * Sets report that employee is assigned to
+     * 
      * @param assignedTo the assigned to report to set
      */
     public void setAssignedTo(Report assignedTo) {
@@ -194,6 +198,8 @@ public class Employee {
     }
     
     /**
+     * Sets level
+     * 
      * @param level the level to set
      */
     public void setLevel(String level) {
@@ -201,6 +207,8 @@ public class Employee {
     }
     
     /**
+     * Sets team 
+     * 
      * @param team the team to set
      */
     public void setTeam(String team) {
@@ -208,6 +216,8 @@ public class Employee {
     }
     
     /**
+     * Sets the start time and date for an employee that is set on a report
+     * 
      * @param start the start to set
      */
     public void setStart(LocalDateTime start) {
@@ -215,17 +225,29 @@ public class Employee {
     }
     
     /**
+     * Sets the end time and date for an employee that is set on a report
+     * 
      * @param end the end to set
      */
     public void setEnd(LocalDateTime end) {
         this.end = end;
     }
     
+    /**
+     * Method to return a string of employee (name and function) 
+     * Example of use is the display (listbox) of employees being set for a report at unit assign
+     * @return string with name and function of employee
+     */
     @Override
     public String toString(){
         return this.name + " " + this.function;
     }
     
+    /**
+     * Method to get a clone of this object (Employee)
+     * @return a clone of this object (Employee)
+     * @throws CloneNotSupportedException 
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

@@ -29,7 +29,6 @@ public class Helpline implements Serializable{
     private ObservableList<Employee> employees; 
     private ObservableList<Employee> employeesAss;
     private ObservableList<Report> reports;
-    //private QueryBuilder queryBuilder;
     
     /**
      * initializes an empty Helpline
@@ -61,7 +60,7 @@ public class Helpline implements Serializable{
     }
 
     /**
-     * sets the ID
+     * Sets the ID
      *
      * @param ID ID to be set
      */
@@ -71,6 +70,8 @@ public class Helpline implements Serializable{
 
     
     /**
+     * Gets the name
+     * 
      * @return the name
      */
     public String getName() {
@@ -78,6 +79,8 @@ public class Helpline implements Serializable{
     }
 
     /**
+     * Sets the name
+     * 
      * @param name the name to set
      */
     public void setName(String name) {
@@ -96,6 +99,18 @@ public class Helpline implements Serializable{
         return reports;
     }
     
+    /**
+     * Method to receive employees given by the database-manager with selected specifications
+     * 
+     * @param specificationTypes
+     * @param mySpecifications
+     * @param ass
+     * @param name
+     * @param badgeNr
+     * @param incident
+     * @param fromDate
+     * @param tillDate 
+     */
     public void searchEmployees(HashMap<String, ObservableList> specificationTypes, HashMap<String, String> mySpecifications, boolean ass,String name, int badgeNr, String incident, LocalDate fromDate, LocalDate tillDate)
     {   
         String query = QueryBuilder.search(ass, mySpecifications, name, badgeNr, incident, fromDate, tillDate, this.name);
@@ -106,8 +121,14 @@ public class Helpline implements Serializable{
         }
     }
     
+    /**
+     * Method to receive report given by the database-manager and bind employees to them
+     */
     public void getIncidents(){
-        String query = QueryBuilder.getIncidentsHelpline(this.name);
+        reports.clear();
+        String query = QueryBuilder.getNewIncidentsHelpline(this.name);
+        dbm.getNewIncidents(query, reports);
+        query = QueryBuilder.getIncidentsHelpline(this.name);
         dbm.getIncidents(query, reports);
         
         // bind employees to report
@@ -128,7 +149,24 @@ public class Helpline implements Serializable{
      * @return a list of helplines
      */
     public ArrayList<Helpline> getLines() {
-        //dbm = new DatabaseManager();
         return dbm.getHelpLines();
+    }
+    
+    /**
+     * Method to get an employee of a helpline with ID
+     * 
+     * @param id
+     * @return an employee
+     */
+    public Employee getEmployeeWithID(int id){
+        Employee emp = null;
+        
+        for(Employee emplo: this.employeesAss){
+                if(emplo.getBadgeNR() == id){
+                    emp = emplo;
+                }
+        }
+        
+        return emp;
     }
 }

@@ -5,6 +5,8 @@
  */
 package Database;
 
+import cims.Employee;
+import cims.Report;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,4 +100,30 @@ public final class QueryBuilder {
         String query = "SELECT DISTINCT reportID ,title, helpline, description, ReportStartDate FROM vwEmployeeAss WHERE helpline = '"+ helpline +"' AND ReportStartDate is not null;";
         return query;
     }
+    
+    public static String getNewIncidentsHelpline(String helpline){
+        String query = "SELECT DISTINCT reportID ,title, name, description, start FROM vwnewreport WHERE name = '"+ helpline +"';";
+        return query;
+    }
+    
+//    public static ArrayList<String> saveEmpsForReport(Report report, ObservableList<Employee> employees){
+//        ArrayList<String> queries = new ArrayList<>();
+//        boolean found = false;
+//        
+//        for(Employee emp: employees){
+//            for(Employee empR: report.getEmployees()){
+//                if(empR.getBadgeNR() == emp.getBadgeNR()){
+//                    found = true;
+//                    queries.add("UPDATE helplinevehiclereport SET EmpFromDate ="+ emp.getStart() +" , EmpTillDate ="+ emp.getEnd() +" WHERE EmployeeID ="+ emp.getBadgeNR() +" AND ReportID = " + report.getReportID()+ ";");
+//                }
+//            }
+//            
+//            if(found == false){
+//                queries.add("INSERT INTO helplinevehiclereport (EmployeeID, ReportID, EmpFromDate, EmpTillDate) VALUES (" + emp.getBadgeNR() + ", " + report.getReportID() + ", " + emp.getStart() +", "+emp.getEnd()+ ");");
+//            }
+//            
+//            found = false;
+//        }
+//        return queries;
+//    }
 }
