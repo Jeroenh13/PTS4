@@ -6,7 +6,6 @@
 package ChatServer;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +27,7 @@ public class ChatClient {
     private static ObjectInputStream in;
     private static OutputStream outStream;
     private static ObjectOutputStream out;
-    private static int port = 9993;
+    private final static int port = 9993;
 
     /**
      * @param args the command line arguments

@@ -20,19 +20,25 @@ import java.util.logging.Logger;
  *
  * @author Bas
  */
-public class ClientReceving extends Observable implements Runnable {
+public class ClientReceiving extends Observable implements Runnable {
 
     private Socket client;
     private InputStream inStream;
     private ObjectInputStream in;
     private OutputStream outStream;
     private ObjectOutputStream out;
-    private int port = 9992;
+    private final int port = 9992;
 
-    public ClientReceving() {
+    /**
+     * Creates a new receiving Client
+     */
+    public ClientReceiving() {
 
     }
 
+    /**
+     * Receives stuffs
+     */
     @Override
     public void run() {
         try {
@@ -47,10 +53,8 @@ public class ClientReceving extends Observable implements Runnable {
                 setChanged();
                 notifyObservers();
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ClientReceving.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ClientReceving.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(ClientReceiving.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

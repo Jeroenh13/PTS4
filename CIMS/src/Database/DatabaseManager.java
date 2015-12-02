@@ -13,10 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,6 +26,9 @@ public class DatabaseManager {
 
     private Connection conn = null;
 
+    /**
+     * Creates a DatabaseManager
+     */
     public DatabaseManager() {
     }
 
@@ -103,6 +103,13 @@ public class DatabaseManager {
     }
     
     // <editor-fold desc="UnitsAssign">
+    /**
+     * Gets the employees by a specific type
+     * @param query query to get the employees
+     * @param specificationTypes types to be searched on
+     * @param employees ObservableList that will be observed
+     * @return ObservableList with the employees
+     */
     public ObservableList<Employee> getEmployees(String query, HashMap<String, ObservableList> specificationTypes, ObservableList<Employee> employees) {
         HashMap<String, String> values = new HashMap<>();
         int level;
@@ -164,7 +171,12 @@ public class DatabaseManager {
         return employees;
     }
     
-    public HashMap<String, ObservableList> getSpeciafications(HashMap<String, ObservableList> specifications) {
+    /**
+     * Gets a certain type of specification
+     * @param specifications 
+     * @return 
+     */
+    public HashMap<String, ObservableList> getSpecifications(HashMap<String, ObservableList> specifications) {
         String query = "DESCRIBE vwemployee";
         String type;
         String spec;
@@ -316,6 +328,10 @@ public class DatabaseManager {
         return succes;
     }
 
+    /**
+     * Gets all helplines in the database
+     * @return All helplines.
+     */
     public ArrayList getHelpLines() {
         if (!openConnection()) {
             return null;

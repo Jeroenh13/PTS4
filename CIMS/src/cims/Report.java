@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
  */
 public class Report implements Serializable {
 
-    private DatabaseManager dbm;
+    private transient DatabaseManager dbm;
     private int reportID;
     private String description;
     private String extraInformation;
@@ -77,12 +77,9 @@ public class Report implements Serializable {
         this.weather = weather;
         this.helpLines = helpline;
         this.title = title;
+        this.employees = FXCollections.observableArrayList();
     }
-
-    public Report(String description, String title) {
-
-    }
-
+    
     /**
      * gets the report ID
      *
@@ -191,6 +188,10 @@ public class Report implements Serializable {
         this.title = title;
     }
 
+    /**
+     * Inserts the report into the database and sends it to the server.
+     * @return if it succeeded
+     */
     public boolean saveReport() {
         boolean succes = false;
         dbm = new DatabaseManager();
@@ -207,31 +208,57 @@ public class Report implements Serializable {
         return succes;
     }
 
+    /**
+     * Gets the start date
+     * @return the startdate
+     */
     public LocalDateTime getStartDate() {
         return this.startDate;
     }
 
+    /**
+     * Adds an employee to the report
+     * @param emp the employee to be added
+     * @return Succeeded
+     */
     public boolean addEmployee(Employee emp) {
-        boolean succeded = false;
+        if(emp == null)return false;
+        boolean succeeded = false;
         if (!employees.contains(emp)) {
             this.employees.add(emp);
-            succeded = true;
+            succeeded = true;
         }
-        return succeded;
+        return succeeded;
     }
 
+    /**
+     * Removes an employee from the report
+     * @param emp employee to be removed
+     */
     public void removeEmployee(Employee emp) {
         this.employees.remove(emp);
     }
 
+    /**
+     * Gets all assigned employees to this report 
+     * @return The assigned employees
+     */
     public ObservableList<Employee> getEmployees() {
         return this.employees;
     }
 
+    /**
+     * Sets the employee list
+     * @param emps list with employees
+     */
     public void setEmployees(ObservableList<Employee> emps) {
         this.employees = emps;
     }
 
+    /**
+     * Returns the title
+     * @return title
+     */
     @Override
     public String toString() {
         return title;

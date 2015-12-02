@@ -20,13 +20,18 @@ import java.util.logging.Logger;
  */
 public class acceptServer implements Runnable {
 
-    private Socket socket;
-    private obvClass obv;
+    private final Socket socket;
+    private final obvClass obv;
     OutputStream outStream;
     InputStream inStream;
     ObjectInputStream in;
     ObjectOutputStream out;
 
+    /**
+     * Accepts a new socket and waits for an input(reports)
+     * @param accept Incoming socket
+     * @param obv Class to send over the reports.
+     */
     public acceptServer(Socket accept,obvClass obv) {
         this.socket = accept;
         this.obv = obv;
@@ -40,9 +45,7 @@ public class acceptServer implements Runnable {
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
             obv.addNewReport(in.readObject());
-        } catch (IOException ex) {
-            Logger.getLogger(acceptServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(acceptServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

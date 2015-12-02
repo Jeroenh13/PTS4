@@ -57,7 +57,7 @@ public class UnitsAssignControler {
     }
     
     public void fillSpecificationsTypes(){     
-        dbm.getSpeciafications(specificationTypes);
+        dbm.getSpecifications(specificationTypes);
         String query = QueryBuilder.getSpecificationValues(helpline.getName(), specificationTypes);
         dbm.getSpeciaficationsValues(query,specificationTypes);
     }

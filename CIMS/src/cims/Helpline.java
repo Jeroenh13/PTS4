@@ -11,8 +11,6 @@ import Database.QueryBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -26,8 +24,8 @@ public class Helpline implements Serializable{
     
     private String name;
     private int ID;
-    private ObservableList<Employee> employees; 
-    private ObservableList<Employee> employeesAss;
+    private transient ObservableList<Employee> employees; 
+    private transient ObservableList<Employee> employeesAss;
     private ObservableList<Report> reports;
     //private QueryBuilder queryBuilder;
     
@@ -39,6 +37,8 @@ public class Helpline implements Serializable{
     
     /**
      * Creates a helpline with set values
+     * @param ID sets the id
+     * @param name sets the name
      */
     public Helpline(int ID,String name)
     {
@@ -124,7 +124,6 @@ public class Helpline implements Serializable{
     
     /**
      * Returns the helplines
-     *
      * @return a list of helplines
      */
     public ArrayList<Helpline> getLines() {

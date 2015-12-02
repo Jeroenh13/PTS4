@@ -22,19 +22,27 @@ import java.util.logging.Logger;
  */
 public class acceptServerRc implements Runnable, Observer {
 
-    private Socket socket;
-    private obvClass obv;
+    private final Socket socket;
+    private final obvClass obv;
 
     OutputStream outStream;
     InputStream inStream;
     ObjectInputStream in;
     ObjectOutputStream out;
 
+    /**
+     * Accepts a new socket on this port
+     * @param accept socket where there is an connection from
+     * @param obv class where there will be data from
+     */
     public acceptServerRc(Socket accept, obvClass obv) {
         this.socket = accept;
         this.obv = obv;
     }
 
+    /**
+     * Initializes and adds the observable and keeps the process alive.
+     */
     @Override
     public void run() {
         try {
@@ -50,6 +58,11 @@ public class acceptServerRc implements Runnable, Observer {
         }
     }
 
+    /**
+     * Sends a report when updated.
+     * @param o 
+     * @param arg 
+     */
     @Override
     public void update(Observable o, Object arg) {
         try {

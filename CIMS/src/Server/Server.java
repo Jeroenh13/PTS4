@@ -14,21 +14,25 @@ import java.net.ServerSocket;
  */
 public class Server {
 
-    public static obvClass o;
+    protected static obvClass o;
+    
+    /**
+     * Starts the server
+     * @param args 
+     */
     public static void main(String[] args) {
         o = new obvClass();
-        Runnable r = new Runnable() {
-
-            @Override
-            public void run() {
-                receivingServer();
-            }
+        Runnable r = () -> {
+            receivingServer();
         };
         Thread t = new Thread(r);
         t.start();
         sendingServer();
     }
 
+    /**
+     * creates a new server on port 9990 for incoming data
+     */
     public static void receivingServer() {
         ServerSocket serverSocket = null;
         try {
@@ -50,6 +54,9 @@ public class Server {
         }
     }
 
+    /**
+     * Creates a new server on port 9991 for sending over data
+     */
     public static void sendingServer() {
         ServerSocket serverSocket = null;
         try {

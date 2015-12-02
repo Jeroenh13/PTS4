@@ -6,7 +6,6 @@ import cims.cbItem;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -44,15 +43,17 @@ public class ControlRoomController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         lvEmergency.setItems(listItems);
         Helpline helpline = new Helpline();
-        for (Helpline help : helpline.getLines()) {
+        helpline.getLines().stream().forEach((help) -> {
             cbEmergency.getItems().add(new cbItem(help.getID(), help.getName()));
-        }
+        });
     }
 
     public void btnRemoveClick(Event evnt) {
@@ -62,9 +63,9 @@ public class ControlRoomController implements Initializable {
 
     public void btnSaveClick(Event evnt) {
         ArrayList lines = new ArrayList();
-        for (cbItem item : listItems) {
-            lines.add(new Helpline(item.getID(), item.toString()));        
-        }
+        listItems.stream().forEach((item) -> {
+            lines.add(new Helpline(item.getID(), item.toString()));
+        });
         report = new Report(0, taDescription.getText(), null, null, null,lines,txtTitle.getText() );
         if (report.saveReport()) {
             JOptionPane.showMessageDialog(null, "Succesvol toegevoegt", "Succes", 1);
