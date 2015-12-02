@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.sql.CallableStatement;
 import cims.Helpline;
 import cims.Report;
+import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -342,5 +343,28 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
+    }
+    
+    public boolean saveApproach(String approach, int helplineID, int reportID) {
+        boolean succes = false;
+        if (!openConnection()) {
+            return succes;
+        }
+        PreparedStatement statement = null;
+        try {
+            String query = "INSERT INTO helplinereport(helplineID, reportID, approach) VALUES (?,?,?)";
+            statement = conn.prepareStatement(query);
+            statement.setInt(1, helplineID);
+            statement.setInt(2, reportID);
+            statement.setString(3, approach);
+            statement.executeUpdate();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        finally{
+            closeConnection();
+        }
+        return succes;
     }
 }

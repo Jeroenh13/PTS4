@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CentralController">
+<AnchorPane id="AnchorPane" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CentralController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -22,7 +22,7 @@
                                     <TextField layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="300.0" />
                                     <Button layoutX="325.0" layoutY="14.0" mnemonicParsing="false" text="Zoek" />
                                     <Label layoutX="37.0" layoutY="79.0" text="Datum van:" />
-                                    <Label layoutX="37.0" layoutY="146.0" text="Lokctie:" />
+                                    <Label layoutX="37.0" layoutY="146.0" text="Lokatie:" />
                                     <Label layoutX="37.0" layoutY="209.0" text="Afgehandeld:" />
                                     <Label layoutX="37.0" layoutY="273.0" text="Nieuw:" />
                                     <ComboBox layoutX="155.0" layoutY="74.0" prefWidth="150.0" />
@@ -79,8 +79,6 @@
                         <Label layoutX="45.0" layoutY="70.0" text="Beschrijving:" />
                         <Label layoutX="45.0" layoutY="114.0" text="Locatie:" />
                         <Label layoutX="243.0" layoutY="114.0" text="Extra info locatie:" />
-                        <Label layoutX="45.0" layoutY="214.0" text="Soort ongeval:" />
-                        <ComboBox layoutX="243.0" layoutY="209.0" prefHeight="31.0" prefWidth="209.0" />
                         <Label layoutX="45.0" layoutY="278.0" text="Luchtalarm:" />
                         <Button layoutX="243.0" layoutY="273.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" text="Aan" />
                         <Button disable="true" layoutX="321.0" layoutY="273.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Uit" />
@@ -91,30 +89,58 @@
                         <ListView layoutX="243.0" layoutY="404.0" prefHeight="116.0" prefWidth="212.0" />
                         <Button layoutX="474.0" layoutY="399.0" mnemonicParsing="false" text="Route definieren" />
                         <Button layoutX="474.0" layoutY="489.0" mnemonicParsing="false" text="verwijder" />
-                        <Label layoutX="45.0" layoutY="574.0" text="Belangrijke sociale media berichten van het ongeval:" />
-                        <ListView layoutX="46.0" layoutY="603.0" prefHeight="343.0" prefWidth="560.0" />
-                        <Button layoutX="1764.0" layoutY="37.0" mnemonicParsing="false" text="Verken het gebied" />
-                        <Label layoutX="1206.0" layoutY="42.0" text="Weer:" />
-                        <Label layoutX="1208.0" layoutY="81.0" text="Temperatuur:" />
-                        <Label layoutX="1206.0" layoutY="125.0" text="Wind:" />
-                        <Label layoutX="1206.0" layoutY="165.0" text="Neerslag:" />
-                        <Label layoutX="1206.0" layoutY="214.0" text="Luchtvochtigheid:" />
-                        <Label layoutX="1206.0" layoutY="268.0" text="Verwachting binnen 2 uur:" />
-                        <Label layoutX="1206.0" layoutY="325.0" text="Plan van aanpak en aanwezigheid overzicht:" />
-                        <TabPane layoutX="1206.0" layoutY="366.0" prefHeight="583.0" prefWidth="542.0" tabClosingPolicy="UNAVAILABLE">
+                        <Label layoutX="699.0" layoutY="31.0" text="Belangrijke sociale media berichten van het ongeval:" />
+                        <ListView layoutX="699.0" layoutY="97.0" prefHeight="841.0" prefWidth="441.0" />
+                        <Button layoutX="546.0" layoutY="596.0" mnemonicParsing="false" text="Verken het gebied" />
+                        <Label layoutX="43.0" layoutY="601.0" text="Weer:" />
+                        <Label layoutX="45.0" layoutY="640.0" text="Temperatuur:" />
+                        <Label layoutX="43.0" layoutY="684.0" text="Wind:" />
+                        <Label layoutX="43.0" layoutY="724.0" text="Neerslag:" />
+                        <Label layoutX="43.0" layoutY="773.0" text="Luchtvochtigheid:" />
+                        <Label layoutX="43.0" layoutY="827.0" text="Verwachting binnen 2 uur:" />
+                        <Label layoutX="43.0" layoutY="884.0" text="Plan van aanpak en aanwezigheid overzicht:" />
+                        <TabPane layoutX="1206.0" layoutY="27.0" prefHeight="922.0" prefWidth="698.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Politie">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="518.0" />
-                                          <TableView layoutX="14.0" layoutY="267.0" prefHeight="263.0" prefWidth="519.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="C1" />
-                                              <TableColumn prefWidth="75.0" text="C2" />
-                                            </columns>
-                                          </TableView>
-                                          <Button layoutX="467.0" layoutY="225.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                          <TabPane layoutX="-1.0" prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
+                                            <tabs>
+                                              <Tab text="Voertuigen">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                              <columns>
+                                                                <TableColumn prefWidth="75.0" text="C1" />
+                                                                <TableColumn prefWidth="75.0" text="C2" />
+                                                              </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                              <Tab text="Plan van aanpak">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Button fx:id="btnSaveFirefighters1" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachFirefighters1" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                            </tabs>
+                                          </TabPane>
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -123,14 +149,42 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="518.0" />
-                                          <TableView layoutX="14.0" layoutY="267.0" prefHeight="263.0" prefWidth="519.0">
-                                             <columns>
-                                                <TableColumn prefWidth="75.0" text="C1" />
-                                                <TableColumn prefWidth="75.0" text="C2" />
-                                             </columns>
-                                          </TableView>
-                                          <Button layoutX="467.0" layoutY="225.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                          <TabPane prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
+                                             <tabs>
+                                                <Tab text="Voertuigen">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Plan van aanpak">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Button fx:id="btnSaveFirefighters11" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachFirefighters11" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                             </tabs>
+                                          </TabPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
@@ -139,33 +193,48 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TextArea layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="518.0" />
-                                          <TableView layoutX="14.0" layoutY="267.0" prefHeight="263.0" prefWidth="519.0">
-                                             <columns>
-                                                <TableColumn prefWidth="75.0" text="C1" />
-                                                <TableColumn prefWidth="75.0" text="C2" />
-                                             </columns>
-                                          </TableView>
-                                          <Button layoutX="467.0" layoutY="225.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                          <TabPane prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
+                                             <tabs>
+                                                <Tab text="Voertuigen">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Plan van aanpak">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <Button fx:id="btnSaveFirefighters111" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachFirefighters111" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                             </tabs>
+                                          </TabPane>
                                        </children>
                                     </AnchorPane>
                                  </content>
                               </Tab>
                           </tabs>
                         </TabPane>
-                     </children></AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Route Defineren">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="43.0" layoutY="44.0" text="Hulpdienst:" />
-                        <Label layoutX="43.0" layoutY="112.0" text="Vertrek locatie:" />
-                        <ComboBox layoutX="202.0" layoutY="39.0" prefHeight="31.0" prefWidth="186.0" />
-                        <TextField layoutX="202.0" layoutY="107.0" />
-                        <Button layoutX="414.0" layoutY="107.0" mnemonicParsing="false" text="Zoek" />
-                        <Button layoutX="28.0" layoutY="902.0" mnemonicParsing="false" text="Terug" />
                      </children></AnchorPane>
                </content>
             </Tab>
