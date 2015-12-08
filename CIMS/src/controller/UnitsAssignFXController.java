@@ -26,7 +26,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -112,11 +114,18 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
     public void initialize(URL url, ResourceBundle rb) {
         fillSpecificationsTypes();
         makeComboBoxesAndColumns();
-        search(true, "", -1, "", null, null);
-        search(false, "", -1, "", null, null);
         selectLvEmpsFirst = false;
         selectTvEmpsFirst = false;
         setIncidents(); 
+        
+        dtpFromDate.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                LocalDate date = dtpFromDate.getValue();
+                System.err.println("Selected date: " + date);
+            }
+        });
     }    
     
     /**
@@ -597,4 +606,17 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             this.adjustDate(start, end, emp);
         }
     }
+    
+//    private void selectDatePicker(Event evt){
+//        
+//        //DatePicker dp = (DatePicker) evt.getSource();
+////        if(dp.getValue().toString().equals("")){
+////            dp.setValue(null); 
+////        }
+//        //if(dp.getValue()!= null){
+//            //LocalDate date = dp.getValue();
+//            //System.out.println("Selected date: " + date);
+//        //}
+//        
+//    }
 }

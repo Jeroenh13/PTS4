@@ -231,7 +231,8 @@ public class UnitsAssignControler {
                 
                 
                 if(found == false){
-                    dbm.insertEmployeeForReport(emp, selectedReport, this.helpline.getName());
+                    //dbm.insertEmployeeForReport(emp, selectedReport, this.helpline.getName());
+                    dbm.saveEmployeeForReport(emp, selectedReport, this.helpline.getName());
                 }
 
                 found = false;

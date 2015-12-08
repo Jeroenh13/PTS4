@@ -8,6 +8,9 @@ package Database;
 import cims.Employee;
 import cims.Report;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,33 +52,33 @@ public final class QueryBuilder {
             queryGetPersons+= " AND ";
             queryGetPersons += "BadgeNR =" + badgeNr + " ";
         }
-//        if(fromDate != null && tillDate != null){
-//            queryGetPersons += "AND Name =" + name + " ";
-//        }
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss");
+        LocalDateTime start;
+        LocalDateTime end;
+        if(fromDate != null && tillDate != null){
+            // periode er tussen
+            start = LocalDateTime.of(fromDate, LocalTime.of(0,0,0));
+            end = LocalDateTime.of(tillDate, LocalTime.of(0,0,0));
+//            SELECT * FROM vwemployee 
+//WHERE helpline = 'Politie'
+//AND start >= STR_TO_DATE('2015-09-11','%Y-%c-%e %T') AND end <= STR_TO_DATE('2015-09-31','%Y-%c-%e %T');
+            queryGetPersons += "AND start >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND end <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T')";
+        }else if(fromDate == null && tillDate != null){
+            // maand voor tilldate
+            end = LocalDateTime.of(tillDate, LocalTime.of(0,0,0));
+            queryGetPersons += "AND start >='" + tillDate.minusMonths(3).format(formatter) + " AND end <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T')"; 
+        }else if(fromDate != null && tillDate == null){
+            // start tot sysdate
+            start = LocalDateTime.of(fromDate, LocalTime.of(0,0,0));
+            //LocalDateTime now = LocalDateTime.now();
+            queryGetPersons += "AND start >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND end <= " + "SYSDATE()";
+        }
         
         queryGetPersons += ";";
         
         return queryGetPersons;
     } 
-    
-//    public static String searchWithoutDate(HashMap hmAssignValues){
-//        String queryGetPersonsAss = "SELECT * FROM vwemployee";
-//        
-//        if(!hmAssignValues.isEmpty()){
-//            queryGetPersonsAss+= " WHERE ";
-//            
-//            Iterator it = hmAssignValues.entrySet().iterator();
-//            while (it.hasNext()) {
-//                Map.Entry entry = (Map.Entry)it.next();
-//                queryGetPersonsAss +="AND " + entry.getKey() + " = " + entry.getValue();
-//                //it.remove(); // avoids a ConcurrentModificationException
-//            }
-//        }
-//
-//        queryGetPersonsAss += ";";
-//        
-//        return queryGetPersonsAss;
-//    }
 
     public static String getSpecificationValues(String helpline, HashMap<String, ObservableList> specifications){
         String querySpecValues = "SELECT ";
@@ -102,28 +105,7 @@ public final class QueryBuilder {
     }
     
     public static String getNewIncidentsHelpline(String helpline){
-        String query = "SELECT DISTINCT reportID ,title, name, description, start FROM vwnewreport WHERE name = '"+ helpline +"';";
+        String query = "SELECT reportID ,title, description, start FROM vwhelplinereport WHERE helpline = '"+ helpline + "' and end is null;";
         return query;
     }
-    
-//    public static ArrayList<String> saveEmpsForReport(Report report, ObservableList<Employee> employees){
-//        ArrayList<String> queries = new ArrayList<>();
-//        boolean found = false;
-//        
-//        for(Employee emp: employees){
-//            for(Employee empR: report.getEmployees()){
-//                if(empR.getBadgeNR() == emp.getBadgeNR()){
-//                    found = true;
-//                    queries.add("UPDATE helplinevehiclereport SET EmpFromDate ="+ emp.getStart() +" , EmpTillDate ="+ emp.getEnd() +" WHERE EmployeeID ="+ emp.getBadgeNR() +" AND ReportID = " + report.getReportID()+ ";");
-//                }
-//            }
-//            
-//            if(found == false){
-//                queries.add("INSERT INTO helplinevehiclereport (EmployeeID, ReportID, EmpFromDate, EmpTillDate) VALUES (" + emp.getBadgeNR() + ", " + report.getReportID() + ", " + emp.getStart() +", "+emp.getEnd()+ ");");
-//            }
-//            
-//            found = false;
-//        }
-//        return queries;
-//    }
 }

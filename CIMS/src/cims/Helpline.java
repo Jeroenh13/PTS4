@@ -128,8 +128,8 @@ public class Helpline implements Serializable{
         reports.clear();
         String query = QueryBuilder.getNewIncidentsHelpline(this.name);
         dbm.getNewIncidents(query, reports);
-        query = QueryBuilder.getIncidentsHelpline(this.name);
-        dbm.getIncidents(query, reports);
+        //query = QueryBuilder.getIncidentsHelpline(this.name);
+        //dbm.getIncidents(query, reports);
         
         // bind employees to report
         for(Employee emp: employeesAss){
