@@ -5,6 +5,7 @@
  */
 package ChatServer;
 
+import Server.StaticIPs;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +29,6 @@ public class ChatClient {
     private static ObjectInputStream in;
     private static OutputStream outStream;
     private static ObjectOutputStream out;
-    private final static int port = 9993;
 
     /**
      * @param args the command line arguments
@@ -39,7 +39,7 @@ public class ChatClient {
             
            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             
-            client = new Socket("145.93.100.194", port);
+            client = new Socket(StaticIPs.chatIP, StaticIPs.chatPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();

@@ -36,9 +36,9 @@ public class Server {
     public static void receivingServer() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(9992);
+            serverSocket = new ServerSocket(StaticIPs.chatPort);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 9990.");
+            System.err.println("Could not listen on port: " + StaticIPs.chatPort + ".");
             System.exit(1);
         }
 
@@ -55,12 +55,12 @@ public class Server {
     }
 
     /**
-     * Creates a new server on port 9991 for sending over data
+     * Creates a new server on port StaticIPs.serverPortSend for sending over data
      */
     public static void sendingServer() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(9991);
+            serverSocket = new ServerSocket(StaticIPs.serverPortSend);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 9991.");
             System.exit(1);

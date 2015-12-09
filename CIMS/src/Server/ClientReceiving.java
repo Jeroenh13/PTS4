@@ -27,7 +27,6 @@ public class ClientReceiving extends Observable implements Runnable {
     private ObjectInputStream in;
     private OutputStream outStream;
     private ObjectOutputStream out;
-    private final int port = 9992;
 
     /**
      * Creates a new receiving Client
@@ -43,7 +42,7 @@ public class ClientReceiving extends Observable implements Runnable {
     public void run() {
         try {
             // TODO code application logic here
-            client = new Socket("192.168.178.11", port);
+            client = new Socket(StaticIPs.serverIP, StaticIPs.serverPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();

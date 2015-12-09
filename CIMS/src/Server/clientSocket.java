@@ -26,11 +26,10 @@ public class clientSocket {
     private ObjectInputStream in;
     private OutputStream outStream;
     private ObjectOutputStream out;
-    private int port = 9991;
 
     public clientSocket(Report r) {
         try {
-            client = new Socket("192.168.178.11", port);
+            client = new Socket(StaticIPs.serverIP, StaticIPs.serverPortSend);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();

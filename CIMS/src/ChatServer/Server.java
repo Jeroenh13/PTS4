@@ -5,6 +5,7 @@
  */
 package ChatServer;
 
+import Server.StaticIPs;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.logging.Level;
@@ -18,9 +19,9 @@ public class Server {
     public static void main(String[] args) {
          ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(9993);
+            serverSocket = new ServerSocket(StaticIPs.chatPort);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 9993.");
+            System.err.println("Could not listen on port: " + StaticIPs.chatPort + ".");
             System.exit(1);
         }
 
