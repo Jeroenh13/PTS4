@@ -26,7 +26,7 @@ public class OnTheRoadController extends Application {
      @Override
     public void start(Stage stage) throws Exception {
        
-        Parent root = FXMLLoader.load(getClass().getResource("LoginOnTheRoad.fxml"),localeSettings.getResourceBundle());
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/OnTheRoad.fxml"),localeSettings.getResourceBundle());
         
         Scene scene = new Scene(root);
         stage.setScene(scene);

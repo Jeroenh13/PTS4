@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Server.StaticIPs;
+import controller.OnTheRoadFXController;
 
 /**
  *
@@ -31,10 +32,7 @@ public class ChatClient extends Observable implements Runnable {
     
     @Override
     public void run() {
-          try {
-            // TODO code application logic here
-            
-            
+          try {          
             client = new Socket(StaticIPs.chatIP,StaticIPs.chatPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
