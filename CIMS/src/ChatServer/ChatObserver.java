@@ -21,12 +21,10 @@ class ChatObserver extends Observable {
     protected static HashSet<ChatObserver> chats = new HashSet<ChatObserver>();
 
     protected String getText() {
-        System.out.println("Get text");
         return text;
     }
 
     protected void setText(String text) {
-        System.out.println("Set text");
         this.text = text;
         setChanged();
         notifyObservers();
