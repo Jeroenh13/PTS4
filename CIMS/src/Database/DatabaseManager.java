@@ -368,7 +368,7 @@ public class DatabaseManager {
         Statement statement = null;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = " + userName + " and inlogpassword = " + password);
+            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = '" + userName + "' and inlogpassword = '" + password +"'");
             Employee e = null;
             while(result.next()){
                 e = new Employee(result.getInt("employeeID"),result.getString("Name"),new Helpline(result.getInt("HelplineID")));
@@ -413,5 +413,6 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
+        return null;
     }
 }

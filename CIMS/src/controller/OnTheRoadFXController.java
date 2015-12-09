@@ -7,6 +7,8 @@
 package controller;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +20,7 @@ import javafx.scene.media.MediaView;
  *
  * @author Jeroen Hendriks
  */
-public class OnTheRoadFXController implements Initializable {
+public class OnTheRoadFXController implements Initializable,Observer {
     private static final String MEDIA_URL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
     private static String arg1;
     @FXML MediaView mvTest;
@@ -27,7 +29,14 @@ public class OnTheRoadFXController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Media media = new Media((arg1 != null) ? arg1 : MEDIA_URL);
         MediaPlayer mp = new MediaPlayer(media);
-        mp.setAutoPlay(true);
+        //mp.setAutoPlay(true);
         mvTest.mediaPlayerProperty().set(mp);
+        
+        
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        
     }
 }

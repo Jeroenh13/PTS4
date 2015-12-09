@@ -5,48 +5,42 @@
  */
 package ChatServer;
 
-import Server.StaticIPs;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import Server.StaticIPs;
 
-//test
 /**
  *
  * @author Bas
  */
-public class ChatClient {
+public class ChatClient extends Observable implements Runnable {
 
-    private static Socket client;
-    private static InputStream inStream;
-    private static ObjectInputStream in;
-    private static OutputStream outStream;
-    private static ObjectOutputStream out;
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws ClassNotFoundException {
-        try {
+    private Socket client;
+    private ChatObserver chatObv;
+    private InputStream inStream;
+    private ObjectInputStream in;
+    private OutputStream outStream;
+    private ObjectOutputStream out;
+    
+    @Override
+    public void run() {
+          try {
             // TODO code application logic here
             
-           BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             
-            client = new Socket(StaticIPs.chatIP, StaticIPs.chatPort);
+            client = new Socket(StaticIPs.chatIP,StaticIPs.chatPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
             
-            System.out.println("Enter chat room.");
-            out.writeObject(Integer.valueOf(br.readLine()));
             Thread t =  new Thread(new Runnable() {
 
                 @Override
@@ -66,15 +60,17 @@ public class ChatClient {
                 }
             });
             t.start();
-            while (true) {
-                System.out.println("Waiting for input");
-                String read = br.readLine();
-                if(!read.isEmpty())
-                    out.writeObject(read);
-            }
+    }   catch (IOException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        }}
+    
+    
+    public void setText(String text)
+    {
+        try {
+            out.writeObject(text);
         } catch (IOException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }
