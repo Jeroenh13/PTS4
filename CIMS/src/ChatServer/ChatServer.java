@@ -38,10 +38,7 @@ public class ChatServer implements Runnable, Observer {
     @Override
     public void run() {
 
-        System.out.println("Run");
         try {
-            System.out.println("Added OBV");
-            
             outStream = client.getOutputStream();
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
@@ -55,11 +52,13 @@ public class ChatServer implements Runnable, Observer {
                 {
                     chatObv = chat;
                     found = true;
+                    break;
                 }
             }
             if(!found)
             {
                 chatObv = new ChatObserver(id);
+                ChatObserver.chats.add(chatObv);
             }
             chatObv.addObserver(this);
 
@@ -77,11 +76,10 @@ public class ChatServer implements Runnable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         try {
-
-            System.out.println("Sending Text");
             out.writeObject(((ChatObserver) o).getText());
         } catch (IOException ex) {
-            Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
+            chatObv.deleteObserver(this);
+            System.out.println("Observer disconnected.");
         }
     }
 
