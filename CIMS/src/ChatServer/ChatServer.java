@@ -66,9 +66,7 @@ public class ChatServer implements Runnable, Observer {
             while (true) {
                 chatObv.setText((String) in.readObject());
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -77,6 +75,7 @@ public class ChatServer implements Runnable, Observer {
     public void update(Observable o, Object arg) {
         try {
             out.writeObject(((ChatObserver) o).getText());
+            System.out.println(((ChatObserver) o).getText());
         } catch (IOException ex) {
             chatObv.deleteObserver(this);
             System.out.println("Observer disconnected.");

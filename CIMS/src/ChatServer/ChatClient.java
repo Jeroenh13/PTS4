@@ -29,46 +29,46 @@ public class ChatClient extends Observable implements Runnable {
     private ObjectInputStream in;
     private OutputStream outStream;
     private ObjectOutputStream out;
-    
+    private String text;
+    private int id;
+
+    public ChatClient(int id) {
+        this.id = id;
+    }
+
     @Override
     public void run() {
-          try {          
-            client = new Socket(StaticIPs.chatIP,StaticIPs.chatPort);
+        try {
+            client = new Socket(StaticIPs.chatIP, StaticIPs.chatPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
-            
-            Thread t =  new Thread(new Runnable() {
+            out.writeObject(id);
 
-                @Override
-                public void run() {
-                    while(true)
-                    {
-                        try {
-                            System.out.println("Waiting for text");
-                            String input = (String)in.readObject();
-                            System.out.println(input);
-                        } catch (IOException ex) {
-                            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            });
-            t.start();
-    }   catch (IOException ex) {
+            while (true) {
+                readText();
+            }
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
-        }}
-    
-    
-    public void setText(String text)
-    {
+        }
+    }
+
+    public synchronized void readText() throws IOException, ClassNotFoundException {
+        text = (String) in.readObject();
+        setChanged();
+        this.notifyObservers();
+    }
+
+    public void setText(String text) {
         try {
             out.writeObject(text);
         } catch (IOException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public String getText() {
+        return text;
     }
 }
