@@ -22,15 +22,15 @@ import java.util.logging.Logger;
  */
 public class ChatServer implements Runnable, Observer {
 
-    Socket client;
-    ChatObserver chatObv;
+    private Socket client;
+    private ChatObserver chatObv;
     private InputStream inStream;
     private ObjectInputStream in;
     private OutputStream outStream;
     private ObjectOutputStream out;
 
-    public ChatServer(Socket accept, ChatObserver obv) {
-        this.chatObv = obv;
+    public ChatServer(Socket accept) {
+        
         this.client = accept;
 
     }
@@ -41,12 +41,27 @@ public class ChatServer implements Runnable, Observer {
         System.out.println("Run");
         try {
             System.out.println("Added OBV");
-            chatObv.addObserver(this);
-
+            
             outStream = client.getOutputStream();
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
+            
+            int id = (int)in.readObject();
+            boolean found = false;
+            for(ChatObserver chat: ChatObserver.chats)
+            {
+                if(chat.getId() == id)
+                {
+                    chatObv = chat;
+                    found = true;
+                }
+            }
+            if(!found)
+            {
+                chatObv = new ChatObserver(id);
+            }
+            chatObv.addObserver(this);
 
             System.out.println("Waiting for text");
             while (true) {

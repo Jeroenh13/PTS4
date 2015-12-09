@@ -39,12 +39,14 @@ public class ChatClient {
             
            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             
-            client = new Socket("145.93.100.156", port);
+            client = new Socket("145.93.100.194", port);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
             
+            System.out.println("Enter chat room.");
+            out.writeObject(Integer.valueOf(br.readLine()));
             Thread t =  new Thread(new Runnable() {
 
                 @Override

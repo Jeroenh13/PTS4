@@ -16,7 +16,6 @@ import java.util.logging.Logger;
  */
 public class Server {
     public static void main(String[] args) {
-        ChatObserver obv = new ChatObserver();
          ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(9993);
@@ -27,7 +26,7 @@ public class Server {
 
         while (true) {
             try {
-                Thread th = new Thread(new ChatServer(serverSocket.accept(),obv));
+                Thread th = new Thread(new ChatServer(serverSocket.accept()));
                 th.start();
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

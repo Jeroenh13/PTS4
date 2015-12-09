@@ -5,6 +5,7 @@
  */
 package ChatServer;
 
+import java.util.HashSet;
 import java.util.Observable;
 
 /**
@@ -13,25 +14,30 @@ import java.util.Observable;
  */
 class ChatObserver extends Observable {
 
-    String text;
+    protected String text;
+    protected int ID;
+    
+    
+    protected static HashSet<ChatObserver> chats = new HashSet<ChatObserver>();
 
-    public String getText() {
+    protected String getText() {
         System.out.println("Get text");
         return text;
     }
 
-    public void setText(String text) {
+    protected void setText(String text) {
         System.out.println("Set text");
         this.text = text;
         setChanged();
         notifyObservers();
 
-        System.out.println("Ahit has been observed yo.");
     }
 
-    public ChatObserver() {
-        System.out.println("Created this thing");
+    protected  ChatObserver() {
     }
-;
+    
+    protected ChatObserver(int Id){this.ID = Id;}
 
+    protected int getId()
+    {return ID;}
 }
