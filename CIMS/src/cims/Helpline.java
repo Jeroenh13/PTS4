@@ -50,6 +50,18 @@ public class Helpline implements Serializable{
         this.employeesAss = FXCollections.observableArrayList();
         this.reports = FXCollections.observableArrayList();
     }
+    
+    public Helpline(int Id)
+    {
+        this.ID = ID;
+        this.dbm = new DatabaseManager();
+        //this.queryBuilder = new QueryBuilder();
+        this.employees = FXCollections.observableArrayList();
+        this.employeesAss = FXCollections.observableArrayList();
+        this.reports = FXCollections.observableArrayList();
+        
+        this.name = dbm.getHelplineNameById(Id);
+    }
         
     /**
      * Gets the ID

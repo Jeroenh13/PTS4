@@ -5,6 +5,7 @@
  */
 package cims;
 
+import Database.DatabaseManager;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import java.util.Map;
  * @author Anna-May
  */
 public class Employee {
+
     private int badgeNR;
     private String name;
     private String available;
@@ -25,6 +27,7 @@ public class Employee {
     private Report assignedTo;
     private LocalDateTime start;
     private LocalDateTime end;
+    private Helpline helpline;
     
     public Employee(int badgeNR, String name, String function, String available, String department, String region, String commune, String level, String team, 
             Report assignedTo, LocalDateTime start, LocalDateTime end){
@@ -40,6 +43,13 @@ public class Employee {
         this.assignedTo = assignedTo;
         this.start = start;
         this.end = end;
+    }
+    
+    public Employee(int badgeNr,String name, Helpline helpline)
+    {
+        this.badgeNR = badgeNr;
+        this.name = name;
+        this.helpline = helpline;
     }
     
     /**
@@ -229,5 +239,11 @@ public class Employee {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+    
+    
+    public static Employee getEmployeeByInlog(String userName, String password) {
+        Database.DatabaseManager dm = new DatabaseManager();
+        return dm.getEmployees(userName,password);
     }
 }

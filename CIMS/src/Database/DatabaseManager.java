@@ -82,7 +82,7 @@ public class DatabaseManager {
         boolean returnval = false;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("Select * from Personeel");
+            result = statement.executeQuery("Select * from Employee");
             statement.closeOnCompletion();
             result.last();
             if (result.getRow() != 0) {
@@ -101,10 +101,11 @@ public class DatabaseManager {
             closeConnection();
         }
     }
-    
+
     // <editor-fold desc="UnitsAssign">
     /**
      * Gets the employees by a specific type
+     *
      * @param query query to get the employees
      * @param specificationTypes types to be searched on
      * @param employees ObservableList that will be observed
@@ -114,77 +115,77 @@ public class DatabaseManager {
         HashMap<String, String> values = new HashMap<>();
         int level;
         employees.clear();
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         ResultSet result = null;
         Statement statement = null;
-        
+
         try {
             Statement stat = conn.createStatement();
             ResultSet rs = stat.executeQuery(query);
-            
+
             while (rs.next()) {
                 values.clear();
-                for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()){
+                for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()) {
                     values.put(entry.getKey(), rs.getString(entry.getKey()));
                 }
-                
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime startReport = null;
                 LocalDateTime endReport = null;
-                if(values.get("ReportStartDate") != null){
-                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter); 
+                if (values.get("ReportStartDate") != null) {
+                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter);
                 }
-                if(values.get("ReportEndDate") != null){
-                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter); 
+                if (values.get("ReportEndDate") != null) {
+                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter);
                 }
-                
+
                 Report report = null;
-                if(values.get("reportID") != null){
-                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport); 
+                if (values.get("reportID") != null) {
+                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport);
                 }
-                
+
                 LocalDateTime startEmp = null;
                 LocalDateTime endEmp = null;
-                if(values.get("start") != null){
-                    startEmp =LocalDateTime.parse(values.get("start"), formatter); 
+                if (values.get("start") != null) {
+                    startEmp = LocalDateTime.parse(values.get("start"), formatter);
                 }
-                if(values.get("end") != null){
+                if (values.get("end") != null) {
                     endEmp = LocalDateTime.parse(values.get("end"), formatter);
                 }
-                
+
                 int badgeNr = Integer.parseInt(values.get("badgeNR"));
-                Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"),values.get("level"), values.get("team"),report,startEmp,endEmp);
+                Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"), values.get("level"), values.get("team"), report, startEmp, endEmp);
                 employees.add(employee);
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong");
             System.out.println(ex.getMessage());
-        }
-        finally{
+        } finally {
             closeConnection();
         }
 
         return employees;
     }
-    
+
     /**
      * Gets a certain type of specification
-     * @param specifications 
-     * @return 
+     *
+     * @param specifications
+     * @return
      */
     public HashMap<String, ObservableList> getSpecifications(HashMap<String, ObservableList> specifications) {
         String query = "DESCRIBE vwemployee";
         String type;
         String spec;
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         ResultSet result = null;
         Statement statement = null;
         try {
@@ -193,20 +194,20 @@ public class DatabaseManager {
 
             while (result.next()) {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
-                spec = result.getString("Field"); 
+                spec = result.getString("Field");
                 ObservableList<String> input = FXCollections.observableArrayList();
-                if(("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)){
+                if (("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)) {
                     input.add("report");
                     specifications.put(spec, input);
-                }else if(!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)){
+                } else if (!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)) {
                     input.add("no selection");
                     specifications.put(spec, input);
-                }else if(!"helpline".equals(spec)){
+                } else if (!"helpline".equals(spec)) {
                     input.add("table");
                     specifications.put(spec, input);
                 }
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
             specifications = null;
@@ -219,18 +220,18 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return specifications;
     }
-    
-    public HashMap<String, ObservableList> getSpeciaficationsValues(String query, HashMap<String, ObservableList> specificationValues) {       
+
+    public HashMap<String, ObservableList> getSpeciaficationsValues(String query, HashMap<String, ObservableList> specificationValues) {
         ObservableList<String> valuesSpec;
         String spec;
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         ResultSet result = null;
         Statement statement = null;
         try {
@@ -238,17 +239,17 @@ public class DatabaseManager {
             result = statement.executeQuery(query);
 
             while (result.next()) {
-                for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()){
-                    if(entry.getValue().get(0).equals("no selection")){ 
+                for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()) {
+                    if (entry.getValue().get(0).equals("no selection")) {
                         spec = entry.getKey();
                         valuesSpec = entry.getValue();
                         String value = result.getString(spec);
-                        if(!valuesSpec.contains(value)){
+                        if (!valuesSpec.contains(value)) {
                             valuesSpec.add(value);
                         }
                     }
                 }
-            } 
+            }
         } catch (Exception e) {
             System.out.println(e);
             specificationValues = null;
@@ -261,10 +262,10 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return specificationValues;
     }
-    
+
     public ObservableList getIncidents(String query, ObservableList<Report> reports) {
         if (!openConnection()) {
             return null;
@@ -290,12 +291,11 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return reports;
     }
-    
-    // </editor-fold>
 
+    // </editor-fold>
     /**
      * saves the report with the given items.
      *
@@ -303,7 +303,7 @@ public class DatabaseManager {
      * @param helplineid helplineid
      * @return succes
      */
-    public boolean saveReport(Report repo,int helplineid) {
+    public boolean saveReport(Report repo, int helplineid) {
         boolean succes = false;
         if (!openConnection()) {
             return succes;
@@ -321,8 +321,7 @@ public class DatabaseManager {
             conn.close();
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally{
+        } finally {
             closeConnection();
         }
         return succes;
@@ -330,6 +329,7 @@ public class DatabaseManager {
 
     /**
      * Gets all helplines in the database
+     *
      * @return All helplines.
      */
     public ArrayList getHelpLines() {
@@ -346,6 +346,61 @@ public class DatabaseManager {
                 lines.add(new Helpline(result.getInt("helplineID"), result.getString("name")));
             }
             return lines;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public Employee getEmployees(String userName, String password) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = " + userName + " and inlogpassword = " + password);
+            Employee e = null;
+            while(result.next()){
+                e = new Employee(result.getInt("employeeID"),result.getString("Name"),new Helpline(result.getInt("HelplineID")));
+            }
+            return e;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public String getHelplineNameById(int Id) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select name from Helpline where HelplineID = "+Id);
+            
+            while(result.next()){
+                return result.getString(0);
+            }
         } catch (Exception e) {
             System.out.println(e);
             return null;
