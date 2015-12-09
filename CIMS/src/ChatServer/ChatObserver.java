@@ -30,7 +30,6 @@ class ChatObserver extends Observable {
         this.text = text;
         setChanged();
         notifyObservers();
-
     }
 
     protected  ChatObserver() {
