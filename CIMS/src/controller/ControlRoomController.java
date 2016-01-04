@@ -3,9 +3,22 @@ package controller;
 import cims.Helpline;
 import cims.Report;
 import cims.cbItem;
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.object.Animation;
+import com.lynden.gmapsfx.javascript.object.GoogleMap;
+import com.lynden.gmapsfx.javascript.object.InfoWindow;
+import com.lynden.gmapsfx.javascript.object.InfoWindowOptions;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.LatLongBounds;
+import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
+import com.lynden.gmapsfx.javascript.object.Marker;
+import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -16,13 +29,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javax.swing.JOptionPane;
 
 /**
  * FXML CONTROLLER CLASS
  */
-public class ControlRoomController implements Initializable {
+public class ControlRoomController implements Initializable, MapComponentInitializedListener {
 
+    protected GoogleMapView mapComponent;
+    protected GoogleMap map;
+    
     @FXML
     private Button btnAddEmergency;
     @FXML
@@ -37,7 +55,15 @@ public class ControlRoomController implements Initializable {
     private ComboBox cbEmergency;
     @FXML
     private ListView<cbItem> lvEmergency;
-
+    @FXML
+    private BorderPane GMapsPane;
+    @FXML
+    TextField tfLatitude;
+    @FXML
+    TextField tfLongitude;
+    @FXML
+    Button checkLatLong;
+   
     private Report report;
     final ObservableList<cbItem> listItems = FXCollections.observableArrayList();
 
@@ -48,7 +74,11 @@ public class ControlRoomController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        mapComponent = new GoogleMapView();
+        mapComponent.addMapInializedListener(this);
+        
+        GMapsPane.setCenter(mapComponent);
+        
         lvEmergency.setItems(listItems);
         Helpline helpline = new Helpline();
         helpline.getLines().stream().forEach((help) -> {
@@ -84,5 +114,49 @@ public class ControlRoomController implements Initializable {
             }
         }
         listItems.add(cb);
+    }
+
+    @Override
+    public void mapInitialized() {
+        LatLong center = new LatLong(51.45197, 5.48106);
+        mapComponent.addMapReadyListener(() -> {
+        });
+
+        MapOptions options = new MapOptions();
+        options.center(center)
+                .mapMarker(true)
+                .zoom(9)
+                .overviewMapControl(false)
+                .panControl(false)
+                .rotateControl(false)
+                .scaleControl(false)
+                .streetViewControl(false)
+                .zoomControl(false)
+                .mapType(MapTypeIdEnum.TERRAIN);
+
+        map = mapComponent.createMap(options);
+        map.fitBounds(new LatLongBounds(new LatLong(51.45197 - 0.05, 5.48106 + 0.05), center));
+
+    }
+    
+    public void checkLatLong(Event e) {
+        setLatLong(51.45197,5.48106);
+    }
+    
+    public void setLatLong(double lat, double lng)
+    {
+        LatLong center = new LatLong(lat, lng);
+        MarkerOptions markerOptions = new MarkerOptions();
+        LatLong markerLatLong = new LatLong(lat, lng);
+        markerOptions.position(markerLatLong)
+                .title("My new Marker")
+                .animation(Animation.DROP)
+                .visible(true);
+
+        final Marker myMarker = new Marker(markerOptions);
+
+        map.addMarker(myMarker);
+        
+        map.fitBounds(new LatLongBounds(new LatLong(lat - 0.05, lng + 0.05), center));
     }
 }
