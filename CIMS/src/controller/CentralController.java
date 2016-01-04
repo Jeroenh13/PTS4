@@ -63,7 +63,6 @@ public class CentralController
                 if(report != null){
                     h.addReport(report);
                     report.addHelpline(h);
-                    break;
                 }
                 else{
                     reports.add(r);
