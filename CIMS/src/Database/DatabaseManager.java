@@ -1,6 +1,7 @@
 package Database;
 
 import cims.Employee;
+import cims.Vehicle;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,7 +12,9 @@ import cims.Helpline;
 import cims.Report;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * *
@@ -442,5 +446,139 @@ public class DatabaseManager {
             closeConnection();
         }
         return succes;
+    }
+    
+    public ArrayList<Vehicle> getAllVehicles(int helplineID)
+    {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT * FROM vehicle WHERE HelplineID = " + helplineID);
+            ArrayList lines = new ArrayList<Vehicle>();
+            while (result.next()) {
+                lines.add(new Vehicle(result.getInt("VehicleID"), result.getString("VehicleType"), result.getInt("HelplineID"), result.getInt("InUse")));
+            }
+            return lines;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public ArrayList<Employee> getAllEmployees(String name)
+    {
+        if (!openConnection()) {
+            System.out.println("Database connection failed!");
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT * FROM vwemployee WHERE Helpline = '"+ name +"'");
+            ArrayList lines = new ArrayList<>();
+            while (result.next()) {
+                String available = result.getBoolean("Available") ? "Yes" : "No";
+                
+                LocalDateTime reportStart = null;
+                LocalDateTime reportEnd = null;
+                
+                if(result.getDate("reportStartDate") != null)
+                    reportStart = LocalDateTime.parse(result.getString("reportStartDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+
+                
+                if(result.getDate("reportEndDate") != null)
+                    reportEnd = LocalDateTime.parse(result.getString("reportEndDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                
+                lines.add(new Employee(result.getInt("BadgeNR"),result.getString("Name"),result.getString("Function"),available,result.getString("Department"),result.getString("Region"),result.getString("Commune"),result.getString("level"),result.getString("Team"), null, reportStart , reportEnd));
+            }
+            
+            return lines;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public ArrayList<Report> getAllReports(String name)
+    {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT * FROM vwhelplinereport WHERE Helpline = '" + name +"'");
+            ArrayList reports = new ArrayList<>();
+            while (result.next()) {
+                //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
+                reports.add(new Report(result.getInt("ReportID"),result.getString("Description"),result.getString("ExtraInformation"),result.getString("locationGps"),result.getString("Weather"), null, result.getString("Title")));
+            }
+            
+            return reports;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public HashMap<Integer,Integer> getAssignedReports()
+    {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT * FROM `vwemployeereportass`");
+            HashMap assigned = new HashMap<>();
+            while (result.next()) {
+                assigned.put(result.getInt("EmployeeID"), result.getInt("ReportID"));
+            }
+            
+            return assigned;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
     }
 }

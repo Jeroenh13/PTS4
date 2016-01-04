@@ -29,6 +29,7 @@ public class Helpline implements Serializable{
     private ObservableList<Employee> employees; 
     private ObservableList<Employee> employeesAss;
     private ObservableList<Report> reports;
+    private ObservableList<Vehicle> vehicles;
     
     /**
      * initializes an empty Helpline
@@ -48,6 +49,7 @@ public class Helpline implements Serializable{
         this.employees = FXCollections.observableArrayList();
         this.employeesAss = FXCollections.observableArrayList();
         this.reports = FXCollections.observableArrayList();
+        this.vehicles = FXCollections.observableArrayList();
     }
         
     /**
@@ -161,12 +163,66 @@ public class Helpline implements Serializable{
     public Employee getEmployeeWithID(int id){
         Employee emp = null;
         
-        for(Employee emplo: this.employeesAss){
+        for(Employee emplo: this.employees){
                 if(emplo.getBadgeNR() == id){
                     emp = emplo;
                 }
         }
         
         return emp;
+    }
+    
+    public Report getReportWithID(int id){
+        Report rep = null;
+        
+        for(Report r : reports)
+        {
+            if(r.getReportID() == id)
+                rep = r;
+        }
+        
+        return rep;
+    }
+    
+    public void loadAllEmployees()
+    {
+        employees.clear();
+        employees.addAll(dbm.getAllEmployees(name));
+        System.out.println("Number of employees found for " + name + ": " + employees.size());
+    }
+    
+    public void loadAllReports()
+    {
+        reports.clear();
+        reports.addAll(dbm.getAllReports(name));
+        System.out.println("Number of reports found for " + name + ": " + reports.size());
+    }
+    
+    public void loadAllVehicles()
+    {
+        vehicles.clear();
+        vehicles.addAll(dbm.getAllVehicles(ID));
+        System.out.println("Number of vehicles found for " + name + ": " + vehicles.size());
+    }
+    
+    public void bindReportsToEmployees()
+    {
+        HashMap<Integer,Integer> assigned = dbm.getAssignedReports();
+        int count = 0;
+        
+        
+        for (Map.Entry<Integer, Integer> entry : assigned.entrySet())
+        {
+            Employee e = getEmployeeWithID(entry.getKey());
+            Report r = getReportWithID(entry.getValue());
+            
+            if(e != null && r != null)
+            {
+                e.setAssignedTo(r);
+                count++;
+            }
+        }
+        
+        System.out.println("Number of assigned reports linked for " + name + ": " + count);
     }
 }

@@ -8,6 +8,7 @@ package controller;
 import Database.DatabaseManager;
 import cims.Helpline;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,22 +17,37 @@ import java.util.ArrayList;
 public class CentralController 
 {
     private final DatabaseManager dbm;
-    private int helplineID;
+    private List<Helpline> helplines = new ArrayList<>();
+    
     
     public CentralController()
     {
         this.dbm = new DatabaseManager();
+        loadHelplines();
     }
     
-    public void savePlan(String approach, String helpline)
+    public void savePlan(String approach, String helpline, int reportID)
     {
-        ArrayList<Helpline> helplines = dbm.getHelpLines();
+        int helplineID = 0;
         for (Helpline h : helplines) {
             if (h.getName().equals(helpline))
             {
                 helplineID = h.getID();
             }
         }
-        dbm.saveApproach(approach, helplineID, 0);
+        dbm.saveApproach(approach, helplineID, reportID);
+    }
+    
+    private void loadHelplines()
+    {
+        helplines = dbm.getHelpLines();
+        
+        for(Helpline h : helplines){
+            h.loadAllEmployees();
+            h.loadAllReports();
+            h.loadAllVehicles();
+            
+            h.bindReportsToEmployees();
+        }
     }
 }

@@ -111,13 +111,13 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                            <TableView fx:id="tvVehAssPolice" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
                                                                <columns>
                                                                   <TableColumn prefWidth="75.0" text="C1" />
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                            <TableView fx:id="tvVehAllPolice" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
                                                               <columns>
                                                                 <TableColumn prefWidth="75.0" text="C1" />
                                                                 <TableColumn prefWidth="75.0" text="C2" />
@@ -155,13 +155,13 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                            <TableView fx:id="tvVehAssFire" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
                                                                <columns>
                                                                   <TableColumn prefWidth="75.0" text="C1" />
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                            <TableView fx:id="tvVehAllFire" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
                                                                <columns>
                                                                   <TableColumn prefWidth="75.0" text="C1" />
                                                                   <TableColumn prefWidth="75.0" text="C2" />
@@ -199,13 +199,13 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <TableView layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                            <TableView fx:id="tvVehAssAmbulance" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
                                                                <columns>
                                                                   <TableColumn prefWidth="75.0" text="C1" />
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
+                                                            <TableView fx:id="tvVehAllAmbulance" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
                                                                <columns>
                                                                   <TableColumn prefWidth="75.0" text="C1" />
                                                                   <TableColumn prefWidth="75.0" text="C2" />

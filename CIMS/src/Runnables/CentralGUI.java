@@ -20,7 +20,7 @@ public class CentralGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Central.fxml"),localeSettings.getResourceBundle());
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/Central.fxml"),localeSettings.getResourceBundle());
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
