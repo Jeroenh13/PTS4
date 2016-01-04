@@ -7,7 +7,10 @@ package controller;
 
 import Database.DatabaseManager;
 import cims.Helpline;
+import cims.Report;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,6 +27,11 @@ public class CentralController
     {
         this.dbm = new DatabaseManager();
         loadHelplines();
+    }
+    
+    public List<Helpline> getHelplines()
+    {
+        return helplines;
     }
     
     public void savePlan(String approach, String helpline, int reportID)
@@ -49,5 +57,26 @@ public class CentralController
             
             h.bindReportsToEmployees();
         }
+        
+        
+    }
+    
+    public List<Field> getCollumsReport()
+    {
+        List fieldsList = new ArrayList<>();
+        Class r = Report.class;
+        Field[] fields = r.getDeclaredFields();
+        //System.out.println(fields.toString());
+        //System.out.println(fields.length);
+        for (Field f : fields) {
+            //System.out.println(f.getName());
+            fieldsList.add(f);
+        }
+        return fieldsList;
+    }
+    
+    private void fillIncidents()
+    {
+        
     }
 }

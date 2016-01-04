@@ -5,15 +5,27 @@
  */
 package controller;
 
+import cims.Helpline;
+import cims.Report;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
  * @author kitty
  */
-public class CentalControllerFX extends CentralController {
+public class CentalControllerFX extends controller.CentralController implements Initializable
+{
     
     @FXML
     private TextField tfApproachPolice;
@@ -40,8 +52,16 @@ public class CentalControllerFX extends CentralController {
     private TableView tvVehAssAmbulance;
     @FXML
     private TableView tvVehAllAmbulance;
+    @FXML 
+    private TableView<Report> tvIncidents;
+    @FXML private Button btnInformationIncident;
     
     int tmpID = 0;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        makeCollums();
+    }
     
     public void savePolice(Event evnt)
     {
@@ -73,5 +93,43 @@ public class CentalControllerFX extends CentralController {
     public void getAllVehicles()
     {
         
+    }
+    
+    public void informationAccident()
+    {
+        
+    }
+    
+    public void makeCollums()
+    {
+        tvIncidents.getColumns().clear();
+        List<Field> fields = getCollumsReport();
+        for (Field f : fields)
+        {
+            if (!f.getName().equals("dbm"))
+            {
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                int width = 135;
+                tc.setMinWidth(width);
+                tvIncidents.getColumns().add(tc);
+            }
+        }
+        List<Helpline> helplines = getHelplines();
+        ObservableList<Report> reports = FXCollections.observableArrayList();
+        for (Helpline h : helplines)
+        {
+            ObservableList<Report> tempreports = FXCollections.observableArrayList();
+            for (Report r : h.getReports())
+            {
+                System.out.println(r.getReportID() + "---" +  r.getTitle() + "---" +  r.getDescription());
+                tempreports.add(r);
+            }
+            System.out.println(tempreports.size());
+            reports.addAll(tempreports);
+        }
+        tvIncidents.setItems(reports);
     }
 }
