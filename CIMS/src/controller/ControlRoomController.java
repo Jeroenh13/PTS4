@@ -96,7 +96,7 @@ public class ControlRoomController implements Initializable, MapComponentInitial
         listItems.stream().forEach((item) -> {
             lines.add(new Helpline(item.getID(), item.toString()));
         });
-        report = new Report(0, taDescription.getText(), null, null, null,lines,txtTitle.getText() );
+        report = new Report(0, taDescription.getText(), null,"["+tfLatitude.getText()+","+tfLongitude.getText()+"]" , null, lines,txtTitle.getText());
         if (report.saveReport()) {
             JOptionPane.showMessageDialog(null, "Succesvol toegevoegt", "Succes", 1);
             listItems.clear();
@@ -140,7 +140,7 @@ public class ControlRoomController implements Initializable, MapComponentInitial
     }
     
     public void checkLatLong(Event e) {
-        setLatLong(51.45197,5.48106);
+        setLatLong(Double.parseDouble(tfLatitude.getText()),Double.parseDouble(tfLongitude.getText()));
     }
     
     public void setLatLong(double lat, double lng)
@@ -149,7 +149,7 @@ public class ControlRoomController implements Initializable, MapComponentInitial
         MarkerOptions markerOptions = new MarkerOptions();
         LatLong markerLatLong = new LatLong(lat, lng);
         markerOptions.position(markerLatLong)
-                .title("My new Marker")
+                .title("Report")
                 .animation(Animation.DROP)
                 .visible(true);
 

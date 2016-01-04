@@ -29,6 +29,10 @@ public class ChatServer implements Runnable, Observer {
     private OutputStream outStream;
     private ObjectOutputStream out;
 
+    /**
+     * Starts a new server point to communicate with the client.
+     * @param accept 
+     */
     public ChatServer(Socket accept) {
         
         this.client = accept;
@@ -48,7 +52,7 @@ public class ChatServer implements Runnable, Observer {
             boolean found = false;
             for(ChatObserver chat: ChatObserver.chats)
             {
-                if(chat.getId() == id)
+                if(chat.getID() == id)
                 {
                     chatObv = chat;
                     found = true;

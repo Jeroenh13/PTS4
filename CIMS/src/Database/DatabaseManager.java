@@ -303,24 +303,67 @@ public class DatabaseManager {
      * @param helplineid helplineid
      * @return succes
      */
-    public boolean saveReport(Report repo, int helplineid) {
+    public int saveReport(Report repo) {
+
+        int newID = 0;
+        if (!openConnection()) {
+            return newID;
+        }
+        try {
+            CallableStatement cs = null;
+            cs = conn.prepareCall("{call spInjectReport(?,?,?,?)}");
+            cs.setString(1, repo.getDescription());
+            cs.setInt(3, newID);
+            cs.setString(2, repo.getLocation());
+            cs.setString(4, repo.getTitle());
+            cs.execute();
+            cs.close();
+            newID = Integer.parseInt(String.valueOf(getLatestId()));
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return newID;
+    }
+
+    private long getLatestId() {
+        
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select Max(reportID) as maxid from report ");
+
+            while (result.next()) {
+                return result.getInt("maxid");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+        }
+        return 0;
+    }
+
+    public boolean saveHelplineReport(int reportId, int helpId) {
         boolean succes = false;
         if (!openConnection()) {
             return succes;
         }
         try {
+
             CallableStatement cs = null;
-            cs = conn.prepareCall("{call spInjectReport(?,?,?,0,?)}");
-            cs.setString(1, repo.getDescription());
-            cs.setString(2, repo.getLocation());
-            cs.setInt(3, helplineid);
-            cs.setString(4, repo.getTitle());
+            cs = conn.prepareCall("{call spInjectHelplineReport(?,?)}");
+            cs.setInt(1, reportId);
+            cs.setInt(2, helpId);
             cs.execute();
-            succes = true;
             cs.close();
+            succes = true;
             conn.close();
         } catch (Exception e) {
             System.out.println(e);
+            return succes;
         } finally {
             closeConnection();
         }
@@ -368,10 +411,10 @@ public class DatabaseManager {
         Statement statement = null;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = '" + userName + "' and inlogpassword = '" + password +"'");
+            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = '" + userName + "' and inlogpassword = '" + password + "'");
             Employee e = null;
-            while(result.next()){
-                e = new Employee(result.getInt("employeeID"),result.getString("Name"),new Helpline(result.getInt("HelplineID")));
+            while (result.next()) {
+                e = new Employee(result.getInt("employeeID"), result.getString("Name"), new Helpline(result.getInt("HelplineID")));
             }
             return e;
         } catch (Exception e) {
@@ -396,9 +439,9 @@ public class DatabaseManager {
         Statement statement = null;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("Select name from Helpline where HelplineID = "+Id);
-            
-            while(result.next()){
+            result = statement.executeQuery("Select name from Helpline where HelplineID = " + Id);
+
+            while (result.next()) {
                 return result.getString(0);
             }
         } catch (Exception e) {

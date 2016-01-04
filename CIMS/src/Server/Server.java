@@ -14,6 +14,9 @@ import java.net.ServerSocket;
  */
 public class Server {
 
+    /**
+     *
+     */
     protected static obvClass o;
     
     /**

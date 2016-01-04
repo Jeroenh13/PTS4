@@ -15,7 +15,6 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Server.StaticIPs;
-import controller.OnTheRoadFXController;
 
 /**
  *
@@ -30,8 +29,12 @@ public class ChatClient extends Observable implements Runnable {
     private OutputStream outStream;
     private ObjectOutputStream out;
     private String text;
-    private int id;
+    private final int id;
 
+    /**
+     * Creates a new client 
+     * @param id id of the chat room
+     */
     public ChatClient(int id) {
         this.id = id;
     }
@@ -54,12 +57,21 @@ public class ChatClient extends Observable implements Runnable {
         }
     }
 
+    /**
+     * Reads the send text and notifies the observers
+     * @throws IOException Connection with the server
+     * @throws ClassNotFoundException 
+     */
     public synchronized void readText() throws IOException, ClassNotFoundException {
         text = (String) in.readObject();
         setChanged();
         this.notifyObservers();
     }
 
+    /**
+     * Writes the text
+     * @param text 
+     */
     public void setText(String text) {
         try {
             out.writeObject(text);
@@ -68,6 +80,10 @@ public class ChatClient extends Observable implements Runnable {
         }
     }
 
+    /**
+     * Gets the written text
+     * @return text 
+     */
     public String getText() {
         return text;
     }

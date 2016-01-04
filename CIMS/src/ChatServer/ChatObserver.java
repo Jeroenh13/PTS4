@@ -18,7 +18,7 @@ class ChatObserver extends Observable {
     protected int ID;
     
     
-    protected static HashSet<ChatObserver> chats = new HashSet<ChatObserver>();
+    protected static HashSet<ChatObserver> chats = new HashSet<>();
 
     protected String getText() {
         return text;
@@ -35,6 +35,6 @@ class ChatObserver extends Observable {
     
     protected ChatObserver(int Id){this.ID = Id;}
 
-    protected int getId()
+    protected int getID()
     {return ID;}
 }

@@ -23,7 +23,7 @@ public class Report implements Serializable {
     private int reportID;
     private String description;
     private String extraInformation;
-    private String location;
+    private String locationGPS;
     private String weather;
     private String title;
     private ArrayList<Helpline> helpLines;
@@ -73,7 +73,7 @@ public class Report implements Serializable {
         this.reportID = reportID;
         this.description = description;
         this.extraInformation = extraInformation;
-        this.location = location;
+        this.locationGPS = location;
         this.weather = weather;
         this.helpLines = helpline;
         this.title = title;
@@ -135,21 +135,21 @@ public class Report implements Serializable {
     }
 
     /**
-     * gets the location
+     * gets the locationGPS
      *
-     * @return the location of the report
+     * @return the locationGPS of the report
      */
     public String getLocation() {
-        return location;
+        return locationGPS;
     }
 
     /**
-     * sets the location of the report
+     * sets the locationGPS of the report
      *
-     * @param Location location to be set
+     * @param Location locationGPS to be set
      */
     public void setLocation(String Location) {
-        this.location = Location;
+        this.locationGPS = Location;
     }
 
     /**
@@ -196,8 +196,11 @@ public class Report implements Serializable {
         boolean succes = false;
         dbm = new DatabaseManager();
         try {
+            this.reportID = dbm.saveReport(this);
+            if(this.reportID == 0)
+                return succes;
             for (Helpline help : helpLines) {
-                succes = dbm.saveReport(this, help.getID());
+                succes = dbm.saveHelplineReport(this.reportID,help.getID());
             }
         } catch (Exception e) {
             succes = false;
@@ -263,4 +266,43 @@ public class Report implements Serializable {
     public String toString() {
         return title;
     }
+    
+    /**
+     * gets the latitude
+     * @return latitude of a locationGPS
+     */
+    public double getLatitude()
+    {
+        String[] lat = locationGPS.split(",");
+        return Double.parseDouble(lat[0].replaceAll("\\D+", ""));
+    }
+    
+    /**
+     * Get the longitude of a locationGPS
+     * @return 
+     */
+    public double getLongitude()
+    {
+        String[] lng = locationGPS.split(",");
+        return Double.parseDouble(lng[1].replaceAll("\\D+", ""));
+    }
+    
+    /**
+     * sets the latitude
+     * @param lat number to be set
+     */
+    public void setLatitude(double lat)
+    {
+        this.locationGPS= "["+lat+","+getLongitude()+"]";
+    }
+    
+    /**
+     * sets the longitude 
+     * @param lng number to be set
+     */
+    public void setLongitude(double lng)
+    {
+        this.locationGPS= "["+getLatitude()+","+lng+"]";    
+    }
+    
 }

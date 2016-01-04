@@ -16,6 +16,11 @@ import java.util.logging.Logger;
  * @author Bas
  */
 public class Server {
+    
+    /**
+     * starts the server
+     * @param args 
+     */
     public static void main(String[] args) {
          ServerSocket serverSocket = null;
         try {
