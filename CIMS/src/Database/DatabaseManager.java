@@ -535,7 +535,7 @@ public class DatabaseManager {
             while (result.next()) {
                 //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
                 
-                reports.add(new Report(result.getInt("ReportID"),result.getString("Description"),result.getString("ExtraInformation"),result.getString("locationGps"),result.getString("Weather"), null, result.getString("Title")));
+                reports.add(new Report(result.getInt("ReportID"),result.getString("Description"),result.getString("ExtraInformation"),result.getString("locationGps"),result.getString("Weather"), new ArrayList<>() , result.getString("Title")));
             }
             
             return reports;

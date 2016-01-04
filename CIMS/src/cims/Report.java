@@ -53,7 +53,6 @@ public class Report {
         this.startDate = startDate;
         this.endDate = endDate;
         this.employees = FXCollections.observableArrayList();
-        this.helpLines = new ArrayList<>();
     }
     
     /**
@@ -73,7 +72,7 @@ public class Report {
         this.extraInformation = extraInformation;
         this.location = location;
         this.weather = weather;
-        this.helpLines = new ArrayList<>();
+        this.helpLines = helpline;
         this.title = title;
     }
     
