@@ -21,6 +21,7 @@ public class CentralController
 {
     private final DatabaseManager dbm;
     private List<Helpline> helplines = new ArrayList<>();
+    private List<Report> reports = new ArrayList();
     
     
     public CentralController()
@@ -48,17 +49,41 @@ public class CentralController
     
     private void loadHelplines()
     {
+        List<Report> dbreports = new ArrayList();
         helplines = dbm.getHelpLines();
         
         for(Helpline h : helplines){
             h.loadAllEmployees();
-            h.loadAllReports();
             h.loadAllVehicles();
             
+            dbreports.addAll(dbm.getAllReports(h.getName()));
+            
+            for(Report r : dbreports){
+                Report report = reportExists(r);
+                if(report != null){
+                    h.addReport(report);
+                    report.addHelpline(h);
+                    break;
+                }
+                else{
+                    reports.add(r);
+                    h.addReport(r);
+                    r.addHelpline(h);
+                }
+            }
+            
             h.bindReportsToEmployees();
+            
+            dbreports.clear();
         }
-        
-        
+    }
+    
+    private Report reportExists(Report r){
+        for(Report rep : reports){
+            if(rep.getReportID() == r.getReportID())
+                return rep;
+        }
+        return null;
     }
     
     public List<Field> getCollumsReport()

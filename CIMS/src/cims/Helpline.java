@@ -198,6 +198,11 @@ public class Helpline implements Serializable{
         System.out.println("Number of reports found for " + name + ": " + reports.size());
     }
     
+    public void addReport(Report rep)
+    {
+        reports.add(rep);
+    }
+    
     public void loadAllVehicles()
     {
         vehicles.clear();

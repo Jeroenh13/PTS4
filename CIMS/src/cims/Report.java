@@ -53,6 +53,7 @@ public class Report {
         this.startDate = startDate;
         this.endDate = endDate;
         this.employees = FXCollections.observableArrayList();
+        this.helpLines = new ArrayList<>();
     }
     
     /**
@@ -72,7 +73,7 @@ public class Report {
         this.extraInformation = extraInformation;
         this.location = location;
         this.weather = weather;
-        this.helpLines = helpline;
+        this.helpLines = new ArrayList<>();
         this.title = title;
     }
     
@@ -218,6 +219,10 @@ public class Report {
             succeded = true;
         }
         return succeded;
+    }
+    
+    public void addHelpline(Helpline h){
+        helpLines.add(h);
     }
     
     public void removeEmployee(Employee emp){
