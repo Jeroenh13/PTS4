@@ -7,22 +7,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="controller.ControlRoomController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControlRoomController">
    <children>
-      <Pane layoutX="605.0" layoutY="35.0" prefHeight="725.0" prefWidth="644.0" style="-fx-background-color: red;" />
-      <Label fx:id="lblDescription" layoutX="31.0" layoutY="69.0" text="Omschrijving Ongeval">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextArea id="taDescription" fx:id="taDescription" layoutX="31.0" layoutY="105.0" prefHeight="200.0" prefWidth="200.0" />
-      <ComboBox id="cbEmergency" fx:id="cbEmergency" layoutX="24.0" layoutY="340.0" prefWidth="150.0" />
-      <Button fx:id="btnAddEmergency" layoutX="179.0" layoutY="340.0" mnemonicParsing="false" onAction="#btnAddClick" text="+" />
-      <Label layoutX="31.0" layoutY="313.0" text="Hulpdienst Toevoegen" />
-      <ListView fx:id="lvEmergency" layoutX="28.0" layoutY="373.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button fx:id="btnDeleteEmergency" layoutX="245.0" layoutY="548.0" mnemonicParsing="false" onAction="#btnRemoveClick" text="X" />
-      <Button fx:id="btnSave" layoutX="28.0" layoutY="583.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="25.0" prefWidth="105.0" text="Save" />
-      <Label layoutX="31.0" layoutY="14.0" text="Ongeval Titel" />
-      <TextField fx:id="txtTitle" layoutX="31.0" layoutY="35.0" />
+      <BorderPane fx:id="GMapsPane" layoutX="622.0" layoutY="38.0" prefHeight="725.0" prefWidth="644.0" />
+      <AnchorPane prefHeight="800.0" prefWidth="644.0">
+         <children>
+            <TextField fx:id="txtTitle" layoutX="29.0" layoutY="41.0" prefHeight="25.0" prefWidth="587.0" />
+            <Label layoutX="34.0" layoutY="14.0" text="Ongeval Titel" />
+            <Label fx:id="lblDescription" layoutX="34.0" layoutY="76.0" text="Omschrijving Ongeval">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextArea id="taDescription" fx:id="taDescription" layoutX="29.0" layoutY="96.0" prefHeight="200.0" prefWidth="587.0" />
+            <ComboBox id="cbEmergency" fx:id="cbEmergency" layoutX="27.0" layoutY="339.0" prefWidth="150.0" />
+            <Button fx:id="btnAddEmergency" layoutX="186.0" layoutY="339.0" mnemonicParsing="false" onAction="#btnAddClick" text="+" />
+            <Label layoutX="34.0" layoutY="314.0" text="Hulpdienst Toevoegen" />
+            <Button fx:id="btnDeleteEmergency" layoutX="250.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnRemoveClick" text="X" />
+            <ListView fx:id="lvEmergency" layoutX="29.0" layoutY="372.0" prefHeight="200.0" prefWidth="200.0" />
+            <Button fx:id="btnSave" layoutX="27.0" layoutY="583.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="25.0" prefWidth="105.0" text="Save" />
+            <TextField fx:id="tfLatitude" layoutX="290.0" layoutY="375.0" prefHeight="25.0" prefWidth="120.0" />
+            <TextField fx:id="tfLongitude" layoutX="438.0" layoutY="375.0" prefHeight="25.0" prefWidth="120.0" />
+            <Button fx:id="btnLatLongCheck" layoutX="290.0" layoutY="428.0" mnemonicParsing="false" onAction="#checkLatLong" prefHeight="25.0" prefWidth="120.0" text="Check" />
+            <Label layoutX="290.0" layoutY="343.0" text="Latitude" />
+            <Label layoutX="438.0" layoutY="343.0" text="Longitude" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
