@@ -22,7 +22,7 @@ public class Server {
      * @param args 
      */
     public static void main(String[] args) {
-         ServerSocket serverSocket = null;
+        ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(StaticIPs.chatPort);
         } catch (IOException e) {

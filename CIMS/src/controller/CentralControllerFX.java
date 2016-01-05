@@ -120,7 +120,7 @@ public class CentralControllerFX extends controller.CentralController implements
     }
     
     public void btnSendChatClick(Event e) {
-        cc.setText(tfChatMessage.getText());
+        cc.setText("Centrale: " + tfChatMessage.getText());
     }
     
     public void makeCollums()

@@ -33,7 +33,8 @@ class ChatObserver extends Observable {
     protected  ChatObserver() {
     }
     
-    protected ChatObserver(int Id){this.ID = Id;}
+    protected ChatObserver(int Id)
+    {this.ID = Id;}
 
     protected int getID()
     {return ID;}

@@ -58,7 +58,7 @@ public class OnTheRoadFXController implements Initializable, Observer {
     }
 
     public void btnSendChatClick(Event e) {
-        cc.setText(tfSendChat.getText());
+        cc.setText("On the Road: " + tfSendChat.getText());
     }
 
 }
