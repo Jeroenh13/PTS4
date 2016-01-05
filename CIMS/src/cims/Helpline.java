@@ -163,7 +163,7 @@ public class Helpline implements Serializable{
      * @return a list of helplines
      */
     public ArrayList<Helpline> getLines() {
-        //dbm = new DatabaseManager();
+        dbm = new DatabaseManager();
         return dbm.getHelpLines();
     }
     

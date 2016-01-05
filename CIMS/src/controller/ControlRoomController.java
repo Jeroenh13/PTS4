@@ -137,23 +137,25 @@ public class ControlRoomController implements Initializable, MapComponentInitial
                 .panControl(false)
                 .rotateControl(false)
                 .scaleControl(false)
-                .streetViewControl(false)
+                .streetViewControl(true)
                 .zoomControl(false)
                 .mapType(MapTypeIdEnum.TERRAIN);
 
         map = mapComponent.createMap(options);
-        map.fitBounds(new LatLongBounds(new LatLong(51.45197 + 0.05, 5.48106 - 0.05), center));
-
+        map.fitBounds(new LatLongBounds(new LatLong(51.45197+ 0.05, 5.48106- 0.05), center));
+        map.setCenter(center);
     }
 
     public void checkLatLong(Event e) {
+        if(tfLatitude.getText() != null &&tfLongitude.getText() != null)
         setLatLong(Double.parseDouble(tfLatitude.getText()), Double.parseDouble(tfLongitude.getText()));
     }
 
     public void setLatLong(double lat, double lng) {
         LatLong center = new LatLong(lat, lng);
         MarkerOptions markerOptions = new MarkerOptions();
-        LatLong markerLatLong = new LatLong(lat, lng);
+        LatLong markerLatLong = new LatLong(lat, lng);     
+        
         markerOptions.position(markerLatLong)
                 .title("Report")
                 .animation(Animation.DROP)
@@ -163,6 +165,8 @@ public class ControlRoomController implements Initializable, MapComponentInitial
 
         map.addMarker(myMarker);
 
-        map.fitBounds(new LatLongBounds(new LatLong(lat - 0.05, lng + 0.05), center));
+        map.fitBounds(new LatLongBounds(new LatLong(lat+ 0.05, lng- 0.05), center));
+        
+        map.setCenter(center);
     }
 }

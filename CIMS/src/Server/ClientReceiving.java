@@ -41,7 +41,6 @@ public class ClientReceiving extends Observable implements Runnable {
     @Override
     public void run() {
         try {
-            // TODO code application logic here
             client = new Socket(StaticIPs.serverIP, StaticIPs.serverPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);

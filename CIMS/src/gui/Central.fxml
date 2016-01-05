@@ -237,7 +237,7 @@
                         </TabPane>
                         <TextArea fx:id="taChat" layoutX="699.0" layoutY="551.0" prefHeight="303.0" prefWidth="486.0" />
                         <TextField fx:id="tfChatMessage" layoutX="699.0" layoutY="869.0" prefHeight="31.0" prefWidth="354.0" />
-                        <Button fx:id="btnChatSend" layoutX="1066.0" layoutY="869.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Stuur" />
+                        <Button fx:id="btnChatSend" layoutX="1066.0" layoutY="869.0" mnemonicParsing="false" onAction="#btnSendChatClick" prefHeight="31.0" prefWidth="120.0" text="Stuur" />
                         <Label layoutX="699.0" layoutY="520.0" text="Chat met hulpdiensten" />
                      </children></AnchorPane>
                </content>

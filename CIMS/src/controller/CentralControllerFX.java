@@ -5,12 +5,15 @@
  */
 package controller;
 
+import ChatServer.ChatClient;
 import cims.Helpline;
 import cims.Report;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,7 +29,7 @@ import javafx.util.Callback;
  *
  * @author kitty
  */
-public class CentralControllerFX extends controller.CentralController implements Initializable
+public class CentralControllerFX extends controller.CentralController implements Initializable, Observer
 {
     
     @FXML
@@ -58,12 +61,25 @@ public class CentralControllerFX extends controller.CentralController implements
     private TableView<Report> tvIncidents;
     @FXML private Button btnInformationIncident;
     
+    @FXML
+    private TextArea taChat;
+    @FXML
+    private TextField tfChatMessage;
+    
     int tmpID = 0;
     
+    ChatClient cc = new ChatClient(1);
+
+    Thread chat;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         makeCollums();
         fillColums();
+        
+        chat = new Thread(cc);
+        chat.start();
+        cc.addObserver(this);
     }
     
     public void savePolice(Event evnt)
@@ -103,6 +119,10 @@ public class CentralControllerFX extends controller.CentralController implements
         
     }
     
+    public void btnSendChatClick(Event e) {
+        cc.setText(tfChatMessage.getText());
+    }
+    
     public void makeCollums()
     {
         tvIncidents.getColumns().clear();
@@ -127,5 +147,10 @@ public class CentralControllerFX extends controller.CentralController implements
         ObservableList<Report> reports = FXCollections.observableArrayList();
         reports = fillIncidents();
         tvIncidents.setItems(reports);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        taChat.setText(taChat.getText() + "\n" + ((ChatClient)o).getText());
     }
 }
