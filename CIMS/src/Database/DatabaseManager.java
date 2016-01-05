@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * *
@@ -107,79 +106,78 @@ public class DatabaseManager {
             closeConnection();
         }
     }
-    
+
     // <editor-fold desc="UnitsAssign">
     public ObservableList<Employee> getEmployees(String query, HashMap<String, ObservableList> specificationTypes, ObservableList<Employee> employees) {
         HashMap<String, String> values = new HashMap<>();
         employees.clear();
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         try {
             Statement stat = conn.createStatement();
             ResultSet rs = stat.executeQuery(query);
-            
+
             while (rs.next()) {
                 values.clear();
-                for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()){
+                for (Map.Entry<String, ObservableList> entry : specificationTypes.entrySet()) {
                     values.put(entry.getKey(), rs.getString(entry.getKey()));
                 }
-                
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime startReport = null;
                 LocalDateTime endReport = null;
-                if(values.get("ReportStartDate") != null){
-                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter); 
+                if (values.get("ReportStartDate") != null) {
+                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter);
                 }
-                if(values.get("ReportEndDate") != null){
-                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter); 
+                if (values.get("ReportEndDate") != null) {
+                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter);
                 }
-                
+
                 Report report = null;
-                if(values.get("reportID") != null){
-                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport); 
+                if (values.get("reportID") != null) {
+                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport);
                 }
-                
+
                 LocalDateTime startEmp = null;
                 LocalDateTime endEmp = null;
-                if(values.get("start") != null){
-                    startEmp =LocalDateTime.parse(values.get("start"), formatter); 
+                if (values.get("start") != null) {
+                    startEmp = LocalDateTime.parse(values.get("start"), formatter);
                 }
-                if(values.get("end") != null){
+                if (values.get("end") != null) {
                     endEmp = LocalDateTime.parse(values.get("end"), formatter);
                 }
-                
+
                 int badgeNr = -1;
-                if(values.get("badgeNR")!= null){
+                if (values.get("badgeNR") != null) {
                     badgeNr = Integer.parseInt(values.get("badgeNR"));
                 }
-                
-                Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"),values.get("level"), values.get("team"),report,startEmp,endEmp);
+
+                Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"), values.get("level"), values.get("team"), report, startEmp, endEmp);
                 employees.add(employee);
             }
         } catch (Exception ex) {
             System.out.println("Something went wrong");
             System.out.println(ex.getMessage());
             System.out.println(ex);
-        }
-        finally{
+        } finally {
             closeConnection();
         }
 
         return employees;
     }
-    
-    public HashMap<String, ObservableList> getSpeciafications(HashMap<String, ObservableList> specifications) {
+
+    public HashMap<String, ObservableList> getSpecifications(HashMap<String, ObservableList> specifications) {
         String query = "DESCRIBE vwemployee";
         String type;
         String spec;
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         ResultSet result = null;
         Statement statement = null;
         try {
@@ -188,20 +186,20 @@ public class DatabaseManager {
 
             while (result.next()) {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
-                spec = result.getString("Field"); 
+                spec = result.getString("Field");
                 ObservableList<String> input = FXCollections.observableArrayList();
-                if(("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)){
+                if (("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)) {
                     input.add("report");
                     specifications.put(spec, input);
-                }else if(!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)){
+                } else if (!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)) {
                     input.add("no selection");
                     specifications.put(spec, input);
-                }else if(!"helpline".equals(spec)){
+                } else if (!"helpline".equals(spec)) {
                     input.add("table");
                     specifications.put(spec, input);
                 }
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
             specifications = null;
@@ -214,18 +212,18 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return specifications;
     }
-    
-    public HashMap<String, ObservableList> getSpeciaficationsValues(String query, HashMap<String, ObservableList> specificationValues) {       
+
+    public HashMap<String, ObservableList> getSpecificationsValues(String query, HashMap<String, ObservableList> specificationValues) {
         ObservableList<String> valuesSpec;
         String spec;
-        
+
         if (!openConnection()) {
             return null;
         }
-        
+
         ResultSet result = null;
         Statement statement = null;
         try {
@@ -233,17 +231,17 @@ public class DatabaseManager {
             result = statement.executeQuery(query);
 
             while (result.next()) {
-                for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()){
-                    if(entry.getValue().get(0).equals("no selection")){ 
+                for (Map.Entry<String, ObservableList> entry : specificationValues.entrySet()) {
+                    if (entry.getValue().get(0).equals("no selection")) {
                         spec = entry.getKey();
                         valuesSpec = entry.getValue();
                         String value = result.getString(spec);
-                        if(!valuesSpec.contains(value)){
+                        if (!valuesSpec.contains(value)) {
                             valuesSpec.add(value);
                         }
                     }
                 }
-            } 
+            }
         } catch (Exception e) {
             System.out.println(e);
             specificationValues = null;
@@ -256,10 +254,10 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return specificationValues;
     }
-    
+
     public ObservableList getNewIncidents(String query, ObservableList<Report> reports) {
         if (!openConnection()) {
             return null;
@@ -285,113 +283,77 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
         return reports;
     }
-    
-    public boolean updateEmployeeForReport(Employee emp, Report report, String helpline){
+
+    public boolean updateEmployeeForReport(Employee emp, Report report, String helpline) {
         boolean succes = false;
         String queryUpdate = "UPDATE employeereport SET EmpFromDate = ? ,EmpTillDate = ? WHERE EmployeeID = ? AND ReportID = ?;";
-        
+
         if (!openConnection()) {
             return succes;
         }
-        
+
         try {
-            
+
             PreparedStatement preparedStmt = null;
-            conn.setAutoCommit(true); 
+            conn.setAutoCommit(true);
             preparedStmt = conn.prepareStatement(queryUpdate);
-            
+
             Timestamp timestamp = Timestamp.valueOf(emp.getStart());
             java.sql.Timestamp date = new java.sql.Timestamp(timestamp.getTime());
             preparedStmt.setTimestamp(1, date);
-            if(emp.getEnd()!= null){
+            if (emp.getEnd() != null) {
                 Timestamp timesp = Timestamp.valueOf(emp.getEnd());
                 java.sql.Timestamp datee = new java.sql.Timestamp(timesp.getTime());
                 preparedStmt.setTimestamp(2, datee);
-            }else{
+            } else {
                 preparedStmt.setTimestamp(2, null);
             }
             preparedStmt.setInt(3, emp.getBadgeNR());
             preparedStmt.setInt(4, report.getReportID());
-            
+
             preparedStmt.execute();
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally{
+        } finally {
             closeConnection();
         }
         return succes;
     }
-    
+
     public boolean saveEmployeeForReport(Employee emp, Report report, String helpline) {
         boolean succes = false;
-        
+
         String queryInsert = "INSERT INTO employeereport (EmployeeID, ReportID, EmpFromDate, EmpTillDate) VALUES (? ,? ,?, ?);";
-        
+
         if (!openConnection()) {
             return succes;
         }
-        
+
         try {
             PreparedStatement preparedStmt = null;
-            conn.setAutoCommit(true); 
+            conn.setAutoCommit(true);
             preparedStmt = conn.prepareStatement(queryInsert);
             preparedStmt.setInt(1, emp.getBadgeNR());
             preparedStmt.setInt(2, report.getReportID());
             Timestamp timeStart = Timestamp.valueOf(emp.getStart());
             java.sql.Timestamp dateStart = new java.sql.Timestamp(timeStart.getTime());
             preparedStmt.setTimestamp(3, dateStart);
-            if(emp.getEnd() != null){
+            if (emp.getEnd() != null) {
                 Timestamp timeEnd = Timestamp.valueOf(emp.getEnd());
                 java.sql.Timestamp dateEnd = new java.sql.Timestamp(timeEnd.getTime());
                 preparedStmt.setTimestamp(4, dateEnd);
-            }else{
-               preparedStmt.setTimestamp(4, null);
+            } else {
+                preparedStmt.setTimestamp(4, null);
             }
-            
-            boolean f= preparedStmt.execute();
+
+            boolean f = preparedStmt.execute();
             System.out.println(f);
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally{
-            closeConnection();
-        }
-        return succes;
-    }
-    
-    // </editor-fold>
-
-    /**
-     * saves the report with the given items.
-     *
-     * @param repo report to add
-     * @param helplineid helplineid
-     * @return succes
-     */
-    public boolean saveReport(Report repo,int helplineid) {
-        boolean succes = false;
-        if (!openConnection()) {
-            return succes;
-        }
-        try {
-            CallableStatement cs = null;
-            cs = conn.prepareCall("{call spInjectReport(?,?,?,0,?)}");
-            cs.setString(1, repo.getDescription());
-            cs.setString(2, repo.getLocation());
-            cs.setInt(3, helplineid);
-            cs.setString(4, repo.getTitle());
-            cs.execute();
-            succes = true;
-            cs.close();
-            conn.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        finally{
+        } finally {
             closeConnection();
         }
         return succes;
@@ -424,7 +386,7 @@ public class DatabaseManager {
             }
         }
     }
-    
+
     public boolean saveApproach(String approach, int helplineID, int reportID) {
         boolean succes = false;
         if (!openConnection()) {
@@ -441,15 +403,13 @@ public class DatabaseManager {
             conn.close();
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally{
+        } finally {
             closeConnection();
         }
         return succes;
     }
-    
-    public ArrayList<Vehicle> getAllVehicles(int helplineID)
-    {
+
+    public ArrayList<Vehicle> getAllVehicles(int helplineID) {
         if (!openConnection()) {
             return null;
         }
@@ -476,9 +436,8 @@ public class DatabaseManager {
             }
         }
     }
-    
-    public ArrayList<Employee> getAllEmployees(String name)
-    {
+
+    public ArrayList<Employee> getAllEmployees(String name) {
         if (!openConnection()) {
             System.out.println("Database connection failed!");
             return null;
@@ -487,24 +446,25 @@ public class DatabaseManager {
         Statement statement = null;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("SELECT * FROM vwemployee WHERE Helpline = '"+ name +"'");
+            result = statement.executeQuery("SELECT * FROM vwemployee WHERE Helpline = '" + name + "'");
             ArrayList lines = new ArrayList<>();
             while (result.next()) {
                 String available = result.getBoolean("Available") ? "Yes" : "No";
-                
+
                 LocalDateTime reportStart = null;
                 LocalDateTime reportEnd = null;
-                
-                if(result.getDate("reportStartDate") != null)
-                    reportStart = LocalDateTime.parse(result.getString("reportStartDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
 
-                
-                if(result.getDate("reportEndDate") != null)
+                if (result.getDate("reportStartDate") != null) {
+                    reportStart = LocalDateTime.parse(result.getString("reportStartDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                }
+
+                if (result.getDate("reportEndDate") != null) {
                     reportEnd = LocalDateTime.parse(result.getString("reportEndDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
-                
-                lines.add(new Employee(result.getInt("BadgeNR"),result.getString("Name"),result.getString("Function"),available,result.getString("Department"),result.getString("Region"),result.getString("Commune"),result.getString("level"),result.getString("Team"), null, reportStart , reportEnd));
+                }
+
+                lines.add(new Employee(result.getInt("BadgeNR"), result.getString("Name"), result.getString("Function"), available, result.getString("Department"), result.getString("Region"), result.getString("Commune"), result.getString("level"), result.getString("Team"), null, reportStart, reportEnd));
             }
-            
+
             return lines;
         } catch (Exception e) {
             System.out.println(e);
@@ -519,9 +479,8 @@ public class DatabaseManager {
             }
         }
     }
-    
-    public ArrayList<Report> getAllReports(String name)
-    {
+
+    public ArrayList<Report> getAllReports(String name) {
         if (!openConnection()) {
             return null;
         }
@@ -534,10 +493,10 @@ public class DatabaseManager {
             ArrayList reports = new ArrayList<>();
             while (result.next()) {
                 //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
-                
-                reports.add(new Report(result.getInt("ReportID"),result.getString("Description"),result.getString("ExtraInformation"),result.getString("locationGps"),result.getString("Weather"), new ArrayList<>() , result.getString("Title")));
+
+                reports.add(new Report(result.getInt("ReportID"), result.getString("Description"), result.getString("ExtraInformation"), result.getString("locationGps"), result.getString("Weather"), new ArrayList<>(), result.getString("Title")));
             }
-            
+
             return reports;
         } catch (Exception e) {
             System.out.println(e);
@@ -552,9 +511,8 @@ public class DatabaseManager {
             }
         }
     }
-    
-    public HashMap<Integer,Integer> getAssignedReports()
-    {
+
+    public HashMap<Integer, Integer> getAssignedReports() {
         if (!openConnection()) {
             return null;
         }
@@ -567,7 +525,7 @@ public class DatabaseManager {
             while (result.next()) {
                 assigned.put(result.getInt("EmployeeID"), result.getInt("ReportID"));
             }
-            
+
             return assigned;
         } catch (Exception e) {
             System.out.println(e);
@@ -581,6 +539,138 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
-        
+
     }
+
+    // </editor-fold>
+    /**
+     * saves the report with the given items.
+     *
+     * @param repo report to add
+     * @param helplineid helplineid
+     * @return succes
+     */
+    public int saveReport(Report repo) {
+
+        int newID = 0;
+        if (!openConnection()) {
+            return newID;
+        }
+        try {
+            CallableStatement cs = null;
+            cs = conn.prepareCall("{call spInjectReport(?,?,?,?)}");
+            cs.setString(1, repo.getDescription());
+            cs.setInt(3, newID);
+            cs.setString(2, repo.getLocation());
+            cs.setString(4, repo.getTitle());
+            cs.execute();
+            cs.close();
+            newID = getLatestId();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return newID;
+    }
+
+    private int getLatestId() {
+
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select Max(reportID) as maxid from report ");
+
+            while (result.next()) {
+                return result.getInt("maxid");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+        }
+        return 0;
+    }
+
+    public boolean saveHelplineReport(int reportId, int helpId) {
+        boolean succes = false;
+        if (!openConnection()) {
+            return succes;
+        }
+        try {
+
+            CallableStatement cs = null;
+            cs = conn.prepareCall("{call spInjectHelplineReport(?,?)}");
+            cs.setInt(1, reportId);
+            cs.setInt(2, helpId);
+            cs.execute();
+            cs.close();
+            succes = true;
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e);
+            return succes;
+        } finally {
+            closeConnection();
+        }
+        return succes;
+    }
+
+    public String getHelplineNameById(int Id) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select name from Helpline where HelplineID = " + Id);
+
+            while (result.next()) {
+                return result.getString(0);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        return null;
+    }
+
+    public Employee getEmployees(String userName, String password) {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = '" + userName + "' and inlogpassword = '" + password + "'");
+            Employee e = null;
+            while (result.next()) {
+                e = new Employee(result.getInt("employeeID"), result.getString("Name"), new Helpline(result.getInt("HelplineID")));
+            }
+            return e;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
 }

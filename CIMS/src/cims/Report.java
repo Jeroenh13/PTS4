@@ -6,6 +6,8 @@
 package cims;
 
 import Database.DatabaseManager;
+import Server.clientSocket;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -15,19 +17,19 @@ import javafx.collections.ObservableList;
  *
  * @author Bas
  */
-public class Report {
+public class Report implements Serializable {
 
-    private DatabaseManager dbm;
+    private transient DatabaseManager dbm;
     private int reportID;
     private String description;
     private String extraInformation;
-    private String location;
+    private String locationGPS;
     private String weather;
     private String title;
     private ArrayList<Helpline> helpLines;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private ObservableList<Employee> employees;
+    private transient ObservableList<Employee> employees;
 
     /**
      * *
@@ -36,10 +38,11 @@ public class Report {
     public Report() {
 
     }
-    
+
     /**
      * *
      * creates a new empty report
+     *
      * @param reportID
      * @param description
      * @param title
@@ -54,7 +57,7 @@ public class Report {
         this.endDate = endDate;
         this.employees = FXCollections.observableArrayList();
     }
-    
+
     /**
      * creates a new filled report
      *
@@ -70,16 +73,13 @@ public class Report {
         this.reportID = reportID;
         this.description = description;
         this.extraInformation = extraInformation;
-        this.location = location;
+        this.locationGPS = location;
         this.weather = weather;
         this.helpLines = helpline;
         this.title = title;
+        this.employees = FXCollections.observableArrayList();
     }
     
-    public Report(String description, String title){
-        
-    }
-
     /**
      * gets the report ID
      *
@@ -135,21 +135,21 @@ public class Report {
     }
 
     /**
-     * gets the location
+     * gets the locationGPS
      *
-     * @return the location of the report
+     * @return the locationGPS of the report
      */
     public String getLocation() {
-        return location;
+        return locationGPS;
     }
 
     /**
-     * sets the location of the report
+     * sets the locationGPS of the report
      *
-     * @param Location location to be set
+     * @param Location locationGPS to be set
      */
     public void setLocation(String Location) {
-        this.location = Location;
+        this.locationGPS = Location;
     }
 
     /**
@@ -169,8 +169,8 @@ public class Report {
     public void setWeather(String Weather) {
         this.weather = Weather;
     }
-    
-     /**
+
+    /**
      * gets the title
      *
      * @return the title
@@ -187,37 +187,51 @@ public class Report {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
-    public boolean saveReport()
-    {
+
+    /**
+     * Inserts the report into the database and sends it to the server.
+     * @return if it succeeded
+     */
+    public boolean saveReport() {
         boolean succes = false;
         dbm = new DatabaseManager();
-        try{
-            for(Helpline help : helpLines)
-            {
-                succes = dbm.saveReport(this,help.getID());
+        try {
+            this.reportID = dbm.saveReport(this);
+            if(this.reportID == 0)
+                return succes;
+            for (Helpline help : helpLines) {
+                succes = dbm.saveHelplineReport(this.reportID,help.getID());
             }
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             succes = false;
             System.out.println(e);
         }
+
+        clientSocket cs = new clientSocket(this);
         return succes;
     }
-    
-    public LocalDateTime getStartDate(){
+
+    /**
+     * Gets the start date
+     * @return the startdate
+     */
+    public LocalDateTime getStartDate() {
         return this.startDate;
     }
-    
-    public boolean addEmployee(Employee emp){
-        boolean succeded = false;
-        if(!employees.contains(emp)){ 
+
+    /**
+     * Adds an employee to the report
+     * @param emp the employee to be added
+     * @return Succeeded
+     */
+    public boolean addEmployee(Employee emp) {
+        if(emp == null)return false;
+        boolean succeeded = false;
+        if (!employees.contains(emp)) {
             this.employees.add(emp);
-            succeded = true;
+            succeeded = true;
         }
-        return succeded;
+        return succeeded;
     }
     
     public void addHelpline(Helpline h){
@@ -227,17 +241,68 @@ public class Report {
     public void removeEmployee(Employee emp){
         this.employees.remove(emp);
     }
-    
+
+    /**
+     * Gets all assigned employees to this report 
+     * @return The assigned employees
+     */
     public ObservableList<Employee> getEmployees() {
         return this.employees;
     }
-    
-    public void setEmployees(ObservableList<Employee> emps){
+
+    /**
+     * Sets the employee list
+     * @param emps list with employees
+     */
+    public void setEmployees(ObservableList<Employee> emps) {
         this.employees = emps;
     }
-    
+
+    /**
+     * Returns the title
+     * @return title
+     */
     @Override
-    public String toString(){
+    public String toString() {
         return title;
     }
+    
+    /**
+     * gets the latitude
+     * @return latitude of a locationGPS
+     */
+    public double getLatitude()
+    {
+        String[] lat = locationGPS.split(",");
+        return Double.parseDouble(lat[0].replaceAll("\\D+", ""));
+    }
+    
+    /**
+     * Get the longitude of a locationGPS
+     * @return 
+     */
+    public double getLongitude()
+    {
+        String[] lng = locationGPS.split(",");
+        return Double.parseDouble(lng[1].replaceAll("\\D+", ""));
+    }
+    
+    /**
+     * sets the latitude
+     * @param lat number to be set
+     */
+    public void setLatitude(double lat)
+    {
+        this.locationGPS= "["+lat+","+getLongitude()+"]";
+    }
+    
+    /**
+     * sets the longitude 
+     * @param lng number to be set
+     */
+    public void setLongitude(double lng)
+    {
+        this.locationGPS= "["+getLatitude()+","+lng+"]";    
+    }
+    
 }

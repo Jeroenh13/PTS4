@@ -34,7 +34,7 @@
                <children>
                   <TextArea fx:id="taChat" layoutX="14.0" layoutY="14.0" prefHeight="496.0" prefWidth="269.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                   <TextField fx:id="tfSendChat" layoutX="14.0" layoutY="523.0" prefHeight="97.0" prefWidth="213.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="66.0" />
-                  <Button fx:id="btnSendChat" layoutX="227.0" layoutY="523.0" mnemonicParsing="false" prefHeight="97.0" prefWidth="47.0" text="Stuur" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
+                  <Button fx:id="btnSendChat" layoutX="227.0" layoutY="523.0" mnemonicParsing="false" onAction="#btnSendChatClick" prefHeight="97.0" prefWidth="47.0" text="Stuur" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
                </children></AnchorPane>
         </items>
       </SplitPane>

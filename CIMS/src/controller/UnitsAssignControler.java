@@ -84,9 +84,9 @@ public class UnitsAssignControler {
      * This method fills the types of specifications with values for the search function.
      */
     public void fillSpecificationsTypes(){     
-        dbm.getSpeciafications(specificationTypes);
+        dbm.getSpecifications(specificationTypes);
         String query = QueryBuilder.getSpecificationValues(helpline.getName(), specificationTypes);
-        dbm.getSpeciaficationsValues(query,specificationTypes);
+        dbm.getSpecificationsValues(query,specificationTypes);
     }
     
     /**
