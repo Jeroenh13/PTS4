@@ -2,12 +2,11 @@
 
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControlRoomController">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControlRoomController">
    <children>
       <BorderPane fx:id="GMapsPane" layoutX="622.0" layoutY="38.0" prefHeight="725.0" prefWidth="644.0" />
       <AnchorPane prefHeight="800.0" prefWidth="644.0">

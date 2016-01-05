@@ -5,6 +5,7 @@
  */
 package Runnables;
 
+import i18n.localeSettings;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +32,7 @@ public class ControlRoom extends Application {
     public void start(Stage stage) {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/ControlRoom.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/ControlRoom.fxml"),localeSettings.getResourceBundle());
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
