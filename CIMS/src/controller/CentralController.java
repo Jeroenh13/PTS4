@@ -12,6 +12,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -99,8 +101,21 @@ public class CentralController
         return fieldsList;
     }
     
-    private void fillIncidents()
+    public ObservableList<Report> fillIncidents()
     {
-        
+        List<Helpline> helplines = getHelplines();
+        ObservableList<Report> reports = FXCollections.observableArrayList();
+        for (Helpline h : helplines)
+        {
+            ObservableList<Report> tempreports = FXCollections.observableArrayList();
+            for (Report r : h.getReports())
+            {
+                System.out.println(r.getReportID() + "---" +  r.getTitle() + "---" +  r.getDescription());
+                tempreports.add(r);
+            }
+            System.out.println(tempreports.size());
+            reports.addAll(tempreports);
+        }
+        return reports;
     }
 }

@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -19,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 /**
  *
@@ -61,6 +63,7 @@ public class CentalControllerFX extends controller.CentralController implements 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         makeCollums();
+        fillColums();
     }
     
     public void savePolice(Event evnt)
@@ -117,19 +120,12 @@ public class CentalControllerFX extends controller.CentralController implements 
                 tvIncidents.getColumns().add(tc);
             }
         }
-        List<Helpline> helplines = getHelplines();
+    }
+    
+    public void fillColums()
+    {
         ObservableList<Report> reports = FXCollections.observableArrayList();
-        for (Helpline h : helplines)
-        {
-            ObservableList<Report> tempreports = FXCollections.observableArrayList();
-            for (Report r : h.getReports())
-            {
-                System.out.println(r.getReportID() + "---" +  r.getTitle() + "---" +  r.getDescription());
-                tempreports.add(r);
-            }
-            System.out.println(tempreports.size());
-            reports.addAll(tempreports);
-        }
+        reports = fillIncidents();
         tvIncidents.setItems(reports);
     }
 }

@@ -90,7 +90,7 @@
                         <Button layoutX="474.0" layoutY="399.0" mnemonicParsing="false" text="Route definieren" />
                         <Button layoutX="474.0" layoutY="489.0" mnemonicParsing="false" text="verwijder" />
                         <Label layoutX="699.0" layoutY="31.0" text="Belangrijke sociale media berichten van het ongeval:" />
-                        <ListView layoutX="699.0" layoutY="97.0" prefHeight="841.0" prefWidth="441.0" />
+                        <ListView layoutX="699.0" layoutY="97.0" prefHeight="396.0" prefWidth="487.0" />
                         <Button layoutX="546.0" layoutY="596.0" mnemonicParsing="false" text="Verken het gebied" />
                         <Label layoutX="43.0" layoutY="601.0" text="Weer:" />
                         <Label layoutX="45.0" layoutY="640.0" text="Temperatuur:" />
@@ -235,6 +235,10 @@
                               </Tab>
                           </tabs>
                         </TabPane>
+                        <TextArea fx:id="taChat" layoutX="699.0" layoutY="551.0" prefHeight="303.0" prefWidth="486.0" />
+                        <TextField fx:id="tfChatMessage" layoutX="699.0" layoutY="869.0" prefHeight="31.0" prefWidth="354.0" />
+                        <Button fx:id="btnChatSend" layoutX="1066.0" layoutY="869.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="120.0" text="Stuur" />
+                        <Label layoutX="699.0" layoutY="520.0" text="Chat met hulpdiensten" />
                      </children></AnchorPane>
                </content>
             </Tab>
