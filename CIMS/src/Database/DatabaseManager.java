@@ -129,30 +129,30 @@ public class DatabaseManager {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
                 LocalDateTime startReport = null;
                 LocalDateTime endReport = null;
-                if (values.get("ReportStartDate") != null) {
-                    startReport = LocalDateTime.parse(values.get("ReportStartDate"), formatter);
+                if (values.get("reportstartdate") != null) {
+                    startReport = LocalDateTime.parse(values.get("reportstartdate"), formatter);
                 }
-                if (values.get("ReportEndDate") != null) {
-                    endReport = LocalDateTime.parse(values.get("ReportEndDate"), formatter);
+                if (values.get("reportenddate") != null) {
+                    endReport = LocalDateTime.parse(values.get("reportenddate"), formatter);
                 }
 
                 Report report = null;
-                if (values.get("reportID") != null) {
-                    report = new Report(Integer.parseInt(values.get("reportID")), values.get("description"), values.get("title"), startReport, endReport);
+                if (values.get("reportid") != null) {
+                    report = new Report(Integer.parseInt(values.get("reportid")), values.get("description"), values.get("title"), startReport, endReport);
                 }
 
                 LocalDateTime startEmp = null;
                 LocalDateTime endEmp = null;
-                if (values.get("start") != null) {
-                    startEmp = LocalDateTime.parse(values.get("start"), formatter);
+                if (values.get("startdate") != null) {
+                    startEmp = LocalDateTime.parse(values.get("startdate"), formatter);
                 }
-                if (values.get("end") != null) {
-                    endEmp = LocalDateTime.parse(values.get("end"), formatter);
+                if (values.get("enddate") != null) {
+                    endEmp = LocalDateTime.parse(values.get("enddate"), formatter);
                 }
 
                 int badgeNr = -1;
-                if (values.get("badgeNR") != null) {
-                    badgeNr = Integer.parseInt(values.get("badgeNR"));
+                if (values.get("badgenr") != null) {
+                    badgeNr = Integer.parseInt(values.get("badgenr"));
                 }
 
                 Employee employee = new Employee(badgeNr, values.get("name"), values.get("function"), values.get("available"), values.get("department"), values.get("region"), values.get("commune"), values.get("level"), values.get("team"), report, startEmp, endEmp);
@@ -188,10 +188,10 @@ public class DatabaseManager {
                 type = result.getString("Type"); // can be int(11), varchar(255) or datetime
                 spec = result.getString("Field");
                 ObservableList<String> input = FXCollections.observableArrayList();
-                if (("reportID".equals(spec) || "description".equals(spec) || "ReportStartDate".equals(spec) || "ReportEndDate".equals(spec)) && !"helpline".equals(spec)) {
+                if (("reportid".equals(spec) || "description".equals(spec) || "reportstartdate".equals(spec) || "reportenddate".equals(spec)) && !"helpline".equals(spec)) {
                     input.add("report");
                     specifications.put(spec, input);
-                } else if (!"datetime".equals(type) && !"name".equals(spec) && !"badgeNR".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)) {
+                } else if (!"datetime".equals(type) && !"name".equals(spec) && !"badgenr".equals(spec) && !"title".equals(spec) && !"helpline".equals(spec)) {
                     input.add("no selection");
                     specifications.put(spec, input);
                 } else if (!"helpline".equals(spec)) {

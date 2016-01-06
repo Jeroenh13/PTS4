@@ -196,6 +196,9 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         Tab tab = (Tab) evt.getSource();
         
         if(tab == tpgAssignUnnits){
+            if(this.getSpecificationsTypes().isEmpty()){
+                fillSpecificationsTypes();
+            }
             resetSearchControlsAss();
             search(true, "", -1, "", null, null);
         } else if (tab == tpgOverview) {

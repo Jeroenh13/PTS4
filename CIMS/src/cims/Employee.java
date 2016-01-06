@@ -265,7 +265,81 @@ public class Employee {
     
     
     public static Employee getEmployeeByInlog(String userName, String password) {
-        Database.DatabaseManager dm = new DatabaseManager();
-        return dm.getEmployees(userName,password);
+        Database.DatabaseManager dbm = new DatabaseManager();
+        return dbm.getEmployees(userName,password);
+    }
+    
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean same = true;
+
+        if (object != null && object instanceof Employee)
+        {
+            Employee empOther = (Employee) object;
+            if(this.badgeNR != empOther.getBadgeNR()){
+                same = false;
+            }
+            
+            if(!this.name.equals(empOther.getName())){
+                same = false;
+            }
+            
+            if(!this.available.equals(empOther.getAvailable())){
+                same = false;
+            }
+            
+            if(!this.function.equals(empOther.getFunction())){ 
+                same = false;
+            }
+            
+            if(!this.department.equals(empOther.getDepartment())){
+                same = false;
+            }
+            
+            if(!this.region.equals(empOther.getRegion())){
+                same = false;
+            }
+            
+            if(!this.commune.equals(empOther.getCommune())){
+                same = false;
+            }
+            
+            if(!this.level.equals(empOther.getLevel())){
+                same = false;
+            }
+            
+            if(!this.team.equals(empOther.getTeam())){ 
+                same = false;
+            }
+
+//            if(this.assignedTo.){
+//                
+//            }
+            if(this.start != null && empOther.getStart() != null){
+                if(!this.start.equals(empOther.getStart())){
+                    same = false;
+                }
+            }else if((null == this.start && empOther.getStart() != null) || (null != this.start && empOther.getStart() == null) ){
+                same = false;
+            }
+            
+            if(this.end != null && empOther.getEnd() != null){
+                if(!this.end.equals(empOther.getEnd())){
+                    same = false;
+                }
+            }else if((null == this.end && empOther.getEnd() != null) || (null != this.end && empOther.getEnd() == null) ){
+                same = false;
+            }
+            
+//            if(this.helpline.equals(empOther.geth)){
+//                
+//            }
+
+        }else{
+            same = false;
+        }
+
+        return same;
     }
 }
