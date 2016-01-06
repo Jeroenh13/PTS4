@@ -161,13 +161,15 @@ public class CentralControllerFX extends controller.CentralController implements
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.print(o);
-        if((Object)o instanceof ClientReceiving)
+        if(o.getClass() == ClientReceiving.class)
         {
+            super.loadHelplines();
             fillColums();
             System.out.println("/yay");
         }
-        else
-        taChat.setText(taChat.getText() + "\n" + ((ChatClient)o).getText());
+        else if(o.getClass() == ChatClient.class)
+        {
+            taChat.setText(taChat.getText() + "\n" + ((ChatClient)o).getText());
+        }
     }
 }

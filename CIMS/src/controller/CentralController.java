@@ -49,7 +49,7 @@ public class CentralController  {
         dbm.saveApproach(approach, helplineID, reportID);
     }
 
-    private void loadHelplines() {
+    public void loadHelplines() {
         List<Report> dbreports = new ArrayList();
         helplines = dbm.getHelpLines();
 
