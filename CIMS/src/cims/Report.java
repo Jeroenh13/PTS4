@@ -10,6 +10,7 @@ import Server.clientSocket;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -305,4 +306,7 @@ public class Report implements Serializable {
         this.locationGPS= "["+getLatitude()+","+lng+"]";    
     }
     
+    public String getHelpLines(){
+        return String.join(", ", helpLines.stream().map(Helpline::getName).collect(Collectors.toList()));
+    }
 }

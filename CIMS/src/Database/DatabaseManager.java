@@ -488,8 +488,8 @@ public class DatabaseManager {
         Statement statement = null;
         try {
             statement = conn.createStatement();
-            result = statement.executeQuery("SELECT * FROM vwhelplinereport");
-            //result = statement.executeQuery("SELECT * FROM vwhelplinereport WHERE Helpline = '" + name +"'");
+            //result = statement.executeQuery("SELECT * FROM vwhelplinereport");
+            result = statement.executeQuery("SELECT * FROM vwhelplinereport WHERE Helpline = '" + name +"'");
             ArrayList reports = new ArrayList<>();
             while (result.next()) {
                 //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)

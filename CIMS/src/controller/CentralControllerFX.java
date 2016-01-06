@@ -18,6 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -139,7 +140,9 @@ public class CentralControllerFX extends controller.CentralController implements
                 if (f.getType().equals(ArrayList.class))
                 {
                     System.out.println("arraylist");
-                    tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                    tc.setCellValueFactory(new PropertyValueFactory<ArrayList<Helpline>, String>(f.getName()));
+                    
+                    tvIncidents.
                 }
                 else
                 {
