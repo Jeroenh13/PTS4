@@ -68,6 +68,14 @@ public class CentralControllerFX extends controller.CentralController implements
     private TextArea taChat;
     @FXML
     private TextField tfChatMessage;
+    
+    @FXML private Label lblReportDate;
+    @FXML private Label lblReportDesc;
+    @FXML private Label lblReportLoc;
+    @FXML private Label lblReportExtra;
+    
+    @FXML private TabPane tpTabs;
+    @FXML private Tab tptInfo;
 
     int tmpID = 0;
 
@@ -77,6 +85,8 @@ public class CentralControllerFX extends controller.CentralController implements
 
     private ClientReceiving cr = new ClientReceiving();
     private Thread reportListener;
+    
+    private Report selectedReport;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,7 +131,17 @@ public class CentralControllerFX extends controller.CentralController implements
     }
 
     public void informationAccident() {
-
+        System.out.println(selectedReport.toString());
+        tpTabs.getSelectionModel().select(tptInfo);
+        //System.out.println(lblReportDate);
+        System.out.println(selectedReport.getStartDate().toString());
+        System.out.println(selectedReport.getDescription());
+        System.out.println(selectedReport.getExtraInformation());
+        System.out.println(selectedReport.getLocation());
+//        lblReportDate.setText(selectedReport.getStartDate().toString());
+//        lblReportDesc.setText(selectedReport.getDescription());
+//        lblReportExtra.setText(selectedReport.getExtraInformation());
+//        lblReportLoc.setText(selectedReport.getLocation());
     }
 
     public void btnSendChatClick(Event e) {
@@ -157,6 +177,12 @@ public class CentralControllerFX extends controller.CentralController implements
             if (tvIncidents.getSelectionModel().getSelectedItem() != null)
             {
                 System.out.println("Selected report: " + newValue.getReportID());
+                btnInformationIncident.setDisable(false);
+                selectedReport = tvIncidents.getSelectionModel().getSelectedItem();
+            }
+            else
+            {
+                btnInformationIncident.setDisable(true);
             }
         });
     }
