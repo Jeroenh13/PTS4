@@ -494,7 +494,7 @@ public class DatabaseManager {
             while (result.next()) {
                 //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
 
-                reports.add(new Report(result.getInt("ReportID"), result.getString("Description"), result.getString("ExtraInformation"), result.getString("locationGps"), result.getString("Weather"), new ArrayList<>(), result.getString("Title")));
+                reports.add(new Report(result.getInt("ReportID"), result.getString("Description"), result.getString("ExtraInformation"), result.getString("locationGps"), result.getString("Weather"), new ArrayList<>(), result.getString("Title"), result.getString("locationName")));
             }
 
             return reports;
@@ -558,11 +558,12 @@ public class DatabaseManager {
         }
         try {
             CallableStatement cs = null;
-            cs = conn.prepareCall("{call spInjectReport(?,?,?,?)}");
+            cs = conn.prepareCall("{call spInjectReport(?,?,?,?,?)}");
             cs.setString(1, repo.getDescription());
             cs.setInt(3, newID);
             cs.setString(2, repo.getLocation());
             cs.setString(4, repo.getTitle());
+            cs.setString(5, repo.getLocationName());
             cs.execute();
             cs.close();
             newID = getLatestId();
