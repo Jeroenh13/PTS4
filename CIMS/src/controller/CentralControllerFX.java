@@ -133,9 +133,19 @@ public class CentralControllerFX extends controller.CentralController implements
         List<Field> fields = getCollumsReport();
         for (Field f : fields) {
             if (!f.getName().equals("dbm")) {
+                System.out.println(f.getType().toString());
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
-                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                if (f.getType().equals(ArrayList.class))
+                {
+                    System.out.println("arraylist");
+                    tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                }
+                else
+                {
+                    System.out.println("geen arraylist");
+                    tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                }
                 tc.setResizable(true);
                 int width = 135;
                 tc.setMinWidth(width);
@@ -147,6 +157,7 @@ public class CentralControllerFX extends controller.CentralController implements
     public void fillColums() {
         ObservableList<Report> reports = FXCollections.observableArrayList();
         reports = fillIncidents();
+        //reports.sort(cmprtr);
         tvIncidents.setItems(reports);
     }
 

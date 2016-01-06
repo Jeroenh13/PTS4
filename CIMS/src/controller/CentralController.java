@@ -17,6 +17,8 @@ import java.util.Observable;
 import java.util.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
+import javafx.util.Callback;
 
 /**
  *
@@ -100,14 +102,31 @@ public class CentralController  {
     }
 
     public ObservableList<Report> fillIncidents() {
-        List<Helpline> helplines = getHelplines();
-        for (Helpline h : helplines) {
-            ObservableList<Report> tempreports = FXCollections.observableArrayList();
-            for (Report r : h.getReports()) {
-                tempreports.add(r);
-            }
-            reports.addAll(tempreports);
-        }
+//        ObservableList<Report> reps = FXCollections.observableArrayList();
+//        List<Helpline> helplines = getHelplines();
+//        for (Helpline h : helplines) {
+//            ObservableList<Report> tempreports = FXCollections.observableArrayList();
+//            for (Report r : h.getReports()) {
+//                tempreports.add(r);
+//            }
+//            reps.addAll(tempreports);
+//        }
+//        SortedList<Report> sortedList = new SortedList<>(reports,
+//        (Report r1, Report r2) -> 
+//        {
+//            if (r1.getReportID() < r2.getReportID())
+//            {
+//                return -1;
+//            }
+//            else if (r1.getReportID() > r2.getReportID())
+//            {
+//                return 1;
+//            }
+//            else
+//            {
+//                return 0;
+//            }
+//        });
         return reports;
     }
 }
