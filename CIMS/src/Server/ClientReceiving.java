@@ -48,7 +48,7 @@ public class ClientReceiving extends Observable implements Runnable {
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
-            out.writeInt(1);
+           // out.writeObject(1);
             while (true) {
                 report = (Report) in.readObject();
                 setChanged();

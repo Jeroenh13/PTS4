@@ -29,8 +29,6 @@ class acceptServer implements Runnable {
 
     public acceptServer(Socket accept) {
         this.socket = accept;
-
-        System.out.println("Accepted");
     }
 
     @Override
@@ -40,11 +38,7 @@ class acceptServer implements Runnable {
             inStream = socket.getInputStream();
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
-
-            System.out.println("Created out and ins");
             int id = in.readInt();
-            System.out.println("Read int");
-            System.out.println(id);
             boolean found = false;
             for (obvClass o : obvClass.obvs) {
                 
@@ -61,9 +55,7 @@ class acceptServer implements Runnable {
             }
 
             while (true) {
-                System.out.println("waiting for repo");
                 obv.addNewReport(in.readObject());
-                System.out.println("Received repo");
             }
 
         } catch (IOException | ClassNotFoundException ex) {

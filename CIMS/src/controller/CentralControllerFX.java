@@ -162,7 +162,7 @@ public class CentralControllerFX extends controller.CentralController implements
     @Override
     public void update(Observable o, Object arg) {
         System.out.print(o);
-        if((Object)o instanceof Report)
+        if((Object)o instanceof ClientReceiving)
         {
             fillColums();
             System.out.println("/yay");

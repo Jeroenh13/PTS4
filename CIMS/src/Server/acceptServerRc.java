@@ -44,8 +44,8 @@ class acceptServerRc implements Runnable, Observer {
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
             
-            int id = (int) in.readObject();
-            
+            //int id = (int) in.readObject();
+            int id = 1;
             boolean found = false;
             System.out.println(obvClass.obvs);
             for (obvClass o : obvClass.obvs) {
@@ -66,8 +66,6 @@ class acceptServerRc implements Runnable, Observer {
             while (true);
 
         } catch (IOException ex) {
-            Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
