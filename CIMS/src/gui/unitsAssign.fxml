@@ -62,7 +62,7 @@
                                                 <Slider fx:id="sdrEndHour" layoutX="385.0" layoutY="149.0" majorTickUnit="3.0" max="23.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                                                 <Slider fx:id="sdrEndMinute" layoutX="385.0" layoutY="193.0" majorTickUnit="15.0" max="59.0" minorTickCount="15" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                                                 <Label fx:id="lblEndHours" layoutX="540.0" layoutY="168.0" text="15" textAlignment="RIGHT" />
-                                                <Label fx:id="lblStartDate" layoutX="301.0" layoutY="10.0" text="startDate" />
+                                                <Label fx:id="lblStartDateAsss" layoutX="301.0" layoutY="10.0" text="startDate" />
                                                 <Label fx:id="lblTimeBind" layoutX="557.0" layoutY="167.0" text=":" />
                                                 <Label fx:id="lblEndMinutes" layoutX="561.0" layoutY="168.0" text="30" />
                                                 <Label fx:id="lblEndDateAss" layoutX="307.0" layoutY="120.0" text="endDate" />

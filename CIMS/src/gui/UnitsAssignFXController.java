@@ -22,7 +22,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -102,23 +104,21 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // make map of specifications to chose from on GUI
-//        makeMapComboBoxes();
-//        // get search specifications and subspecifications
-//        getTypeSpecifications();
-//        // fill comboboxes with subspecifications
-//        fillComboBoxes();
-//        // set tabel of assign unnits, fill with persons of helpline
-//        setTableAss();
         fillSpecificationsTypes();
         makeComboBoxesAndColumns();
-        search(true, "", -1, "", null, null);
-        search(false, "", -1, "", null, null);
         selectLvEmpsFirst = false;
         selectTvEmpsFirst = false;
         setIncidents(); 
+        
+        dtpFromDate.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                LocalDate date = dtpFromDate.getValue();
+                System.err.println("Selected date: " + date);
+            }
+        });
     }    
-    
     
     public void setLocale(Event evt) {
         if(localeSettings.tempLocale == 0)
@@ -155,7 +155,6 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
                 badgeNr = Integer.parseInt(tfBadgeNrAss.getText());
             }
             search(true, tfNameAss.getText(), badgeNr, "", null, null);
-            tvAssign.setItems(getHelpline().getEmployeesAss());
         } else if(evt.getSource() == btnSearch){
             if(tfBadgeNr.getText().equals("")){ 
                 badgeNr = -1;
@@ -167,32 +166,29 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             search(false, tfName.getText(), badgeNr, tfIncident.getText(), fromDate, tillDate);
         }
     }
-    // </editor-fold>
-    // <editor-fold desc="Set tables: Overview & Assign">
-   
-    // </editor-fold>
     
-    // <editor-fold desc="Report">
-    // TO DO
-    // </editor-fold>
-    
-    // TO DO Set listview of report and assign
-    
-    
+    /**
+     * Method being fired when switching tabs
+     * Selecting an other tab will reset the content of the new selected tab
+     * @param evt 
+     */
     public void tabSwitch(Event evt){
         Tab tab = (Tab) evt.getSource();
         
         if(tab == tpgAssignUnnits){
-//            resetSpecifications();
-//            setTableAss();
+            resetSearchControlsAss();
+            search(true, "", -1, "", null, null);
         } else if (tab == tpgOverview) {
-//            resetSpecifications();
-//            setTable();
+            resetSearchControls();
+            search(false, "", -1, "", null, null);
         } else if (tab == tpgReport){
             
         }
     }
     
+    /**
+     * Method to place and set labels and combo-boxes with values for selection
+     */
     private void makeComboBoxesAndColumns(){
         comboBoxes = new HashMap<>();
         int width = 185;
@@ -276,12 +272,12 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         
         tvOverview.setItems(getHelpline().getEmployees());
         tvAssign.setItems(getHelpline().getEmployeesAss());
-        //tvAssign.setColumnResizePolicy();
-        
-        //tvAssign.setColumnResizePolicy((TableView.ResizeFeatures param) -> true);
-        
     }
     
+    /**
+     * Method to add a column to the assign and overview tab
+     * @param key 
+     */
     private void setTables(String key){
         TableColumn tc = new TableColumn();
         TableColumn tcAss = new TableColumn();
@@ -292,7 +288,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             new PropertyValueFactory<>(key)
         );
         tcAss.setCellValueFactory(
-            new PropertyValueFactory<>(key) //Employee,String
+            new PropertyValueFactory<>(key)
         );
         
         tc.setResizable(true); 
@@ -307,16 +303,21 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         tvAssign.getColumns().add(tcAss);
     }
     
+    /**
+     * Method to set the report that aren't closed and to set action-events and values of corresponding controls
+     */
     private void setIncidents(){
         getIncidents();
         lvIncident.setItems(getHelpline().getReports());
         
         lvIncident.getSelectionModel().selectedItemProperty().addListener((ObservableValue observable, Object oldValue, Object newValue) -> {
             setSelectedReport((Report) newValue);
-            //setSelectedReport(Report report)
-            lvReportEmps.setItems(this.getEmployeesForReport());
-            lblDescriptionAss.setText("Omschrijving:\n" + getSelectedReport().getDescription());
-            lblStartDateAss.setText("Startdatum en tijd: " + getSelectedReport().getStartDate().toString()); 
+            
+            if(this.getSelectedReport() != null){
+                lvReportEmps.setItems(this.getEmployeesForReport());
+                lblDescriptionAss.setText("Omschrijving:\n" + getSelectedReport().getDescription());
+                lblStartDateAss.setText("Startdatum en tijd: " + getSelectedReport().getStartDate().toString()); 
+            }
         });
         
         lvReportEmps.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -337,22 +338,7 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             }
             
             if(oldEmp != null){
-                if(this.getEmployeesForReport().contains(oldEmp)){ 
-                    LocalDateTime start = oldEmp.getStart();
-                    LocalDateTime end = oldEmp.getEnd();
-
-                    if(dtpBeginDateAss.getValue() != null){
-                        LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
-                        start = LocalDateTime.of(dtpBeginDateAss.getValue(), startTime);
-                    }
-
-                    if(dtpEndDateAss.getValue() != null){
-                        LocalTime endTime = LocalTime.of((int)sdrEndHour.getValue(),(int)sdrEndMinute.getValue());
-                        end = LocalDateTime.of(dtpEndDateAss.getValue(), endTime);
-                    }
-
-                    this.adjustDate(start, end, oldEmp);
-                }
+                adjustAddedPerson(oldEmp);
             }
 
             if (newEmp != null) {
@@ -374,16 +360,19 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
                     sdrEndHour.setValue(0);
                     sdrEndMinute.setValue(0);
                 }
-
-                if(this.getSelectedReport().getEmployees().contains(newEmp)){ 
-                    btnRemovePerson.setDisable(true);
-                }else{
-                    btnRemovePerson.setDisable(false);
+                
+                if(this.getSelectedReport() != null){
+                    if(this.getSelectedReport().getEmployees().contains(newEmp)){ 
+                        btnRemovePerson.setDisable(true);
+                    }else{
+                        btnRemovePerson.setDisable(false);
+                    }
                 }
                 
                 setSelectedEmployee(newEmp);
                 if(selectTvEmpsFirst == false){
-                    tvAssign.getSelectionModel().select(newEmp);
+                    Employee emp = this.getEnployeeWithID(newEmp.getBadgeNR());
+                    tvAssign.getSelectionModel().select(emp);
                 }
             }else{
                 dtpBeginDateAss.setValue(null);
@@ -415,10 +404,11 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             }
             
             if (newValue != null) { 
-                if(!getEmployeesForReport().contains(newValue)){
+                Employee emplo = getEmployeeWithIDReport(newValue.getBadgeNR());
+                if(null == emplo){
                     lvReportEmps.getSelectionModel().clearSelection();
                 }else {
-                    lvReportEmps.getSelectionModel().select(newValue);  // Platform.runLater(() -> {  });
+                    lvReportEmps.getSelectionModel().select(emplo);  // Platform.runLater(() -> {  });
                 }
                 setSelectedEmployee(newValue);
             }
@@ -449,8 +439,22 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         sdrEndHour.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
             lblEndHours.setText(decimalFormat.format(new_val));
         });
+        
+        tvOverview.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(newValue.getAssignedTo() != null){
+                lblStartDate.setText("Startdatum en tijd: " +newValue.getAssignedTo().getStartDate().toString());
+                lblDescription.setText("Omschrijving:\n"+ newValue.getAssignedTo().getDescription());
+            }else{
+                lblStartDate.setText("");
+                lblDescription.setText("");
+            }
+        });
     }
     
+    /**
+     * Method to add a employee to a reserved list for employees of a report
+     * @param evt 
+     */
     public void addEmployeeToReport(Event evt){
         if(getSelectedEmployee() != null){
             if(getSelectedEmployee().getAssignedTo() == null){
@@ -468,6 +472,10 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         }
     }
     
+    /**
+     * Method to give an information alert when needed
+     * @param message 
+     */
     private void giveAlartInformation(String message){
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
@@ -477,13 +485,105 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
         alert.showAndWait();
     }
     
+    /**
+     * Method being called by a event to remove a employee from the reserved list for a report 
+     * @param evt 
+     */
     public void removeEmployeeToReport(Event evt){
         if(this.lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
             removeEmployee();
         }
     }
     
+    /**
+     * Method being called by a event to save the adjusted, removed and added employees for a specific report
+     * @param evt 
+     */
     public void saveEmployeeToReport(Event evt){
-        saveEmpForReport();
+        Employee lastSelect = null;
+        if(lvReportEmps.getSelectionModel().getSelectedIndex() != -1){
+            lastSelect = (Employee) lvReportEmps.getSelectionModel().getSelectedItem();
+            adjustAddedPerson(lastSelect);
+        }
+        
+        String message = saveEmpForReport();
+        if(!message.equals("")){
+            giveAlartInformation(message);
+        }else{
+            search(evt);
+        }
+        
+        getIncidents();
+        
+        if(lastSelect != null){
+            Employee emp = getEnployeeWithID(lastSelect.getBadgeNR());
+            
+            if(emp != null){
+                tvAssign.getSelectionModel().select(emp);
+            }
+        }
+    }
+    
+    /**
+     * Method to reset the combo-boxes on the gridpane of the unitassign tab
+     */
+    private void resetSearchControlsAss(){
+        if(comboBoxes != null){
+            for (Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){
+                if(entry.getKey().getParent().equals(this.gdpComboAss)){ 
+                    entry.getKey().setValue("no selection"); 
+                }
+            }
+        }
+        
+        tfNameAss.setText(""); 
+        tfBadgeNrAss.setText("");
+        tfNameAss.setText(""); 
+    }
+    
+    /**
+     * Method to reset the combo-boxes on the gridpane of the overview tab
+     */
+    private void resetSearchControls(){
+        if(comboBoxes != null){
+            for (Map.Entry<ComboBox, String> entry : comboBoxes.entrySet()){
+                if(entry.getKey().getParent().equals(this.gdpCombo)){ 
+                    entry.getKey().setValue("no selection");
+                }
+            }
+        }
+        
+        tfBadgeNr.setText("");
+        tfIncident.setText("");
+        tfName.setText("");
+    }
+    
+    /**
+     * Method to get en set the new LocalDataTime values for the start-date and end-date of the employee
+     * @param emp 
+     */
+    private void adjustAddedPerson(Employee emp){
+        if(getEmployeesForReport().contains(emp)){ 
+            LocalDateTime start;
+            LocalDateTime end;
+
+            if(dtpBeginDateAss.getValue() != null){
+                LocalTime startTime = LocalTime.of((int)sdrStartHour.getValue(),(int)sdrStartMinute.getValue());
+                start = LocalDateTime.of(dtpBeginDateAss.getValue(), startTime);
+            }
+            else{
+                start = null;
+            }
+
+            if(dtpEndDateAss.getValue() != null){
+                LocalTime endTime = LocalTime.of((int)sdrEndHour.getValue(),(int)sdrEndMinute.getValue());
+                end = LocalDateTime.of(dtpEndDateAss.getValue(), endTime);
+            }
+            else{
+                end = null;
+            }
+
+            this.adjustDate(start, end, emp);
+        }
     }
 }

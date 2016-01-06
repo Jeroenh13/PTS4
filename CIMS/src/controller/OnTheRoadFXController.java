@@ -16,9 +16,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import ChatServer.ChatClient;
 import javafx.event.Event;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 /**
  *
@@ -28,14 +26,52 @@ public class OnTheRoadFXController implements Initializable, Observer {
 
     private static final String MEDIA_URL = "http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv";
     private static String arg1;
-    @FXML
-    private MediaView mvTest;
-    @FXML
-    private TextField tfSendChat;
-    @FXML
-    private TextArea taChat;
-    @FXML
-    private Button btnSendChat;
+    @FXML private MediaView mvTest;
+    @FXML private TextField tfSendChat;
+    @FXML private TextArea taChat;
+    @FXML private Button btnSendChat;
+    
+    // information incident
+    @FXML private Label lblTitle;
+    @FXML private Label lblStartIncident;
+    @FXML private Label lblDescription;
+    @FXML private Label lblLocation;
+    @FXML private Label lblGPS;
+    @FXML private Label lblExtraInfoLoc;
+    @FXML private Label lblApproach;
+    
+    // information login & partner
+    @FXML private Label lblLogInName;
+    @FXML private Label lblLogInFunction;
+    @FXML private Label lblLogInStart;
+    @FXML private Label lblPartnerName;
+    @FXML private Label lblPartnerFunction;
+    @FXML private Label lblPartnerStart;
+    
+    // information weather
+    
+    
+    @FXML private TabPane tpImageVideo;
+    // video
+    @FXML private Tab tpgVideo;
+    @FXML private TableView tvVideo;
+    @FXML private TableColumn tcVideo;
+    @FXML private Button btnRemoveVideo;
+    @FXML private TextField tfVideo;
+    @FXML private Button btnBrowseVideo;
+    @FXML private Button btnAddVideo;
+    // image
+    @FXML private Tab tpgImage;
+    @FXML private TableView tvImages;
+    @FXML private TableColumn tcImage;
+    @FXML private Button btnRemoveImage;
+    @FXML private TextField tfImage;
+    @FXML private Button btnBrowseImage;
+    @FXML private Button btnAddImage;
+    // play
+    @FXML private Tab tpgPlay;
+    @FXML private Button btnBack;
+    
 
     ChatClient cc = new ChatClient(1);
 

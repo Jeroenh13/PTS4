@@ -42,15 +42,15 @@ public final class QueryBuilder {
         
         if(!name.equals("")){
             queryGetPersons+= " AND ";
-            queryGetPersons += "Name ='" + name + "' ";
+            queryGetPersons += "name ='" + name + "' ";
         }
         if(!incident.equals("")){
             queryGetPersons+= " AND ";
-            queryGetPersons += "Title ='" + incident + "' ";
+            queryGetPersons += "title ='" + incident + "' ";
         }
         if(badgeNr != -1){
             queryGetPersons+= " AND ";
-            queryGetPersons += "BadgeNR =" + badgeNr + " ";
+            queryGetPersons += "badgenr =" + badgeNr + " ";
         }
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd HH:mm:ss");

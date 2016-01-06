@@ -83,6 +83,19 @@ public class Helpline implements Serializable{
         this.ID = ID;
     }
 
+    public void setEmployees(ObservableList<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void setEmployeesAss(ObservableList<Employee> employeesAss) {
+        this.employeesAss = employeesAss;
+    }
+
+    public void setReports(ObservableList<Report> reports) {
+        this.reports = reports;
+    }
+    
+    
     
     /**
      * Gets the name
