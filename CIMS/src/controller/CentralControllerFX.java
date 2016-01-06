@@ -152,6 +152,13 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvIncidents.getColumns().add(tc);
             }
         }
+        
+        tvIncidents.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvIncidents.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected report: " + newValue.getReportID());
+            }
+        });
     }
 
     public void fillColums() {
