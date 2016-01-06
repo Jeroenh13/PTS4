@@ -5,6 +5,7 @@
  */
 package Server;
 
+import java.util.HashSet;
 import java.util.Observable;
 
 /**
@@ -13,12 +14,14 @@ import java.util.Observable;
  */
 public class obvClass extends Observable{
     
+    static HashSet<obvClass> obvs = new HashSet<obvClass>();
+    
     private Object report;
+    public final int ID;
     
-    
-    public obvClass ()
+    public obvClass (int ID)
     {
-    
+        this.ID = ID;
     }
     
     public void addNewReport(Object o)
@@ -26,6 +29,12 @@ public class obvClass extends Observable{
         report = o;
         setChanged();
         notifyObservers();
+    }
+    
+    protected int getId()
+    {
+        System.out.println(ID);
+        return ID;
     }
 
     public Object returnReport(){return report;}

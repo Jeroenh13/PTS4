@@ -6,12 +6,15 @@
 package controller;
 
 import Database.DatabaseManager;
+import Server.ClientReceiving;
 import cims.Helpline;
 import cims.Report;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,76 +22,71 @@ import javafx.collections.ObservableList;
  *
  * @author kitty
  */
-public class CentralController 
-{
+public class CentralController  {
+
     private final DatabaseManager dbm;
     private List<Helpline> helplines = new ArrayList<>();
-    private List<Report> reports = new ArrayList();
+    private ObservableList<Report> reports = FXCollections.observableArrayList();
+
     
     
-    public CentralController()
-    {
+    public CentralController() {
         this.dbm = new DatabaseManager();
         loadHelplines();
     }
-    
-    public List<Helpline> getHelplines()
-    {
+
+    public List<Helpline> getHelplines() {
         return helplines;
     }
-    
-    public void savePlan(String approach, String helpline, int reportID)
-    {
+
+    public void savePlan(String approach, String helpline, int reportID) {
         int helplineID = 0;
         for (Helpline h : helplines) {
-            if (h.getName().equals(helpline))
-            {
+            if (h.getName().equals(helpline)) {
                 helplineID = h.getID();
             }
         }
         dbm.saveApproach(approach, helplineID, reportID);
     }
-    
-    private void loadHelplines()
-    {
+
+    private void loadHelplines() {
         List<Report> dbreports = new ArrayList();
         helplines = dbm.getHelpLines();
-        
-        for(Helpline h : helplines){
+
+        for (Helpline h : helplines) {
             h.loadAllEmployees();
             h.loadAllVehicles();
-            
+
             dbreports.addAll(dbm.getAllReports(h.getName()));
-            
-            for(Report r : dbreports){
+
+            for (Report r : dbreports) {
                 Report report = reportExists(r);
-                if(report != null){
+                if (report != null) {
                     h.addReport(report);
                     report.addHelpline(h);
-                }
-                else{
+                } else {
                     reports.add(r);
                     h.addReport(r);
                     r.addHelpline(h);
                 }
             }
-            
+
             h.bindReportsToEmployees();
-            
+
             dbreports.clear();
         }
     }
-    
-    private Report reportExists(Report r){
-        for(Report rep : reports){
-            if(rep.getReportID() == r.getReportID())
+
+    private Report reportExists(Report r) {
+        for (Report rep : reports) {
+            if (rep.getReportID() == r.getReportID()) {
                 return rep;
+            }
         }
         return null;
     }
-    
-    public List<Field> getCollumsReport()
-    {
+
+    public List<Field> getCollumsReport() {
         List fieldsList = new ArrayList<>();
         Class r = Report.class;
         Field[] fields = r.getDeclaredFields();
@@ -100,20 +98,14 @@ public class CentralController
         }
         return fieldsList;
     }
-    
-    public ObservableList<Report> fillIncidents()
-    {
+
+    public ObservableList<Report> fillIncidents() {
         List<Helpline> helplines = getHelplines();
-        ObservableList<Report> reports = FXCollections.observableArrayList();
-        for (Helpline h : helplines)
-        {
+        for (Helpline h : helplines) {
             ObservableList<Report> tempreports = FXCollections.observableArrayList();
-            for (Report r : h.getReports())
-            {
-                System.out.println(r.getReportID() + "---" +  r.getTitle() + "---" +  r.getDescription());
+            for (Report r : h.getReports()) {
                 tempreports.add(r);
             }
-            System.out.println(tempreports.size());
             reports.addAll(tempreports);
         }
         return reports;

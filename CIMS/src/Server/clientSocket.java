@@ -27,13 +27,14 @@ public class clientSocket {
     private OutputStream outStream;
     private ObjectOutputStream out;
 
-    public clientSocket(Report r) {
+    public clientSocket(Report r,int id) {
         try {
             client = new Socket(StaticIPs.serverIP, StaticIPs.serverPortSend);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
+            out.writeInt(Integer.valueOf(id));
             out.writeObject(r);
         } catch (IOException ex) {
             Logger.getLogger(clientSocket.class.getName()).log(Level.SEVERE, null, ex);

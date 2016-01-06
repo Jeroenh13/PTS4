@@ -7,6 +7,7 @@ package Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashSet;
 
 /**
  *
@@ -18,48 +19,53 @@ public class Server {
      *
      */
     protected static obvClass o;
-    
+
     /**
      * Starts the server
-     * @param args 
+     *
+     * @param args
      */
     public static void main(String[] args) {
-        o = new obvClass();
-        Runnable r = () -> {
-            receivingServer();
+        HashSet<obvClass> obvs = new HashSet();
+
+        Runnable r = new Runnable() {
+
+            @Override
+            public void run() {
+                receivingServer();
+            }
         };
         Thread t = new Thread(r);
         t.start();
         sendingServer();
     }
 
-    /**
-     * creates a new server on port 9990 for incoming data
-     */
     public static void receivingServer() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(StaticIPs.chatPort);
+            serverSocket = new ServerSocket(StaticIPs.serverPort);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: " + StaticIPs.chatPort + ".");
+            System.err.println("Could not listen on port: 9992.");
             System.exit(1);
         }
 
         while (true) {
             try {
+
+                System.out.println("Looking for client");
                 // create new Thread which runs Multiserverrunnable
-                Thread th = new Thread(new acceptServerRc(serverSocket.accept(),o));
+                Thread th = new Thread(new acceptServerRc(serverSocket.accept()));
+
+                System.out.println("Client found");
                 // start Thread
                 th.start();
             } catch (IOException ex) {
 
+                System.out.println(ex.getMessage());
             }
         }
     }
 
-    /**
-     * Creates a new server on port StaticIPs.serverPortSend for sending over data
-     */
     public static void sendingServer() {
         ServerSocket serverSocket = null;
         try {
@@ -72,7 +78,8 @@ public class Server {
         while (true) {
             try {
                 // create new Thread which runs Multiserverrunnable
-                Thread t = new Thread(new acceptServer(serverSocket.accept(),o));
+                Thread t = new Thread(new acceptServer(serverSocket.accept()));
+
                 // start Thread
                 t.start();
             } catch (IOException ex) {

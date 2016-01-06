@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -20,53 +21,62 @@ import java.util.logging.Logger;
  *
  * @author Bas
  */
-public class acceptServerRc implements Runnable, Observer {
+class acceptServerRc implements Runnable, Observer {
 
-    private final Socket socket;
-    private final obvClass obv;
+    private Socket socket;
+    private obvClass obv;
 
     OutputStream outStream;
     InputStream inStream;
     ObjectInputStream in;
     ObjectOutputStream out;
 
-    /**
-     * Accepts a new socket on this port
-     * @param accept socket where there is an connection from
-     * @param obv class where there will be data from
-     */
-    public acceptServerRc(Socket accept, obvClass obv) {
+    public acceptServerRc(Socket accept) {
         this.socket = accept;
-        this.obv = obv;
     }
 
-    /**
-     * Initializes and adds the observable and keeps the process alive.
-     */
     @Override
     public void run() {
         try {
-            obv.addObserver(this);
-            
+
             outStream = socket.getOutputStream();
             inStream = socket.getInputStream();
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
-            while(true);
+            
+            int id = (int) in.readObject();
+            
+            boolean found = false;
+            System.out.println(obvClass.obvs);
+            for (obvClass o : obvClass.obvs) {
+                System.out.println(o.getId());
+                if (o.getId() == id) {
+                    this.obv = o;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                obv = new obvClass(id);
+                obvClass.obvs.add(obv);
+            }
+            obv.addObserver(this);
+            
+            System.out.println("Added obv");
+            while (true);
+
         } catch (IOException ex) {
+            Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    /**
-     * Sends a report when updated.
-     * @param o 
-     * @param arg 
-     */
     @Override
     public void update(Observable o, Object arg) {
         try {
-            out.writeObject(((obvClass)o).returnReport());
+            System.out.println("Sending repo");
+            out.writeObject(((obvClass) o).returnReport());
         } catch (IOException ex) {
             Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
         }

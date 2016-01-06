@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class ClientReceiving extends Observable implements Runnable {
 
+    private Report report;
     private Socket client;
     private InputStream inStream;
     private ObjectInputStream in;
@@ -41,13 +42,15 @@ public class ClientReceiving extends Observable implements Runnable {
     @Override
     public void run() {
         try {
+            // TODO code application logic here
             client = new Socket(StaticIPs.serverIP, StaticIPs.serverPort);
             outStream = client.getOutputStream();
             out = new ObjectOutputStream(outStream);
             inStream = client.getInputStream();
             in = new ObjectInputStream(inStream);
+            out.writeInt(1);
             while (true) {
-                Report r = (Report) in.readObject();
+                report = (Report) in.readObject();
                 setChanged();
                 notifyObservers();
             }
@@ -55,5 +58,9 @@ public class ClientReceiving extends Observable implements Runnable {
             Logger.getLogger(ClientReceiving.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public Report getReport() {
+        return report;
     }
 }

@@ -6,6 +6,7 @@
 package controller;
 
 import ChatServer.ChatClient;
+import Server.ClientReceiving;
 import cims.Helpline;
 import cims.Report;
 import java.lang.reflect.Field;
@@ -68,9 +69,13 @@ public class CentralControllerFX extends controller.CentralController implements
     
     int tmpID = 0;
     
-    ChatClient cc = new ChatClient(1);
+    private ChatClient cc = new ChatClient(1);
 
-    Thread chat;
+    private Thread chat;
+    
+    
+    private ClientReceiving cr = new ClientReceiving();
+    private Thread reportListener;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,6 +85,11 @@ public class CentralControllerFX extends controller.CentralController implements
         chat = new Thread(cc);
         chat.start();
         cc.addObserver(this);
+        
+        
+        reportListener = new Thread(cr);
+        reportListener.start();
+        cr.addObserver(this);
     }
     
     public void savePolice(Event evnt)
@@ -151,6 +161,13 @@ public class CentralControllerFX extends controller.CentralController implements
 
     @Override
     public void update(Observable o, Object arg) {
+        System.out.print(o);
+        if((Object)o instanceof Report)
+        {
+            fillColums();
+            System.out.println("/yay");
+        }
+        else
         taChat.setText(taChat.getText() + "\n" + ((ChatClient)o).getText());
     }
 }

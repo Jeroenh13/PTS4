@@ -18,23 +18,19 @@ import java.util.logging.Logger;
  *
  * @author Bas
  */
-public class acceptServer implements Runnable {
+class acceptServer implements Runnable {
 
-    private final Socket socket;
-    private final obvClass obv;
+    private Socket socket;
+    private obvClass obv;
     OutputStream outStream;
     InputStream inStream;
     ObjectInputStream in;
     ObjectOutputStream out;
 
-    /**
-     * Accepts a new socket and waits for an input(reports)
-     * @param accept Incoming socket
-     * @param obv Class to send over the reports.
-     */
-    public acceptServer(Socket accept,obvClass obv) {
+    public acceptServer(Socket accept) {
         this.socket = accept;
-        this.obv = obv;
+
+        System.out.println("Accepted");
     }
 
     @Override
@@ -44,10 +40,35 @@ public class acceptServer implements Runnable {
             inStream = socket.getInputStream();
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
-            obv.addNewReport(in.readObject());
+
+            System.out.println("Created out and ins");
+            int id = in.readInt();
+            System.out.println("Read int");
+            System.out.println(id);
+            boolean found = false;
+            for (obvClass o : obvClass.obvs) {
+                
+            System.out.println(o.getId());
+                if (o.getId() == id) {
+                    this.obv = o;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                obv = new obvClass(id);
+                obvClass.obvs.add(obv);
+            }
+
+            while (true) {
+                System.out.println("waiting for repo");
+                obv.addNewReport(in.readObject());
+                System.out.println("Received repo");
+            }
+
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(acceptServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

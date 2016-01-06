@@ -26,9 +26,9 @@ public class Report implements Serializable {
     private String locationGPS;
     private String weather;
     private String title;
-    private ArrayList<Helpline> helpLines;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private transient ArrayList<Helpline> helpLines;
+    private transient LocalDateTime startDate;
+    private transient LocalDateTime endDate;
     private transient ObservableList<Employee> employees;
 
     /**
@@ -207,7 +207,7 @@ public class Report implements Serializable {
             System.out.println(e);
         }
 
-        clientSocket cs = new clientSocket(this);
+        clientSocket cs = new clientSocket(this,1);
         return succes;
     }
 

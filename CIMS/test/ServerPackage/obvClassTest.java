@@ -35,7 +35,7 @@ public class obvClassTest {
     
     @Before
     public void setUp() {
-        ob = new obvClass(); 
+        //ob = new obvClass(); 
     }
     
     @After
@@ -47,12 +47,12 @@ public class obvClassTest {
     //
     // @Test
     // public void hello() {}
-    
+    /*
     @Test
     public void testAddNewReport()
     {
         Report r = new Report();
         ob.addNewReport(r);
         assertEquals("Objecten niet gelijk", (Report)ob.returnReport(),r);
-    }
+    }*/
 }
