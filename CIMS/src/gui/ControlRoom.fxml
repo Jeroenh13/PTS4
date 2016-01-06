@@ -25,11 +25,13 @@
             <Button fx:id="btnDeleteEmergency" layoutX="250.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnRemoveClick" text="X" />
             <ListView fx:id="lvEmergency" layoutX="29.0" layoutY="372.0" prefHeight="200.0" prefWidth="200.0" />
             <Button fx:id="btnSave" layoutX="27.0" layoutY="583.0" mnemonicParsing="false" onAction="#btnSaveClick" prefHeight="25.0" prefWidth="105.0" text="Save" />
-            <TextField fx:id="tfLatitude" layoutX="290.0" layoutY="375.0" prefHeight="25.0" prefWidth="120.0" />
-            <TextField fx:id="tfLongitude" layoutX="438.0" layoutY="375.0" prefHeight="25.0" prefWidth="120.0" />
-            <Button fx:id="btnLatLongCheck" layoutX="290.0" layoutY="428.0" mnemonicParsing="false" onAction="#checkLatLong" prefHeight="25.0" prefWidth="120.0" text="Check" />
-            <Label layoutX="290.0" layoutY="343.0" text="Latitude" />
-            <Label layoutX="438.0" layoutY="343.0" text="Longitude" />
+            <TextField fx:id="tfLatitude" layoutX="290.0" layoutY="450.0" prefHeight="25.0" prefWidth="120.0" />
+            <TextField fx:id="tfLongitude" layoutX="438.0" layoutY="450.0" prefHeight="25.0" prefWidth="120.0" />
+            <Button fx:id="btnLatLongCheck" layoutX="290.0" layoutY="503.0" mnemonicParsing="false" onAction="#checkLatLong" prefHeight="25.0" prefWidth="120.0" text="Check" />
+            <Label layoutX="290.0" layoutY="418.0" text="Latitude" />
+            <Label layoutX="438.0" layoutY="418.0" text="Longitude" />
+            <Label layoutX="290.0" layoutY="343.0" text="Plaatsnaam" />
+            <TextField fx:id="tfLocationName" layoutX="290.0" layoutY="375.0" prefHeight="25.0" prefWidth="272.0" />
          </children>
       </AnchorPane>
    </children>

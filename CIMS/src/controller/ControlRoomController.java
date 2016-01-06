@@ -63,6 +63,8 @@ public class ControlRoomController implements Initializable, MapComponentInitial
     @FXML
     private TextField tfLongitude;
     @FXML
+    private TextField tfLocationName;
+    @FXML
     private Button checkLatLong;
 
     private Report report;
@@ -103,11 +105,15 @@ public class ControlRoomController implements Initializable, MapComponentInitial
         listItems.stream().forEach((item) -> {
             lines.add(new Helpline(item.getID(), item.toString()));
         });
-        report = new Report(0, taDescription.getText(), null, "[" + tfLatitude.getText() + "," + tfLongitude.getText() + "]", null, lines, txtTitle.getText());
+        report = new Report(0, taDescription.getText(), null, "[" + tfLatitude.getText() + "," + tfLongitude.getText() + "]", null, lines, txtTitle.getText(),tfLocationName.getText());
         if (report.saveReport()) {
             JOptionPane.showMessageDialog(null, "Succesvol toegevoegt", "Succes", 1);
             listItems.clear();
             taDescription.setText("");
+            txtTitle.setText("");
+            tfLatitude.setText("");
+            tfLocationName.setText("");
+            tfLongitude.setText("");
         } else {
             JOptionPane.showMessageDialog(null, "Er is iets verkeerd gegaan", "Failed", 0);
         }

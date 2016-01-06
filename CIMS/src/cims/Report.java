@@ -25,6 +25,8 @@ public class Report implements Serializable {
     private String description;
     private String extraInformation;
     private String locationGPS;
+    private String locationName;
+
     private String weather;
     private String title;
     private transient ArrayList<Helpline> helpLines;
@@ -70,7 +72,7 @@ public class Report implements Serializable {
      * @param helpline
      * @param title
      */
-    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title) {
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title,String locationName) {
         this.reportID = reportID;
         this.description = description;
         this.extraInformation = extraInformation;
@@ -78,6 +80,7 @@ public class Report implements Serializable {
         this.weather = weather;
         this.helpLines = helpline;
         this.title = title;
+        this.locationName = locationName;
         this.employees = FXCollections.observableArrayList();
     }
     
@@ -308,5 +311,13 @@ public class Report implements Serializable {
     
     public String getHelpLines(){
         return String.join(", ", helpLines.stream().map(Helpline::getName).collect(Collectors.toList()));
+    }
+    
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
     }
 }
