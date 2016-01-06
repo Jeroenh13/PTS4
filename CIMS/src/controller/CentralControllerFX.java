@@ -135,14 +135,14 @@ public class CentralControllerFX extends controller.CentralController implements
         System.out.println(selectedReport.toString());
         tpTabs.getSelectionModel().select(tptInfo);
         //System.out.println(lblReportDate);
-        System.out.println(selectedReport.getStartDate().toString());
+        //System.out.println(selectedReport.getStartDate().toString());
         System.out.println(selectedReport.getDescription());
         System.out.println(selectedReport.getExtraInformation());
-        System.out.println(selectedReport.getLocation());
+        System.out.println(selectedReport.getLocationGPS());
 //        lblReportDate.setText(selectedReport.getStartDate().toString());
 //        lblReportDesc.setText(selectedReport.getDescription());
 //        lblReportExtra.setText(selectedReport.getExtraInformation());
-//        lblReportLoc.setText(selectedReport.getLocation());
+//        lblReportLoc.setText(selectedReport.getLocationGPS());
     }
 
     public void btnSendChatClick(Event e) {

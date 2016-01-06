@@ -55,7 +55,7 @@ public class ReportTest {
     {
         assertEquals("is niet gelijk.",r.getDescription(), "Cat in tree again");
         assertEquals("is niet gelijk.",r.getExtraInformation(), "Cat climbed into tree, does not want to leave.");
-        assertEquals("is niet gelijk.",r.getLocation(), "-51,54.5566");
+        assertEquals("is niet gelijk.",r.getLocationGPS(), "-51,54.5566");
         assertEquals("is niet gelijk.",r.getReportID(), 1);
         assertEquals("is niet gelijk.",r.getTitle(), "Cat in a tree");
         assertEquals("is niet gelijk.",r.getWeather(), "Tat of sunshine");

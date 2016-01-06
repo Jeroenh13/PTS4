@@ -84,6 +84,20 @@ public class Report implements Serializable {
         this.employees = FXCollections.observableArrayList();
     }
     
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title,String locationName, LocalDateTime startDate, LocalDateTime endDate) {
+        this.reportID = reportID;
+        this.description = description;
+        this.extraInformation = extraInformation;
+        this.locationGPS = location;
+        this.weather = weather;
+        this.helpLines = helpline;
+        this.title = title;
+        this.locationName = locationName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.employees = FXCollections.observableArrayList();
+    }
+    
     /**
      * gets the report ID
      *
@@ -143,7 +157,7 @@ public class Report implements Serializable {
      *
      * @return the locationGPS of the report
      */
-    public String getLocation() {
+    public String getLocationGPS() {
         return locationGPS;
     }
 
@@ -221,6 +235,14 @@ public class Report implements Serializable {
      */
     public LocalDateTime getStartDate() {
         return this.startDate;
+    }
+    
+    /**
+     * Gets the end date
+     * @return the enddate
+     */
+    public LocalDateTime getEndDate() {
+        return this.endDate;
     }
 
     /**

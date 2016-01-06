@@ -493,8 +493,19 @@ public class DatabaseManager {
             ArrayList reports = new ArrayList<>();
             while (result.next()) {
                 //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
+                
+                LocalDateTime reportStart = null;
+                LocalDateTime reportEnd = null;
 
-                reports.add(new Report(result.getInt("ReportID"), result.getString("Description"), result.getString("ExtraInformation"), result.getString("locationGps"), result.getString("Weather"), new ArrayList<>(), result.getString("Title"), result.getString("locationName")));
+                if (result.getDate("startDate") != null) {
+                    reportStart = LocalDateTime.parse(result.getString("startDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                }
+
+                if (result.getDate("endDate") != null) {
+                    reportEnd = LocalDateTime.parse(result.getString("endDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                }
+                
+                reports.add(new Report(result.getInt("ReportID"), result.getString("Description"), result.getString("ExtraInformation"), result.getString("locationGps"), result.getString("Weather"), new ArrayList<>(), result.getString("Title"), result.getString("locationName"), reportStart, reportEnd));
             }
 
             return reports;
@@ -561,7 +572,7 @@ public class DatabaseManager {
             cs = conn.prepareCall("{call spInjectReport(?,?,?,?,?)}");
             cs.setString(1, repo.getDescription());
             cs.setInt(3, newID);
-            cs.setString(2, repo.getLocation());
+            cs.setString(2, repo.getLocationGPS());
             cs.setString(4, repo.getTitle());
             cs.setString(5, repo.getLocationName());
             cs.execute();
