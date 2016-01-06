@@ -60,7 +60,7 @@ public class CentralController  {
             h.loadAllVehicles();
 
             dbreports.addAll(dbm.getAllReports(h.getName()));
-
+            
             for (Report r : dbreports) {
                 Report report = reportExists(r);
                 if (report != null) {

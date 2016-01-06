@@ -9,7 +9,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="995.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CentralControllerFX">
    <children>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane fx:id="tpTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab text="Overzicht Ongevallen">
             <content>
@@ -49,7 +49,7 @@
                                         <TableColumn prefWidth="75.0" text="C2" />
                                       </columns>
                                     </TableView>
-                                    <Button fx:id="btnInformationIncident" layoutX="1752.0" layoutY="504.0" mnemonicParsing="false" onAction="#informationAccident" text="Informatie ongeval" />
+                                    <Button fx:id="btnInformationIncident" disable="true" layoutX="1752.0" layoutY="504.0" mnemonicParsing="false" onAction="#informationAccident" text="Informatie ongeval" />
                                     <Button layoutX="1751.0" layoutY="549.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="146.0" text="Foto's &amp; video's" />
                                  </children>
                               </AnchorPane>
@@ -58,7 +58,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Informatie Ongeval">
+            <Tab fx:id="tptInfo" text="Informatie Ongeval">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -226,6 +226,10 @@
                         <TextField fx:id="tfChatMessage" layoutX="699.0" layoutY="869.0" prefHeight="31.0" prefWidth="354.0" />
                         <Button fx:id="btnChatSend" layoutX="1066.0" layoutY="869.0" mnemonicParsing="false" onAction="#btnSendChatClick" prefHeight="31.0" prefWidth="120.0" text="Stuur" />
                         <Label layoutX="699.0" layoutY="520.0" text="Chat met hulpdiensten" />
+                        <Label fx:id="lblReportDate" layoutX="243.0" layoutY="31.0" text="Label" />
+                        <Label fx:id="lblReportDesc" layoutX="243.0" layoutY="70.0" text="Label" />
+                        <Label fx:id="lblReportLoc" layoutX="129.0" layoutY="114.0" text="Label" />
+                        <Label fx:id="lblReportExtra" layoutX="393.0" layoutY="114.0" text="Label" />
                      </children></AnchorPane>
                </content>
             </Tab>
