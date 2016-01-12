@@ -105,7 +105,7 @@ public final class QueryBuilder {
     }
     
     public static String getNewIncidentsHelpline(String helpline){
-        String query = "SELECT reportID ,title, description, start FROM vwhelplinereport WHERE helpline = '"+ helpline + "' and end is null;";
+        String query = "SELECT reportID ,title, description, startdate FROM vwhelplinereport WHERE helpline = '"+ helpline + "' and enddate is null;";
         return query;
     }
 }

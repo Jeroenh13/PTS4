@@ -269,7 +269,7 @@ public class DatabaseManager {
             result = statement.executeQuery(query);
             while (result.next()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-                LocalDateTime start = LocalDateTime.parse(result.getString("start"), formatter);
+                LocalDateTime start = LocalDateTime.parse(result.getString("startdate"), formatter);
                 reports.add(new Report(result.getInt("reportID"), result.getString("description"), result.getString("title"), start, null));
             }
         } catch (Exception e) {
