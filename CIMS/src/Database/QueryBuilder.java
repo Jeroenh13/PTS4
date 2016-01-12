@@ -63,16 +63,17 @@ public final class QueryBuilder {
 //            SELECT * FROM vwemployee 
 //WHERE helpline = 'Politie'
 //AND start >= STR_TO_DATE('2015-09-11','%Y-%c-%e %T') AND end <= STR_TO_DATE('2015-09-31','%Y-%c-%e %T');
-            queryGetPersons += "AND start >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND end <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T')";
+            queryGetPersons += "AND startdate >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND (enddate <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T') OR enddate IS NULL)";
         }else if(fromDate == null && tillDate != null){
             // maand voor tilldate
             end = LocalDateTime.of(tillDate, LocalTime.of(0,0,0));
-            queryGetPersons += "AND start >='" + tillDate.minusMonths(3).format(formatter) + " AND end <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T')"; 
+            start = end.minusMonths(3);
+            queryGetPersons += "AND startdate >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND enddate <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T')"; 
         }else if(fromDate != null && tillDate == null){
             // start tot sysdate
             start = LocalDateTime.of(fromDate, LocalTime.of(0,0,0));
             //LocalDateTime now = LocalDateTime.now();
-            queryGetPersons += "AND start >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND end <= " + "SYSDATE()";
+            queryGetPersons += "AND startdate >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND (enddate <= " + "SYSDATE() OR enddate IS NULL)";
         }
         
         queryGetPersons += ";";

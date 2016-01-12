@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -178,7 +180,7 @@ public class HelplineTest {
         
         // search with only enddate
         LocalDate end = LocalDate.parse("2015-10-01", formatter2);
-        helpline.searchEmployees(specificationTypes, mySpecifications, false, "Lisa van den Berg", -1, "", null, end);
+        helpline.searchEmployees(specificationTypes, mySpecifications, false, "Lisa van den Berg", -1, "", null , end);
         assertFalse(helpline.getEmployees().contains(empDaniel));
         assertTrue(helpline.getEmployees().contains(empLisa1));
         assertFalse(helpline.getEmployees().contains(empLisa2));
@@ -191,29 +193,91 @@ public class HelplineTest {
         assertFalse(helpline.getEmployees().contains(empDaniel));
         assertTrue(helpline.getEmployees().contains(empLisa1));
         assertTrue(helpline.getEmployees().contains(empLisa2));
-        assertFalse(helpline.getEmployees().contains(empLisa3));
+        assertTrue(helpline.getEmployees().contains(empLisa3));
     }
     
     @Test
     public void TestSearchEmployeesAssign() {
         // search with name
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "Klaas Jansen", -1, "", null, null);
+        assertFalse(helpline.getEmployees().contains(empDaniel));
+        Employee klaas2 = helpline.getEmployeeWithID(empKlaas.getBadgeNR()); 
+        assertNotNull(klaas2);
+        assertNull(klaas2.getStart());
+        assertNull(klaas2.getEnd());
+        Employee daniel2 = helpline.getEmployeeWithID(empDaniel.getBadgeNR()); 
+        assertNull(daniel2);
+        assertFalse(helpline.getEmployees().contains(empKlaas));
+        assertFalse(helpline.getEmployees().contains(empLisa1));
+        
         
         // search with badgenr
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", 2, "", null, null);
+        assertFalse(helpline.getEmployees().contains(empDaniel));
+        assertTrue(helpline.getEmployees().contains(empNathalie));
+        assertFalse(helpline.getEmployees().contains(empLisa1));
         
         // search with available
+        mySpecifications.put("available", "1");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empDaniel));
+        assertTrue(helpline.getEmployees().contains(empKlaas));
+        assertTrue(helpline.getEmployees().contains(empLisa1));
+        assertTrue(helpline.getEmployees().contains(empLisa2));
+        assertTrue(helpline.getEmployees().contains(empLisa3));
+        assertTrue(helpline.getEmployees().contains(empSaskia));
+        assertTrue(helpline.getEmployees().contains(empNathalie));
         
         // search with function
+        mySpecifications.clear();
+        mySpecifications.put("function", "Agent");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empLisa2));
+        assertFalse(helpline.getEmployees().contains(empNathalie));
         
         // search with department
+        mySpecifications.clear();
+        mySpecifications.put("department", "Verkeer");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empSaskia));
+        assertFalse(helpline.getEmployees().contains(empNathalie));
         
         // search with region 
+        mySpecifications.clear();
+        mySpecifications.put("region", "Groningen");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertFalse(helpline.getEmployees().contains(empDaniel));
+        assertTrue(helpline.getEmployees().contains(empKlaas));
+        assertTrue(helpline.getEmployees().contains(empLisa1));
+        assertTrue(helpline.getEmployees().contains(empLisa2));
+        assertTrue(helpline.getEmployees().contains(empLisa3));
+        assertTrue(helpline.getEmployees().contains(empSaskia));
         
         // search with commune
+        mySpecifications.clear();
+        mySpecifications.put("commune", "Helmond");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empNathalie));
+        assertFalse(helpline.getEmployees().contains(empDaniel));
         
         // search with level
+        mySpecifications.clear();
+        mySpecifications.put("level", "B");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empNathalie));
+        assertFalse(helpline.getEmployees().contains(empDaniel));
         
         // search with team
-        
+        mySpecifications.clear();
+        mySpecifications.put("team", "C");
+        helpline.searchEmployees(specificationTypes, mySpecifications, true, "", -1, "", null, null);
+        assertTrue(helpline.getEmployees().contains(empDaniel));
+        assertTrue(helpline.getEmployees().contains(empKlaas));
+        assertTrue(helpline.getEmployees().contains(empLisa1));
+        assertTrue(helpline.getEmployees().contains(empLisa2));
+        assertTrue(helpline.getEmployees().contains(empLisa3));
+        assertTrue(helpline.getEmployees().contains(empSaskia));
+        assertTrue(helpline.getEmployees().contains(empNathalie));
     }
     
     @Test
