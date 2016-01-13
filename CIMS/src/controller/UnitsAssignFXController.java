@@ -201,6 +201,8 @@ public class UnitsAssignFXController extends controller.UnitsAssignControler imp
             }
             resetSearchControlsAss();
             search(true, "", -1, "", null, null);
+            getIncidents();
+            this.lvReportEmps.setItems(null); 
         } else if (tab == tpgOverview) {
             resetSearchControls();
             search(false, "", -1, "", null, null);

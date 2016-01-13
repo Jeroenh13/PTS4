@@ -269,7 +269,7 @@ public class DatabaseManager {
             result = statement.executeQuery(query);
             while (result.next()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-                LocalDateTime start = LocalDateTime.parse(result.getString("start"), formatter);
+                LocalDateTime start = LocalDateTime.parse(result.getString("startdate"), formatter);
                 reports.add(new Report(result.getInt("reportID"), result.getString("description"), result.getString("title"), start, null));
             }
         } catch (Exception e) {
@@ -652,7 +652,7 @@ public class DatabaseManager {
             result = statement.executeQuery("Select name from Helpline where HelplineID = " + Id);
 
             while (result.next()) {
-                return result.getString(0);
+                return result.getString("name");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -680,10 +680,10 @@ public class DatabaseManager {
             result = statement.executeQuery("Select employeeID,name,HelplineID from Employee where Inlogname = '" + userName + "' and inlogpassword = '" + password + "'");
             Employee e = null;
             while (result.next()) {
-                e = new Employee(result.getInt("employeeID"), result.getString("Name"), new Helpline(result.getInt("HelplineID")));
+                e = new Employee(result.getInt("employeeID"), result.getString("name"), new Helpline(result.getInt("HelplineID")));
             }
             return e;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
             return null;
         } finally {

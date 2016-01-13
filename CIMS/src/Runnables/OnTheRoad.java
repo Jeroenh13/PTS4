@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package Runnables;
 
 import i18n.localeSettings;
 import java.net.URL;
@@ -21,12 +21,12 @@ import javafx.stage.Stage;
  *
  * @author Jeroen Hendriks
  */
-public class OnTheRoadController extends Application {
+public class OnTheRoad extends Application {
 
      @Override
     public void start(Stage stage) throws Exception {
        
-        Parent root = FXMLLoader.load(getClass().getResource("/gui/OnTheRoad.fxml"),localeSettings.getResourceBundle());
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/LoginOnTheRoad.fxml"),localeSettings.getResourceBundle());
         
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -36,7 +36,7 @@ public class OnTheRoadController extends Application {
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
-     * main() serves only as fallback in case the application can not be
+     * main() serves only as fallback in case the app23lication can not be
      * launched through deployment artifacts, e.g., in IDEs with limited FX
      * support. NetBeans ignores main().
      *

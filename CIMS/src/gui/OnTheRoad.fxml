@@ -9,136 +9,139 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OnTheRoadFXController">
-   <children>
-      <SplitPane dividerPositions="0.26604068857589985, 0.7167449139280125" layoutX="59.0" layoutY="91.0" prefHeight="453.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0">
-               <children>
-                  <TabPane layoutX="6.0" layoutY="6.0" prefHeight="620.0" prefWidth="324.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                        <Tab text="Algemene informatie">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="10.0" layoutY="14.0" text="Ingelogde:" underline="true" />
-                                    <Label layoutX="19.0" layoutY="44.0" text="Naam:" />
-                                    <Label layoutX="19.0" layoutY="66.0" text="Functie:" />
-                                    <Label layoutX="19.0" layoutY="88.0" text="Begonnen vanaf:" />
-                                    <Label layoutX="19.0" layoutY="200.0" text="Begonnen vanaf:" />
-                                    <Label layoutX="19.0" layoutY="178.0" text="Functie:" />
-                                    <Label layoutX="19.0" layoutY="156.0" text="Naam:" />
-                                    <Label layoutX="10.0" layoutY="126.0" text="Werkt samen met:" underline="true" />
-                                    <Label fx:id="lblLogInName" layoutX="151.0" layoutY="44.0" text="                 " />
-                                    <Label fx:id="lblLogInFunction" layoutX="151.0" layoutY="66.0" text="               " />
-                                    <Label fx:id="lblLogInStart" layoutX="151.0" layoutY="88.0" text="                " />
-                                    <Label fx:id="lblPartnerStart" layoutX="151.0" layoutY="200.0" text="                " />
-                                    <Label fx:id="lblPartnerFunction" layoutX="151.0" layoutY="178.0" text="                  " />
-                                    <Label fx:id="lblPartnerName" layoutX="151.0" layoutY="156.0" text="                  " />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                      <Tab text="Incident">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="10.0" layoutY="14.0" text="Titel:" />
-                                    <Label layoutX="11.0" layoutY="35.0" text="Begonnen vanaf:" />
-                                    <Label layoutX="11.0" layoutY="57.0" text="Beschrijving:" />
-                                    <Label fx:id="lblDescription" layoutX="25.0" layoutY="79.0" text="                 " />
-                                    <Label layoutX="11.0" layoutY="213.0" text="Extra informatie:" />
-                                    <Label layoutX="11.0" layoutY="191.0" text="GPS:" />
-                                    <Label layoutX="11.0" layoutY="169.0" text="Locatie:" />
-                                    <Label layoutX="11.0" layoutY="249.0" text="Plan van aanpak:" />
-                                    <Label fx:id="lblStartIncident" layoutX="138.0" layoutY="35.0" text="                 " />
-                                    <Label layoutX="138.0" layoutY="79.0" text="                " />
-                                    <Label fx:id="lblExtraInfoLoc" layoutX="136.0" layoutY="213.0" text="                " />
-                                    <Label fx:id="lblGPS" layoutX="136.0" layoutY="191.0" text="                  " />
-                                    <Label fx:id="lblLocation" layoutX="136.0" layoutY="169.0" text="                  " />
-                                    <Label fx:id="lblApproach" layoutX="27.0" layoutY="274.0" text="                 " />
-                                    <Label fx:id="lblTitle" layoutX="136.0" layoutY="14.0" text="                 " />
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                        <Tab text="Weer">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="14.0" layoutY="36.0" text="Hier komt het weer" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                    </tabs>
-                  </TabPane>
-               </children></AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="564.0">
-               <children>
-                  <TabPane fx:id="tpImageVideo" layoutX="8.0" layoutY="41.0" prefHeight="586.0" prefWidth="555.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab fx:id="tpgImage" text="Image">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TableView fx:id="tvImages" layoutX="5.0" layoutY="6.0" prefHeight="425.0" prefWidth="489.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0">
-                                       <columns>
-                                          <TableColumn fx:id="tcImage" minWidth="-1.0" prefWidth="483.0" text="Image" />
-                                       </columns>
-                                    </TableView>
-                                    <Button fx:id="btnAddImage" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="532.0" text="Toevoegen" />
-                                    <Button fx:id="btnBrowseImage" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="142.0" text="Browse" />
-                                    <TextField fx:id="tfImage" layoutX="14.0" layoutY="451.0" prefHeight="31.0" prefWidth="384.0" />
-                                    <Button fx:id="btnRemoveImage" layoutX="499.0" layoutY="6.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="52.0" text="---" />
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                        <Tab fx:id="tpgVideo" text="Video">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <TableView fx:id="tvVideo" layoutX="5.0" layoutY="6.0" prefHeight="425.0" prefWidth="489.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0">
-                                       <columns>
-                                          <TableColumn fx:id="tcVideo" minWidth="-1.0" prefWidth="483.0" text="Video" />
-                                       </columns>
-                                    </TableView>
-                                    <Button fx:id="btnAddVideo" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="532.0" text="Toevoegen" />
-                                    <Button fx:id="btnBrowseVideo" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="142.0" text="Browse" />
-                                    <TextField fx:id="tfVideo" layoutX="14.0" layoutY="451.0" prefHeight="31.0" prefWidth="384.0" />
-                                    <Button fx:id="btnRemoveVideo" layoutX="499.0" layoutY="6.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="52.0" text="---" />
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
-                      <Tab fx:id="tpgPlay" text="Play">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="6.0" layoutY="11.0" text="Info" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="33.0" />
-                                       </font>
-                                    </Label>
-                                    <MediaView fx:id="mvTest" fitHeight="200.0" fitWidth="200.0" layoutX="26.0" layoutY="221.0" />
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Button fx:id="btnBack" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="529.0" text="Terug" />
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
-                  <Button fx:id="btnLogin" layoutX="406.0" layoutY="4.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="158.0" text="Inloggen" />
-               </children></AnchorPane>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="377.0">
-               <children>
-                  <TextArea fx:id="taChat" layoutX="14.0" layoutY="14.0" prefHeight="496.0" prefWidth="269.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                  <TextField fx:id="tfSendChat" layoutX="14.0" layoutY="523.0" prefHeight="97.0" prefWidth="245.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="99.0" />
-                  <Button fx:id="btnSendChat" layoutX="227.0" layoutY="523.0" mnemonicParsing="false" onAction="#btnSendChatClick" prefHeight="97.0" prefWidth="80.0" text="Verzend" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
-               </children></AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+<AnchorPane prefHeight="635.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OnTheRoadFXController">
+    <children>
+        <SplitPane dividerPositions="0.26604068857589985, 0.7167449139280125" layoutX="59.0" layoutY="91.0" prefHeight="453.0" prefWidth="840.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0">
+                    <children>
+                        <TabPane layoutX="6.0" layoutY="6.0" prefHeight="620.0" prefWidth="324.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Algemene informatie">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <Label layoutX="10.0" layoutY="14.0" text="Ingelogde:" underline="true" />
+                                                <Label layoutX="19.0" layoutY="44.0" text="Naam:" />
+                                                <Label layoutX="19.0" layoutY="66.0" text="Functie:" />
+                                                <Label layoutX="19.0" layoutY="88.0" text="Begonnen vanaf:" />
+                                                <Label layoutX="19.0" layoutY="200.0" text="Begonnen vanaf:" />
+                                                <Label layoutX="19.0" layoutY="178.0" text="Functie:" />
+                                                <Label layoutX="19.0" layoutY="156.0" text="Naam:" />
+                                                <Label layoutX="10.0" layoutY="126.0" text="Werkt samen met:" underline="true" />
+                                                <Label fx:id="lblLogInName" layoutX="151.0" layoutY="44.0" text="                 " />
+                                                <Label fx:id="lblLogInFunction" layoutX="151.0" layoutY="66.0" text="               " />
+                                                <Label fx:id="lblLogInStart" layoutX="151.0" layoutY="88.0" text="                " />
+                                                <Label fx:id="lblPartnerStart" layoutX="151.0" layoutY="200.0" text="                " />
+                                                <Label fx:id="lblPartnerFunction" layoutX="151.0" layoutY="178.0" text="                  " />
+                                                <Label fx:id="lblPartnerName" layoutX="151.0" layoutY="156.0" text="                  " />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Incident">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <Label layoutX="10.0" layoutY="14.0" text="Titel:" />
+                                                <Label layoutX="11.0" layoutY="35.0" text="Begonnen vanaf:" />
+                                                <Label layoutX="11.0" layoutY="57.0" text="Beschrijving:" />
+                                                <Label fx:id="lblDescription" layoutX="25.0" layoutY="79.0" text="                 " />
+                                                <Label layoutX="11.0" layoutY="213.0" text="Extra informatie:" />
+                                                <Label layoutX="11.0" layoutY="191.0" text="GPS:" />
+                                                <Label layoutX="11.0" layoutY="169.0" text="Locatie:" />
+                                                <Label layoutX="11.0" layoutY="249.0" text="Plan van aanpak:" />
+                                                <Label fx:id="lblStartIncident" layoutX="138.0" layoutY="35.0" text="                 " />
+                                                <Label layoutX="138.0" layoutY="79.0" text="                " />
+                                                <Label fx:id="lblExtraInfoLoc" layoutX="136.0" layoutY="213.0" text="                " />
+                                                <Label fx:id="lblGPS" layoutX="136.0" layoutY="191.0" text="                  " />
+                                                <Label fx:id="lblLocation" layoutX="136.0" layoutY="169.0" text="                  " />
+                                                <Label fx:id="lblApproach" layoutX="27.0" layoutY="274.0" text="                 " />
+                                                <Label fx:id="lblTitle" layoutX="136.0" layoutY="14.0" text="                 " />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Weer">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <Label layoutX="14.0" layoutY="36.0" text="Hier komt het weer" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="564.0">
+                    <children>
+                        <TabPane fx:id="tpImageVideo" layoutX="8.0" layoutY="41.0" prefHeight="586.0" prefWidth="555.0" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab fx:id="tpgImage" text="Image">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <TableView fx:id="tvImages" layoutX="5.0" layoutY="6.0" prefHeight="425.0" prefWidth="489.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="tcImage" minWidth="-1.0" prefWidth="483.0" text="Image" />
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="btnAddImage" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="532.0" text="Toevoegen" />
+                                                <Button fx:id="btnBrowseImage" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="142.0" text="Browse" />
+                                                <TextField fx:id="tfImage" layoutX="14.0" layoutY="451.0" prefHeight="31.0" prefWidth="384.0" />
+                                                <Button fx:id="btnRemoveImage" layoutX="499.0" layoutY="6.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="52.0" text="---" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab fx:id="tpgVideo" text="Video">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <TableView fx:id="tvVideo" layoutX="5.0" layoutY="6.0" prefHeight="425.0" prefWidth="489.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="6.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="tcVideo" minWidth="-1.0" prefWidth="483.0" text="Video" />
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="btnAddVideo" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="532.0" text="Toevoegen" />
+                                                <Button fx:id="btnBrowseVideo" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="142.0" text="Browse" />
+                                                <TextField fx:id="tfVideo" layoutX="14.0" layoutY="451.0" prefHeight="31.0" prefWidth="384.0" />
+                                                <Button fx:id="btnRemoveVideo" layoutX="499.0" layoutY="6.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="52.0" text="---" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab fx:id="tpgPlay" text="Play">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <Label layoutX="6.0" layoutY="11.0" text="Info" textAlignment="CENTER">
+                                                    <font>
+                                                        <Font size="33.0" />
+                                                    </font>
+                                                </Label>
+                                                <MediaView fx:id="mvTest" fitHeight="200.0" fitWidth="200.0" layoutX="26.0" layoutY="221.0" />
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
+                                                <Button fx:id="btnBack" layoutX="14.0" layoutY="502.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="529.0" text="Terug" />
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                        <Button fx:id="btnLogin" layoutX="406.0" layoutY="4.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="158.0" text="Inloggen" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="633.0" prefWidth="377.0">
+                    <children>
+                        <TextArea fx:id="taChat" layoutX="14.0" layoutY="14.0" prefHeight="496.0" prefWidth="269.0" AnchorPane.bottomAnchor="123.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <TextField fx:id="tfSendChat" layoutX="14.0" layoutY="523.0" prefHeight="97.0" prefWidth="245.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="99.0" />
+                        <Button fx:id="btnSendChat" layoutX="227.0" layoutY="523.0" mnemonicParsing="false" onAction="#btnSendChatClick" prefHeight="97.0" prefWidth="80.0" text="Verzend" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" />
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>

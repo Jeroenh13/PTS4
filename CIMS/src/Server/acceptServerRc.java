@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
@@ -43,7 +44,7 @@ class acceptServerRc implements Runnable, Observer {
             inStream = socket.getInputStream();
             in = new ObjectInputStream(inStream);
             out = new ObjectOutputStream(outStream);
-            
+
             //int id = (int) in.readObject();
             int id = 1;
             boolean found = false;
@@ -61,7 +62,7 @@ class acceptServerRc implements Runnable, Observer {
                 obvClass.obvs.add(obv);
             }
             obv.addObserver(this);
-            
+
             System.out.println("Added obv");
             while (true);
 
@@ -73,10 +74,11 @@ class acceptServerRc implements Runnable, Observer {
     @Override
     public void update(Observable o, Object arg) {
         try {
-            System.out.println("Sending repo");
             out.writeObject(((obvClass) o).returnReport());
-        } catch (IOException ex) {
-            Logger.getLogger(acceptServerRc.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SocketException e) {
+            obv.deleteObserver(this);
+        } catch (Exception e) {
+            System.err.println(e);
         }
     }
 
