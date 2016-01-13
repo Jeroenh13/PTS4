@@ -449,6 +449,8 @@ public class DatabaseManager {
             result = statement.executeQuery("SELECT * FROM vwemployee WHERE Helpline = '" + name + "'");
             ArrayList lines = new ArrayList<>();
             while (result.next()) {
+                
+                boolean exists = false;
                 String available = result.getBoolean("Available") ? "Yes" : "No";
 
                 LocalDateTime reportStart = null;
@@ -461,8 +463,18 @@ public class DatabaseManager {
                 if (result.getDate("reportEndDate") != null) {
                     reportEnd = LocalDateTime.parse(result.getString("reportEndDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
                 }
-
-                lines.add(new Employee(result.getInt("BadgeNR"), result.getString("Name"), result.getString("Function"), available, result.getString("Department"), result.getString("Region"), result.getString("Commune"), result.getString("level"), result.getString("Team"), null, reportStart, reportEnd));
+                
+                for(Object e : lines)
+                {
+                    Employee emp = (Employee)e;
+                    if(emp.getBadgeNR() == result.getInt("BadgeNR"))
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+                if(!exists)
+                    lines.add(new Employee(result.getInt("BadgeNR"), result.getString("Name"), result.getString("Function"), available, result.getString("Department"), result.getString("Region"), result.getString("Commune"), result.getString("level"), result.getString("Team"), null, reportStart, reportEnd));
             }
 
             return lines;

@@ -28,4 +28,29 @@ public class Vehicle {
         //this.regionId = regionId;
         this.inUse = inUse;
     }
+    
+    public int getId()
+    {
+        return this.id;
+    }
+    
+    public String getType()
+    {
+        return this.type;
+    }
+    
+    public int getHelplineId()
+    {
+        return this.helplineId;
+    }
+    
+    public  int getRegionID()
+    {
+        return this.regionId;
+    }
+    
+    public int getInUse()
+    {
+        return this.inUse;
+    }
 }

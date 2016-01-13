@@ -7,9 +7,10 @@ package controller;
 
 import ChatServer.ChatClient;
 import Server.ClientReceiving;
+import cims.Employee;
 import cims.Helpline;
 import cims.Report;
-import com.sun.jndi.dns.DnsContextFactory;
+import cims.Vehicle;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,8 +19,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -27,7 +26,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 
 /**
  *
@@ -35,45 +33,36 @@ import javafx.util.Callback;
  */
 public class CentralControllerFX extends controller.CentralController implements Initializable, Observer {
 
-    @FXML
-    private TextField tfApproachPolice;
-    @FXML
-    private Button btnSavePolice;
-    @FXML
-    private TextField tfApproachFirefighters;
-    @FXML
-    private Button btnSaveFirefighters;
-    @FXML
-    private TextField tfApproachAmbulance;
-    @FXML
-    private Button btnSaveAmbulance;
+    @FXML private TextField tfApproachPolice;
+    @FXML private Button btnSavePolice;
+    @FXML private TextField tfApproachFirefighters;
+    @FXML private Button btnSaveFirefighters;
+    @FXML private TextField tfApproachAmbulance;
+    @FXML private Button btnSaveAmbulance;
 
-    @FXML
-    private TableView tvVehAssPolice;
-    @FXML
-    private TableView tvVehAllPolice;
-    @FXML
-    private TableView tvVehAssFire;
-    @FXML
-    private TableView tvVehAllFire;
-    @FXML
-    private TableView tvVehAssAmbulance;
-    @FXML
-    private TableView tvVehAllAmbulance;
-    @FXML
-    private TableView<Report> tvIncidents;
-    @FXML
-    private Button btnInformationIncident;
+    @FXML private TableView<Vehicle> tvVehAssPolice;
+    @FXML private TableView<Vehicle> tvVehAllPolice;
+    @FXML private TableView<Employee> tvEmpAssPolice;
+    @FXML private TableView<Employee> tvEmpAllPolice;
+    @FXML private TableView<Vehicle> tvVehAssFire;
+    @FXML private TableView<Vehicle> tvVehAllFire;
+    @FXML private TableView<Employee> tvEmpAssFire;
+    @FXML private TableView<Employee> tvEmpAllFire;
+    @FXML private TableView<Vehicle> tvVehAssAmbulance;
+    @FXML private TableView<Vehicle> tvVehAllAmbulance;
+    @FXML private TableView<Employee> tvEmpAssAmbulance;
+    @FXML private TableView<Employee> tvEmpAllAmbulance;
+    @FXML private TableView<Report> tvIncidents;
+    @FXML private Button btnInformationIncident;
 
-    @FXML
-    private TextArea taChat;
-    @FXML
-    private TextField tfChatMessage;
+    @FXML private TextArea taChat;
+    @FXML private TextField tfChatMessage;
     
     @FXML private Label lblReportDate;
     @FXML private Label lblReportDesc;
     @FXML private Label lblReportLoc;
     @FXML private Label lblReportExtra;
+    @FXML private Label lblReportWeather;
     
     @FXML private TabPane tpTabs;
     @FXML private Tab tptInfo;
@@ -93,6 +82,10 @@ public class CentralControllerFX extends controller.CentralController implements
     public void initialize(URL url, ResourceBundle rb) {
         makeCollums();
         fillColums();
+        makeEmployeeColumns();
+        fillEmployeeColums();
+        makeVehicleColumns();
+        fillVehicleColumns();
 
         chat = new Thread(cc);
         chat.start();
@@ -134,42 +127,36 @@ public class CentralControllerFX extends controller.CentralController implements
     public void informationAccident() {
         System.out.println(selectedReport.toString());
         tpTabs.getSelectionModel().select(tptInfo);
-        //System.out.println(lblReportDate);
-        //System.out.println(selectedReport.getStartDate().toString());
-        System.out.println(selectedReport.getDescription());
-        System.out.println(selectedReport.getExtraInformation());
-        System.out.println(selectedReport.getLocationGPS());
-//        lblReportDate.setText(selectedReport.getStartDate().toString());
-//        lblReportDesc.setText(selectedReport.getDescription());
-//        lblReportExtra.setText(selectedReport.getExtraInformation());
-//        lblReportLoc.setText(selectedReport.getLocationGPS());
+        lblReportDate.setText(selectedReport.getStartDate().toString());
+        lblReportDesc.setText(selectedReport.getDescription());
+        lblReportExtra.setText(selectedReport.getExtraInformation());
+        lblReportLoc.setText(selectedReport.getLocationGPS());
+        lblReportWeather.setText(selectedReport.getWeather());
     }
 
     public void btnSendChatClick(Event e) {
         cc.setText("Centrale: " + tfChatMessage.getText());
     }
 
-    public void makeCollums() {
+    public void makeCollums() 
+    {
         tvIncidents.getColumns().clear();
+        
         List<Field> fields = getCollumsReport();
         for (Field f : fields) {
             if (!f.getName().equals("dbm")) {
-                System.out.println(f.getType().toString());
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
                 if (f.getType().equals(ArrayList.class))
                 {
-                    System.out.println("arraylist");
                     tc.setCellValueFactory(new PropertyValueFactory<ArrayList<Helpline>, String>(f.getName()));
                 }
                 else
                 {
-                    System.out.println("geen arraylist");
                     tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
                 }
                 tc.setResizable(true);
-                int width = 135;
-                tc.setMinWidth(width);
+                tc.setMinWidth(135);
                 tvIncidents.getColumns().add(tc);
             }
         }
@@ -187,12 +174,112 @@ public class CentralControllerFX extends controller.CentralController implements
             }
         });
     }
-
+    
+    public void makeEmployeeColumns()
+    {
+        tvEmpAllAmbulance.getColumns().clear();
+        tvEmpAllFire.getColumns().clear();
+        tvEmpAllPolice.getColumns().clear();
+        
+        List<Field> fieldsEmployees = getColumnsEmployee();
+        for (Field f : fieldsEmployees){
+            if (!f.getName().equals("helpline")){
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAllAmbulance.getColumns().add(tc);
+            }
+        }
+        
+        for (Field f : fieldsEmployees){
+            if (!f.getName().equals("helpline")){
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAllFire.getColumns().add(tc);
+            }
+        }
+        
+        for (Field f : fieldsEmployees){
+            if (!f.getName().equals("helpline")){
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAllPolice.getColumns().add(tc);
+            }
+        }
+    }
+    
+    public void makeVehicleColumns()
+    {
+        tvVehAllAmbulance.getColumns().clear();
+        tvVehAllFire.getColumns().clear();
+        tvVehAllPolice.getColumns().clear();
+        
+        List<Field> fieldsVehicles = getColumnsVehicle();
+        for (Field f : fieldsVehicles){
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAllAmbulance.getColumns().add(tc);
+        }
+        
+        for (Field f : fieldsVehicles){
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAllFire.getColumns().add(tc);
+        }
+        
+        for (Field f : fieldsVehicles){
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAllPolice.getColumns().add(tc);
+        }
+    }
+    
     public void fillColums() {
         ObservableList<Report> reports = FXCollections.observableArrayList();
         reports = fillIncidents();
         //reports.sort(cmprtr);
         tvIncidents.setItems(reports);
+    }
+    
+    public void fillEmployeeColums()
+    {
+        ObservableList<Employee> employeesPolice = fillEmployees("Politie");
+        tvEmpAllPolice.setItems(employeesPolice);
+        
+        ObservableList<Employee> employeesFire = fillEmployees("Brandweer");//FXCollections.observableArrayList();
+        tvEmpAllFire.setItems(employeesFire);
+        
+        ObservableList<Employee> employeesAmbulance = fillEmployees("Ambulance");
+        tvEmpAllAmbulance.setItems(employeesAmbulance);
+    }
+    
+    public void fillVehicleColumns()
+    {
+        ObservableList<Vehicle> vehiclesPolice = fillVehicles("Politie");
+        tvVehAllPolice.setItems(vehiclesPolice);
+        
+        ObservableList<Vehicle> vehiclesFire = fillVehicles("Brandweer");
+        tvVehAllFire.setItems(vehiclesFire);
+        
+        ObservableList<Vehicle> vehiclesAmbulance = fillVehicles("Ambulance");
+        tvVehAllAmbulance.setItems(vehiclesAmbulance);
     }
 
     @Override

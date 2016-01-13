@@ -6,19 +6,15 @@
 package controller;
 
 import Database.DatabaseManager;
-import Server.ClientReceiving;
+import cims.Employee;
 import cims.Helpline;
 import cims.Report;
+import cims.Vehicle;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
-import javafx.util.Callback;
 
 /**
  *
@@ -100,6 +96,30 @@ public class CentralController  {
         }
         return fieldsList;
     }
+    
+    public List<Field> getColumnsEmployee()
+    {
+        List fieldList = new ArrayList<>();
+        Class e = Employee.class;
+        Field[] fields = e.getDeclaredFields();
+        for (Field f : fields)
+        {
+            fieldList.add(f);
+        }
+        return fieldList;
+    }
+    
+    public List<Field> getColumnsVehicle()
+    {
+        List fieldList = new ArrayList<>();
+        Class v = Vehicle.class;
+        Field[] fields = v.getDeclaredFields();
+        for (Field f : fields)
+        {
+            fieldList.add(f);
+        }
+        return fieldList;
+    }
 
     public ObservableList<Report> fillIncidents() {
 //        ObservableList<Report> reps = FXCollections.observableArrayList();
@@ -128,5 +148,35 @@ public class CentralController  {
 //            }
 //        });
         return reports;
+    }
+    
+    public ObservableList<Employee> fillEmployees(String helpline)
+    {
+        ObservableList<Employee> emps = null ;//= FXCollections.observableArrayList();
+        for (Helpline h : helplines)
+        {
+            if (h.getName().equals(helpline))
+            {
+                emps = h.getEmployees();
+            }
+        }
+        return emps;
+    }
+    
+    public ObservableList<Vehicle> fillVehicles(String helpline)
+    {
+        ObservableList<Vehicle> vehs = null;
+        for (Helpline h : helplines)
+        {
+            if (h.getName().equals(helpline))
+            {
+                vehs = h.getVehicles();
+                for (Vehicle v : vehs)
+                {
+                    System.out.println(h.getName() + " --- " + v.getId());
+                }
+            }
+        }
+        return vehs;
     }
 }

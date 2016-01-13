@@ -127,6 +127,10 @@ public class Helpline implements Serializable{
         return reports;
     }
     
+    public ObservableList<Vehicle> getVehicles(){
+        return vehicles;
+    }
+    
     /**
      * Method to receive employees given by the database-manager with selected specifications
      * 

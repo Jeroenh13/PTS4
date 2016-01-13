@@ -92,8 +92,34 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TabPane layoutX="-1.0" prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
+                                          <TabPane prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
                                             <tabs>
+                                                <Tab text="Personeel">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="tvEmpAssPolice" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvEmpAllPolice" maxWidth="1.7976931348623157E308" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
                                               <Tab text="Voertuigen">
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -104,14 +130,18 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView fx:id="tvVehAllPolice" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
-                                                              <columns>
-                                                                <TableColumn prefWidth="75.0" text="C1" />
-                                                                <TableColumn prefWidth="75.0" text="C2" />
-                                                              </columns>
-                                                            </TableView>
                                                             <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
                                                             <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvVehAllPolice" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -121,7 +151,7 @@
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <Button fx:id="btnSaveFirefighters1" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters1" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                            <TextArea fx:id="tfApproachFirefighters1" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Politie" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -138,6 +168,32 @@
                                        <children>
                                           <TabPane prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
                                              <tabs>
+                                                <Tab text="Personeel">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="tvEmpAssFire" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvEmpAllFire" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
                                                 <Tab text="Voertuigen">
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -148,14 +204,18 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView fx:id="tvVehAllFire" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
-                                                               <columns>
-                                                                  <TableColumn prefWidth="75.0" text="C1" />
-                                                                  <TableColumn prefWidth="75.0" text="C2" />
-                                                               </columns>
-                                                            </TableView>
                                                             <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
                                                             <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="9.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvVehAllFire" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -165,7 +225,7 @@
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <Button fx:id="btnSaveFirefighters11" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters11" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                            <TextArea fx:id="tfApproachFirefighters11" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Brandweer" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -182,6 +242,32 @@
                                        <children>
                                           <TabPane prefHeight="882.0" prefWidth="699.0" tabClosingPolicy="UNAVAILABLE">
                                              <tabs>
+                                                <Tab text="Personeel">
+                                                   <content>
+                                                      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                         <children>
+                                                            <TableView fx:id="tvEmpAssAmbulance" layoutX="9.0" layoutY="7.0" prefHeight="381.0" prefWidth="683.0">
+                                                               <columns>
+                                                                  <TableColumn prefWidth="75.0" text="C1" />
+                                                                  <TableColumn prefWidth="75.0" text="C2" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
+                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="9.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvEmpAllAmbulance" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
                                                 <Tab text="Voertuigen">
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -192,14 +278,18 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <TableView fx:id="tvVehAllAmbulance" layoutX="5.0" layoutY="439.0" prefHeight="390.0" prefWidth="689.0">
-                                                               <columns>
-                                                                  <TableColumn prefWidth="75.0" text="C1" />
-                                                                  <TableColumn prefWidth="75.0" text="C2" />
-                                                               </columns>
-                                                            </TableView>
                                                             <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
                                                             <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <ScrollPane layoutX="9.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
+                                                               <content>
+                                                                  <TableView fx:id="tvVehAllAmbulance" prefHeight="382.0" prefWidth="2500.0">
+                                                                     <columns>
+                                                                        <TableColumn prefWidth="75.0" text="C1" />
+                                                                        <TableColumn prefWidth="75.0" text="C2" />
+                                                                     </columns>
+                                                                  </TableView>
+                                                               </content>
+                                                            </ScrollPane>
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -209,7 +299,7 @@
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
                                                             <Button fx:id="btnSaveFirefighters111" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters111" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" />
+                                                            <TextArea fx:id="tfApproachFirefighters111" layoutX="11.0" layoutY="24.0" prefHeight="774.0" prefWidth="678.0" text="Ambulance" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -230,6 +320,7 @@
                         <Label fx:id="lblReportDesc" layoutX="243.0" layoutY="70.0" text="Label" />
                         <Label fx:id="lblReportLoc" layoutX="129.0" layoutY="114.0" text="Label" />
                         <Label fx:id="lblReportExtra" layoutX="393.0" layoutY="114.0" text="Label" />
+                        <Label fx:id="lblReportWeather" layoutX="226.0" layoutY="601.0" text="Label" />
                      </children></AnchorPane>
                </content>
             </Tab>
