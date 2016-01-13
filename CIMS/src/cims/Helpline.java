@@ -193,7 +193,7 @@ public class Helpline implements Serializable{
     public Employee getEmployeeWithID(int id){
         Employee emp = null;
         
-        for(Employee emplo: this.employeesAss){
+        for(Employee emplo: this.employees){
                 if(emplo.getBadgeNR() == id){
                     emp = emplo;
                 }

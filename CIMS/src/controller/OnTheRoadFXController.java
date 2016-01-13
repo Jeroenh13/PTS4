@@ -15,8 +15,15 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import ChatServer.ChatClient;
+import Database.DatabaseManager;
 import cims.Employee;
+import cims.Helpline;
+import cims.Report;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -113,6 +120,10 @@ public class OnTheRoadFXController implements Initializable, Observer {
     ChatClient cc = new ChatClient(1);
 
     Thread chat;
+    
+    private List<Helpline> helplines = new ArrayList<>();
+    private final DatabaseManager dbm = new DatabaseManager();
+    private ObservableList<Report> reports = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -143,6 +154,49 @@ public class OnTheRoadFXController implements Initializable, Observer {
 
     void updateLabels() {
         lblLogInName.setText(emp.getName());
+    }
+    
+    public void setActiveEmployee(int id) {
+        List<Report> dbreports = new ArrayList();
+        helplines = dbm.getHelpLines();
+
+        for (Helpline h : helplines) {
+            h.loadAllEmployees();
+            dbreports.addAll(dbm.getAllReports(h.getName()));
+
+            for (Report r : dbreports) {
+                Report report = reportExists(r);
+                if (report != null) {
+                    h.addReport(report);
+                    report.addHelpline(h);
+                } else {
+                    reports.add(r);
+                    h.addReport(r);
+                    r.addHelpline(h);
+                }
+            }
+            h.bindReportsToEmployees();
+
+            dbreports.clear();
+        }
+        
+        for(Helpline h : helplines)
+        {
+            for (Employee emp : h.getEmployees()) {
+                if (emp.getBadgeNR() == (id)) {
+                    emp = h.getEmployeeWithID(id);
+                }
+            }
+        }
+    }
+
+    private Report reportExists(Report r) {
+        for (Report rep : reports) {
+            if (rep.getReportID() == r.getReportID()) {
+                return rep;
+            }
+        }
+        return null;
     }
 
 }
