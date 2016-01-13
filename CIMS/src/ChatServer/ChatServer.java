@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -68,7 +69,13 @@ public class ChatServer implements Runnable, Observer {
 
             System.out.println("Waiting for text");
             while (true) {
+                try{
                 chatObv.setText((String) in.readObject());
+                }
+                catch(SocketException e)
+                {
+                    chatObv.deleteObserver(this);
+                }
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);

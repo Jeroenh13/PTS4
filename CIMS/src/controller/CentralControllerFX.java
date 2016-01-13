@@ -69,14 +69,20 @@ public class CentralControllerFX extends controller.CentralController implements
     private TextArea taChat;
     @FXML
     private TextField tfChatMessage;
-    
-    @FXML private Label lblReportDate;
-    @FXML private Label lblReportDesc;
-    @FXML private Label lblReportLoc;
-    @FXML private Label lblReportExtra;
-    
-    @FXML private TabPane tpTabs;
-    @FXML private Tab tptInfo;
+
+    @FXML
+    private Label lblReportDate;
+    @FXML
+    private Label lblReportDesc;
+    @FXML
+    private Label lblReportLoc;
+    @FXML
+    private Label lblReportExtra;
+
+    @FXML
+    private TabPane tpTabs;
+    @FXML
+    private Tab tptInfo;
 
     int tmpID = 0;
 
@@ -86,7 +92,7 @@ public class CentralControllerFX extends controller.CentralController implements
 
     private ClientReceiving cr = new ClientReceiving();
     private Thread reportListener;
-    
+
     private Report selectedReport;
 
     @Override
@@ -95,12 +101,17 @@ public class CentralControllerFX extends controller.CentralController implements
         fillColums();
 
         chat = new Thread(cc);
+        reportListener = new Thread(cr);
+
+        chat.setDaemon(true);
+        reportListener.setDaemon(true);
+
         chat.start();
         cc.addObserver(this);
 
-        reportListener = new Thread(cr);
         reportListener.start();
         cr.addObserver(this);
+
     }
 
     public void savePolice(Event evnt) {
@@ -157,13 +168,10 @@ public class CentralControllerFX extends controller.CentralController implements
                 System.out.println(f.getType().toString());
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
-                if (f.getType().equals(ArrayList.class))
-                {
+                if (f.getType().equals(ArrayList.class)) {
                     System.out.println("arraylist");
                     tc.setCellValueFactory(new PropertyValueFactory<ArrayList<Helpline>, String>(f.getName()));
-                }
-                else
-                {
+                } else {
                     System.out.println("geen arraylist");
                     tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
                 }
@@ -173,16 +181,13 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvIncidents.getColumns().add(tc);
             }
         }
-        
+
         tvIncidents.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvIncidents.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvIncidents.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected report: " + newValue.getReportID());
                 btnInformationIncident.setDisable(false);
                 selectedReport = tvIncidents.getSelectionModel().getSelectedItem();
-            }
-            else
-            {
+            } else {
                 btnInformationIncident.setDisable(true);
             }
         });

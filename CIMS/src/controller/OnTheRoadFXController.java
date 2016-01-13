@@ -18,7 +18,9 @@ import ChatServer.ChatClient;
 import cims.Employee;
 import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -119,6 +121,8 @@ public class OnTheRoadFXController implements Initializable, Observer {
         //mp.setAutoPlay(true);
         mvTest.mediaPlayerProperty().set(mp);
         chat = new Thread(cc);
+        chat.setDaemon(true);
+
         chat.start();
         cc.addObserver(this);
 
@@ -140,4 +144,5 @@ public class OnTheRoadFXController implements Initializable, Observer {
     void updateLabels() {
         lblLogInName.setText(emp.getName());
     }
+
 }
