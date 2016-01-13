@@ -156,10 +156,6 @@ public class CentralControllerFX extends controller.CentralController implements
                 if (f.getType().equals(ArrayList.class))
                 {
                     tc.setCellValueFactory(new PropertyValueFactory<ArrayList<Helpline>, String>(f.getName()));
-                }
-                else
-                {
-
                     tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
                 }
                 tc.setResizable(true);
