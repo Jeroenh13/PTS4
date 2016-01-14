@@ -76,6 +76,7 @@ public class CentralControllerFX extends controller.CentralController implements
 
     private Report selectedReport;
     private Employee selectedEmployee;
+    private Vehicle selectedVehicle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -314,6 +315,30 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllPolice.getColumns().add(tc);
         }
+        
+        tvVehAllAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAllAmbulance.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getType());
+                selectedVehicle = tvVehAllAmbulance.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        tvVehAllFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAllFire.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getType());
+                selectedVehicle = tvVehAllFire.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        tvVehAllPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAllPolice.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getType());
+                selectedVehicle = tvVehAllPolice.getSelectionModel().getSelectedItem();
+            }
+        });
     }
     
     public void fillColums() {
