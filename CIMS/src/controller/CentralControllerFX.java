@@ -26,6 +26,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  *
@@ -33,11 +35,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class CentralControllerFX extends controller.CentralController implements Initializable, Observer {
 
-    @FXML private TextField tfApproachPolice;
+    @FXML private TextArea tfApproachPolice;
     @FXML private Button btnSavePolice;
-    @FXML private TextField tfApproachFirefighters;
+    @FXML private TextArea tfApproachFirefighters;
     @FXML private Button btnSaveFirefighters;
-    @FXML private TextField tfApproachAmbulance;
+    @FXML private TextArea tfApproachAmbulance;
     @FXML private Button btnSaveAmbulance;
 
     @FXML private TableView<Vehicle> tvVehAssPolice;
@@ -67,17 +69,13 @@ public class CentralControllerFX extends controller.CentralController implements
     @FXML private TabPane tpTabs;
     @FXML private Tab tptInfo;
 
-
-    int tmpID = 0;
-
     private ChatClient cc = new ChatClient(1);
-
     private Thread chat;
-
     private ClientReceiving cr = new ClientReceiving();
     private Thread reportListener;
 
     private Report selectedReport;
+    private Employee selectedEmployee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,28 +100,49 @@ public class CentralControllerFX extends controller.CentralController implements
 
     }
 
-    public void savePolice(Event evnt) {
-        System.out.println("doe iets");
-        String plan = tfApproachPolice.getText();
-        String helpline = "police";
-        tfApproachPolice.clear();
-        savePlan(plan, helpline, tmpID);
+    public void saveApproachPolice(Event evnt) {
+        String approach = tfApproachPolice.getText();
+        String helpline = "Politie";
+        int reportID = selectedReport.getReportID();
+        boolean succes = saveApproach(approach, helpline, reportID);
+        approachSaved(succes);
     }
 
-    public void saveFirefighters(Event evnt) {
-        System.out.println("doe iets");
-        String plan = tfApproachFirefighters.getText();
-        String helpline = "firefighters";
-        tfApproachFirefighters.clear();
-        savePlan(plan, helpline, tmpID);
+    public void saveApproachFirefighters(Event evnt) {
+        String approach = tfApproachFirefighters.getText();
+        String helpline = "Brandweer";
+        int reportID = selectedReport.getReportID();
+        boolean succes = saveApproach(approach, helpline, reportID);
+        approachSaved(succes);
     }
 
-    public void saveAmbulance(Event evnt) {
-        System.out.println("doe iets");
-        String plan = tfApproachAmbulance.getText();
-        String helpline = "ambulance";
-        tfApproachAmbulance.clear();
-        savePlan(plan, helpline, tmpID);
+    public void saveApproachAmbulance(Event evnt) {
+        String approach = tfApproachAmbulance.getText();
+        String helpline = "Ambulance";
+        int reportID = selectedReport.getReportID();
+        boolean succes = saveApproach(approach, helpline, reportID);
+        approachSaved(succes);
+    }
+    
+    public void approachSaved(boolean succes)
+    {
+        Alert alert;
+        String message;
+        if (succes)
+        {
+            alert = new Alert(AlertType.CONFIRMATION);
+            message = "Approach saved";
+        }
+        else
+        {
+            alert = new Alert(AlertType.ERROR);
+            message = "Approach not saved";
+        }
+            
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void getAllVehicles() {
@@ -138,6 +157,25 @@ public class CentralControllerFX extends controller.CentralController implements
         lblReportExtra.setText(selectedReport.getExtraInformation());
         lblReportLoc.setText(selectedReport.getLocationGPS());
         lblReportWeather.setText(selectedReport.getWeather());
+        getApproach();
+    }
+    
+    public void getApproach()
+    {
+        int reportID = selectedReport.getReportID();
+        for (Helpline h : getHelplines())
+        {   
+            String approach = getApproachReport(reportID, h.getID());
+            if (approach == null)
+                approach = "NVT";
+            System.out.println(approach);
+            if (h.getName().equals("Politie"))
+                tfApproachPolice.setText(approach);
+            if (h.getName().equals("Brandweer"))
+                tfApproachFirefighters.setText(approach);
+            if (h.getName().equals("Ambulance"))
+                tfApproachAmbulance.setText(approach);
+        }
     }
 
     public void btnSendChatClick(Event e) {
@@ -217,6 +255,30 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvEmpAllPolice.getColumns().add(tc);
             }
         }
+        
+        tvEmpAllAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAllAmbulance.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAllAmbulance.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        tvEmpAllFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAllFire.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAllFire.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        tvEmpAllPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAllPolice.getSelectionModel().getSelectedItem() != null)
+            {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAllPolice.getSelectionModel().getSelectedItem();
+            }
+        });
     }
     
     public void makeVehicleColumns()

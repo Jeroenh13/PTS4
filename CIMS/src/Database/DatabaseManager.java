@@ -386,20 +386,59 @@ public class DatabaseManager {
             }
         }
     }
+    
+    public int getApproachID(int helplineID, int reportID)
+    {
+        if (!openConnection())
+            return -1;
+        ResultSet result = null;
+        Statement statement = null;
+        try
+        {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT HelplineReportID FROM helplinereport WHERE helplineID = " + helplineID + " AND reportID = " + reportID);
+            
+            while(result.next())
+            {
+                return result.getInt("helplinereportID");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+            return -1;
+        }
+        finally
+        {
+            try
+            {
+                result.close();
+                statement.close();
+                closeConnection();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+        }
+        return -1;
+    }
 
-    public boolean saveApproach(String approach, int helplineID, int reportID) {
+    public boolean saveApproach(int helplinereportID, String approach, int helplineID, int reportID) {
         boolean succes = false;
         if (!openConnection()) {
             return succes;
         }
         PreparedStatement statement = null;
         try {
-            String query = "INSERT INTO helplinereport(helplineID, reportID, approach) VALUES (?,?,?)";
+            String query = "REPLACE INTO helplinereport(helplinereportID, helplineID, reportID, approach) VALUES (?,?,?,?)";
             statement = conn.prepareStatement(query);
-            statement.setInt(1, helplineID);
-            statement.setInt(2, reportID);
-            statement.setString(3, approach);
+            statement.setInt(1, helplinereportID);
+            statement.setInt(2, helplineID);
+            statement.setInt(3, reportID);
+            statement.setString(4, approach);
             statement.executeUpdate();
+            succes = true;
             conn.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -695,6 +734,43 @@ public class DatabaseManager {
                 System.out.println(e);
             }
         }
+    }
+    
+    public String getApproachHelpline(int reportID, int helplineID)
+    {
+        if (!openConnection())
+            return null;
+        ResultSet result = null;
+        Statement statement = null;
+        try
+        {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT Approach FROM helplinereport WHERE helplineID = " + helplineID + " AND reportID = " + reportID);
+            
+            while (result.next())
+            {
+                return result.getString("Approach");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+            return null;
+        }
+        finally
+        {
+            try
+            {
+                result.close();
+                statement.close();
+                closeConnection();
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+        }
+        return null;
     }
 
 }

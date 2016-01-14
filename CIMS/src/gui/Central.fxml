@@ -150,8 +150,8 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <Button fx:id="btnSaveFirefighters1" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters1" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Politie" />
+                                                            <Button fx:id="btnSavePolice" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" onAction="#saveApproachPolice" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachPolice" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Politie" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -224,8 +224,8 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <Button fx:id="btnSaveFirefighters11" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters11" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Brandweer" />
+                                                            <Button fx:id="btnSaveFirefighters" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" onAction="#saveApproachFirefighters" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachFirefighters" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Brandweer" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>
@@ -298,8 +298,8 @@
                                                    <content>
                                                       <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <Button fx:id="btnSaveFirefighters111" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="61.0" text="save" />
-                                                            <TextArea fx:id="tfApproachFirefighters111" layoutX="11.0" layoutY="24.0" prefHeight="774.0" prefWidth="678.0" text="Ambulance" />
+                                                            <Button fx:id="btnSaveAmbulance" layoutX="624.0" layoutY="798.0" mnemonicParsing="false" onAction="#saveApproachAmbulance" prefHeight="31.0" prefWidth="61.0" text="save" />
+                                                            <TextArea fx:id="tfApproachAmbulance" layoutX="14.0" layoutY="14.0" prefHeight="774.0" prefWidth="678.0" text="Ambulance" />
                                                          </children>
                                                       </AnchorPane>
                                                    </content>

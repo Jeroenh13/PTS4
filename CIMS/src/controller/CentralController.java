@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,14 +38,19 @@ public class CentralController  {
         return helplines;
     }
 
-    public void savePlan(String approach, String helpline, int reportID) {
+    public boolean saveApproach(String approach, String helpline, int reportID) {
+        boolean succes = false;
         int helplineID = 0;
         for (Helpline h : helplines) {
             if (h.getName().equals(helpline)) {
                 helplineID = h.getID();
             }
         }
-        dbm.saveApproach(approach, helplineID, reportID);
+        int helplinereportID = dbm.getApproachID(helplineID, reportID);
+        if (helplinereportID != -1)
+            succes = dbm.saveApproach(helplinereportID, approach, helplineID, reportID);
+        System.out.println(helplinereportID);
+        return succes;
     }
 
     public void loadHelplines() {
@@ -178,5 +184,11 @@ public class CentralController  {
             }
         }
         return vehs;
+    }
+    
+    public String getApproachReport(int reportID, int helplineID)
+    {
+        String approach = dbm.getApproachHelpline(reportID, helplineID);
+        return approach;
     }
 }
