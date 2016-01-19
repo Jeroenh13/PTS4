@@ -13,7 +13,12 @@ import cims.Report;
 import cims.Vehicle;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -41,6 +46,7 @@ public class CentralControllerFX extends controller.CentralController implements
     @FXML private Button btnSaveFirefighters;
     @FXML private TextArea tfApproachAmbulance;
     @FXML private Button btnSaveAmbulance;
+    @FXML private Button btnCloseReport;
 
     @FXML private TableView<Vehicle> tvVehAssPolice;
     @FXML private TableView<Vehicle> tvVehAllPolice;
@@ -370,6 +376,56 @@ public class CentralControllerFX extends controller.CentralController implements
         
         ObservableList<Vehicle> vehiclesAmbulance = fillVehicles("Ambulance");
         tvVehAllAmbulance.setItems(vehiclesAmbulance);
+    }
+    
+    public void closeReport()
+    {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Close report");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to close the report: '" + selectedReport.getTitle() + "'?");
+        alert.showAndWait().ifPresent(response -> {;
+        if (response == ButtonType.OK){
+            setReportClosed();
+        }
+        else
+        {
+            System.out.println("doing nothing");
+        }
+        });
+        
+    }
+    
+    public void setReportClosed()
+    {
+        System.out.println("OK, closing report");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        LocalDateTime date = LocalDateTime.parse(dateFormat.format(new Date()), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+        boolean succes = closeReport(selectedReport.getReportID(), date);
+        if (succes)
+            selectedReport.setEndDate(date);
+        showReportClosed(succes);
+    }
+    
+    public void showReportClosed(boolean succes)
+    {
+        Alert alert;
+        String message;
+        if (succes)
+        {
+            alert = new Alert(AlertType.CONFIRMATION);
+            message = "Report Closed";
+        }
+        else
+        {
+            alert = new Alert(AlertType.ERROR);
+            message = "Could not close report";
+        }
+            
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @Override

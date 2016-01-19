@@ -66,26 +66,26 @@
                         <Label layoutX="45.0" layoutY="70.0" text="Beschrijving:" />
                         <Label layoutX="45.0" layoutY="114.0" text="Locatie:" />
                         <Label layoutX="243.0" layoutY="114.0" text="Extra info locatie:" />
-                        <Label layoutX="45.0" layoutY="278.0" text="Luchtalarm:" />
-                        <Button layoutX="243.0" layoutY="273.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" text="Aan" />
-                        <Button disable="true" layoutX="321.0" layoutY="273.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Uit" />
-                        <Label layoutX="45.0" layoutY="340.0" text="Hulpdienst(en):" />
-                        <ComboBox layoutX="243.0" layoutY="335.0" prefHeight="31.0" prefWidth="211.0" />
-                        <Button layoutX="474.0" layoutY="335.0" mnemonicParsing="false" text="plus" />
-                        <Label layoutX="45.0" layoutY="404.0" text="Toegevoegde hulpdiensten:" />
-                        <ListView layoutX="243.0" layoutY="404.0" prefHeight="116.0" prefWidth="212.0" />
-                        <Button layoutX="474.0" layoutY="399.0" mnemonicParsing="false" text="Route definieren" />
-                        <Button layoutX="474.0" layoutY="489.0" mnemonicParsing="false" text="verwijder" />
+                        <Label layoutX="43.0" layoutY="164.0" text="Luchtalarm:" />
+                        <Button layoutX="241.0" layoutY="159.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" text="Aan" />
+                        <Button disable="true" layoutX="319.0" layoutY="159.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Uit" />
+                        <Label layoutX="43.0" layoutY="226.0" text="Hulpdienst(en):" />
+                        <ComboBox layoutX="241.0" layoutY="221.0" prefHeight="31.0" prefWidth="211.0" />
+                        <Button layoutX="472.0" layoutY="221.0" mnemonicParsing="false" text="plus" />
+                        <Label layoutX="43.0" layoutY="290.0" text="Toegevoegde hulpdiensten:" />
+                        <ListView layoutX="241.0" layoutY="290.0" prefHeight="116.0" prefWidth="212.0" />
+                        <Button layoutX="472.0" layoutY="285.0" mnemonicParsing="false" text="Route definieren" />
+                        <Button layoutX="472.0" layoutY="375.0" mnemonicParsing="false" text="verwijder" />
                         <Label layoutX="699.0" layoutY="31.0" text="Belangrijke sociale media berichten van het ongeval:" />
                         <ListView layoutX="699.0" layoutY="97.0" prefHeight="396.0" prefWidth="487.0" />
-                        <Button layoutX="546.0" layoutY="596.0" mnemonicParsing="false" text="Verken het gebied" />
-                        <Label layoutX="43.0" layoutY="601.0" text="Weer:" />
-                        <Label layoutX="45.0" layoutY="640.0" text="Temperatuur:" />
-                        <Label layoutX="43.0" layoutY="684.0" text="Wind:" />
-                        <Label layoutX="43.0" layoutY="724.0" text="Neerslag:" />
-                        <Label layoutX="43.0" layoutY="773.0" text="Luchtvochtigheid:" />
-                        <Label layoutX="43.0" layoutY="827.0" text="Verwachting binnen 2 uur:" />
-                        <Label layoutX="43.0" layoutY="884.0" text="Plan van aanpak en aanwezigheid overzicht:" />
+                        <Button layoutX="548.0" layoutY="493.0" mnemonicParsing="false" text="Verken het gebied" />
+                        <Label layoutX="45.0" layoutY="498.0" text="Weer:" />
+                        <Label layoutX="47.0" layoutY="537.0" text="Temperatuur:" />
+                        <Label layoutX="45.0" layoutY="581.0" text="Wind:" />
+                        <Label layoutX="45.0" layoutY="621.0" text="Neerslag:" />
+                        <Label layoutX="45.0" layoutY="670.0" text="Luchtvochtigheid:" />
+                        <Label layoutX="45.0" layoutY="724.0" text="Verwachting binnen 2 uur:" />
+                        <Label layoutX="45.0" layoutY="781.0" text="Plan van aanpak en aanwezigheid overzicht:" />
                         <TabPane layoutX="1206.0" layoutY="27.0" prefHeight="922.0" prefWidth="698.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Politie">
@@ -320,7 +320,8 @@
                         <Label fx:id="lblReportDesc" layoutX="243.0" layoutY="70.0" text="Label" />
                         <Label fx:id="lblReportLoc" layoutX="129.0" layoutY="114.0" text="Label" />
                         <Label fx:id="lblReportExtra" layoutX="393.0" layoutY="114.0" text="Label" />
-                        <Label fx:id="lblReportWeather" layoutX="226.0" layoutY="601.0" text="Label" />
+                        <Label fx:id="lblReportWeather" layoutX="228.0" layoutY="498.0" text="Label" />
+                        <Button fx:id="btnCloseReport" layoutX="49.0" layoutY="885.0" mnemonicParsing="false" onAction="#closeReport" text="Sluit melding af" />
                      </children></AnchorPane>
                </content>
             </Tab>

@@ -448,6 +448,37 @@ public class DatabaseManager {
         }
         return succes;
     }
+    
+    public boolean closeReport(int reportID, LocalDateTime enddate)
+    {
+        boolean succes = false;
+        if (!openConnection()){
+            return succes;
+        }
+        PreparedStatement statement = null;
+        try
+        {
+            String query = "UPDATE report SET enddate=? WHERE reportid =?";
+            statement = conn.prepareStatement(query);
+            
+            Timestamp timestamp = Timestamp.valueOf(enddate);
+            java.sql.Timestamp date = new java.sql.Timestamp(timestamp.getTime());
+            statement.setTimestamp(1, date);
+            statement.setInt(2, reportID);
+            statement.executeUpdate();
+            succes = true;
+            conn.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+        finally
+        {
+            closeConnection();
+        }
+        return succes;
+    }
 
     public ArrayList<Vehicle> getAllVehicles(int helplineID) {
         if (!openConnection()) {
@@ -815,5 +846,4 @@ public class DatabaseManager {
         }
         return null;
     }
-
 }
