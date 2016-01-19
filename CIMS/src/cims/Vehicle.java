@@ -6,6 +6,7 @@
 package cims;
 
 import Database.DatabaseManager;
+import java.time.LocalDateTime;
 import javafx.collections.FXCollections;
 
 /**
@@ -19,6 +20,9 @@ public class Vehicle {
     public int helplineId;
     public int regionId;
     public int inUse;
+    public Employee assignedEmployee;
+    private LocalDateTime start;
+    private LocalDateTime end;
     
     public Vehicle(int id, String type, int helplineId, int inUse)
     {
@@ -52,5 +56,30 @@ public class Vehicle {
     public int getInUse()
     {
         return this.inUse;
+    }
+    
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+    
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public Employee getAssignedEmployee() {
+        return assignedEmployee;
+    }
+
+    public void setAssignedEmployee(Employee employee) {
+        this.assignedEmployee = employee;
+    }
+    
+    public LocalDateTime getStart() {
+        return start;
+    }
+    
+    
+    public LocalDateTime getEnd() {
+        return end;
     }
 }

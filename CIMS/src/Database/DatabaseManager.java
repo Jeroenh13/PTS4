@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.CallableStatement;
 import cims.Helpline;
+import cims.PlannedVehicle;
 import cims.Report;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
@@ -462,6 +463,48 @@ public class DatabaseManager {
                 lines.add(new Vehicle(result.getInt("VehicleID"), result.getString("VehicleType"), result.getInt("HelplineID"), result.getInt("InUse")));
             }
             return lines;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        } finally {
+            try {
+                result.close();
+                statement.close();
+                closeConnection();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public ArrayList<PlannedVehicle> getVehiclePlanning() {
+        if (!openConnection()) {
+            return null;
+        }
+        ResultSet result = null;
+        Statement statement = null;
+        try {
+            statement = conn.createStatement();
+            result = statement.executeQuery("SELECT * FROM vehicleplanning");
+            ArrayList planning = new ArrayList<>();
+            while (result.next()) {
+                //public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title)
+                
+                LocalDateTime reportStart = null;
+                LocalDateTime reportEnd = null;
+
+                if (result.getDate("startDate") != null) {
+                    reportStart = LocalDateTime.parse(result.getString("startDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                }
+
+                if (result.getDate("endDate") != null) {
+                    reportEnd = LocalDateTime.parse(result.getString("endDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                }
+                
+                planning.add(new PlannedVehicle(result.getInt("VehicleID"), result.getInt("EmployeeID"), reportStart, reportEnd));
+            }
+
+            return planning;
         } catch (Exception e) {
             System.out.println(e);
             return null;

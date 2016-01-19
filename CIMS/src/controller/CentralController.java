@@ -8,6 +8,7 @@ package controller;
 import Database.DatabaseManager;
 import cims.Employee;
 import cims.Helpline;
+import cims.PlannedVehicle;
 import cims.Report;
 import cims.Vehicle;
 import java.lang.reflect.Field;
@@ -25,8 +26,9 @@ public class CentralController  {
 
     private final DatabaseManager dbm;
     private List<Helpline> helplines = new ArrayList<>();
+    private List<PlannedVehicle> vehiclePlanning = new ArrayList<>();
     private ObservableList<Report> reports = FXCollections.observableArrayList();
-
+    
     
     
     public CentralController() {
@@ -76,9 +78,14 @@ public class CentralController  {
             }
 
             h.bindReportsToEmployees();
-
+            h.bindVehiclesToEmployees(vehiclePlanning);
             dbreports.clear();
         }
+    }
+    
+    public void loadVehiclePlanning()
+    {
+        vehiclePlanning = dbm.getVehiclePlanning();
     }
 
     private Report reportExists(Report r) {

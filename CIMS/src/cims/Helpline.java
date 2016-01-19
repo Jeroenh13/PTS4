@@ -11,6 +11,7 @@ import Database.QueryBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -214,6 +215,18 @@ public class Helpline implements Serializable{
         return rep;
     }
     
+    public Vehicle getVehicleWithID(int id){
+        Vehicle veh = null;
+        
+        for(Vehicle v : this.vehicles){
+                if(v.getId()== id){
+                    veh = v;
+                }
+        }
+        
+        return veh;
+    }
+    
     public void loadAllEmployees()
     {
         employees.clear();
@@ -259,5 +272,20 @@ public class Helpline implements Serializable{
         }
         
         System.out.println("Number of assigned reports linked for " + name + ": " + count);
+    }
+    
+    public void bindVehiclesToEmployees(List<PlannedVehicle> planning)
+    {
+        for(PlannedVehicle veh : planning)
+        {
+            Employee e = getEmployeeWithID(veh.getEmployeeId());
+            Vehicle v = getVehicleWithID(veh.getVehicleId());
+            
+            if(e != null && v != null)
+            {
+                e.setAssignedVehicle(v);
+                v.setAssignedEmployee(e);
+            }
+        }
     }
 }

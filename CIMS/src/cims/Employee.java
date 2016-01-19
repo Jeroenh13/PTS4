@@ -25,6 +25,7 @@ public class Employee {
     private String level;
     private String team;
     private Report assignedTo;
+    private Vehicle assignedVehicle;
     private LocalDateTime start;
     private LocalDateTime end;
     private Helpline helpline;
@@ -263,6 +264,13 @@ public class Employee {
         return super.clone();
     }
     
+    public Vehicle getAssignedVehicle() {
+        return assignedVehicle;
+    }
+
+    public void setAssignedVehicle(Vehicle assignedVehicle) {
+        this.assignedVehicle = assignedVehicle;
+    }
     
     public static Employee getEmployeeByInlog(String userName, String password) {
         Database.DatabaseManager dbm = new DatabaseManager();
