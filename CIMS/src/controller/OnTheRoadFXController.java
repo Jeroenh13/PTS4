@@ -115,12 +115,12 @@ public class OnTheRoadFXController implements Initializable, Observer {
     @FXML
     private Button btnBack;
 
-    Employee emp;
+    Employee emp = null;
 
-    ChatClient cc = new ChatClient(1);
+    ChatClient cc = null;
 
     Thread chat;
-    
+
     private List<Helpline> helplines = new ArrayList<>();
     private final DatabaseManager dbm = new DatabaseManager();
     private ObservableList<Report> reports = FXCollections.observableArrayList();
@@ -131,11 +131,19 @@ public class OnTheRoadFXController implements Initializable, Observer {
         MediaPlayer mp = new MediaPlayer(media);
         //mp.setAutoPlay(true);
         mvTest.mediaPlayerProperty().set(mp);
-        chat = new Thread(cc);
-        chat.setDaemon(true);
+    }
 
-        chat.start();
-        cc.addObserver(this);
+    public void InitializeChat() {
+        if (emp != null) {
+            cc = new ChatClient(emp.getAssignedTo().getReportID());
+            chat = new Thread(cc);
+            chat.setDaemon(true);
+
+            chat.start();
+            cc.addObserver(this);
+        } else {
+            System.out.println("No employee found");
+        }
 
     }
 
@@ -149,13 +157,13 @@ public class OnTheRoadFXController implements Initializable, Observer {
     }
 
     public void setEmployee(Employee emp) {
-        this.emp = emp;
+        setActiveEmployee(emp.getBadgeNR());
     }
 
     void updateLabels() {
         lblLogInName.setText(emp.getName());
     }
-    
+
     public void setActiveEmployee(int id) {
         List<Report> dbreports = new ArrayList();
         helplines = dbm.getHelpLines();
@@ -179,12 +187,13 @@ public class OnTheRoadFXController implements Initializable, Observer {
 
             dbreports.clear();
         }
-        
-        for(Helpline h : helplines)
-        {
-            for (Employee emp : h.getEmployees()) {
-                if (emp.getBadgeNR() == (id)) {
-                    emp = h.getEmployeeWithID(id);
+
+        for (Helpline h : helplines) {
+            for (Employee empl : h.getEmployees()) {
+                if (empl.getBadgeNR() == (id)) {
+                    Employee temp = h.getEmployeeWithID(id);
+                    System.out.println(temp.getName());
+                    emp = temp;
                 }
             }
         }

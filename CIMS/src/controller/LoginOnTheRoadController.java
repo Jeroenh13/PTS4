@@ -82,6 +82,7 @@ public class LoginOnTheRoadController implements Initializable {
                 public void run() {
                     System.out.println("YAY");
                     controller.setEmployee(emp);
+                    controller.InitializeChat();
                     controller.updateLabels();
                 }
             });           

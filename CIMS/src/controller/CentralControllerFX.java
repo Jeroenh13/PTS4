@@ -75,7 +75,7 @@ public class CentralControllerFX extends controller.CentralController implements
     @FXML private TabPane tpTabs;
     @FXML private Tab tptInfo;
 
-    private ChatClient cc = new ChatClient(1);
+    private ChatClient cc = null;
     private Thread chat;
     private ClientReceiving cr = new ClientReceiving();
     private Thread reportListener;
@@ -93,15 +93,10 @@ public class CentralControllerFX extends controller.CentralController implements
         makeVehicleColumns();
         fillVehicleColumns();
 
-        chat = new Thread(cc);
         reportListener = new Thread(cr);
-
-        chat.setDaemon(true);
+        
         reportListener.setDaemon(true);
-
-        chat.start();
-        cc.addObserver(this);
-
+        
         reportListener.start();
         cr.addObserver(this);
 
@@ -157,6 +152,15 @@ public class CentralControllerFX extends controller.CentralController implements
     }
 
     public void informationAccident() {
+        if(selectedReport != null)
+        {
+            cc = new ChatClient(selectedReport.getReportID());
+            chat = new Thread(cc);
+            chat.setDaemon(true);
+
+            chat.start();
+            cc.addObserver(this);
+        }
         System.out.println(selectedReport.toString());
         tpTabs.getSelectionModel().select(tptInfo);
         lblReportDate.setText(selectedReport.getStartDate().toString());
