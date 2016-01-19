@@ -244,6 +244,11 @@ public class Report implements Serializable {
     public LocalDateTime getEndDate() {
         return this.endDate;
     }
+    
+    public void setEndDate(LocalDateTime date)
+    {
+        this.endDate = date;
+    }
 
     /**
      * Adds an employee to the report

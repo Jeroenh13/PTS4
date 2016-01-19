@@ -11,6 +11,7 @@ import cims.Helpline;
 import cims.Report;
 import cims.Vehicle;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -153,7 +154,17 @@ public class CentralController  {
 //                return 0;
 //            }
 //        });
-        return reports;
+
+        ObservableList<Report> reps = FXCollections.observableArrayList();
+        for (Report r : reports)
+        {
+            if (r.getEndDate() == null)
+            {
+                reps.add(r);
+            }
+        }
+
+        return reps;
     }
     
     public ObservableList<Employee> fillEmployees(String helpline)
@@ -190,5 +201,10 @@ public class CentralController  {
     {
         String approach = dbm.getApproachHelpline(reportID, helplineID);
         return approach;
+    }
+    
+    public boolean closeReport(int reportID, LocalDateTime date)
+    {
+        return dbm.closeReport(reportID, date);
     }
 }
