@@ -85,6 +85,20 @@ public class CentralControllerFX extends controller.CentralController implements
 
     @FXML
     private Button btnInformationIncident;
+    
+    @FXML
+    private Button btnAssignEmpPol;
+    @FXML
+    private Button btnRemoveEmpPol;
+    @FXML
+    private Button btnAssignEmpFire;
+    @FXML
+    private Button btnRemoveEmpFire;
+    @FXML
+    private Button btnAssignEmpAmbu;
+    @FXML
+    private Button btnRemoveEmpAmbu;
+    
     @FXML
     private Button btnAssignPolVehicle;
     @FXML
@@ -231,6 +245,9 @@ public class CentralControllerFX extends controller.CentralController implements
         lblReportWeather.setText(selectedReport.getWeather());
         getApproach();
         fillHelplineLv();
+        
+        fillAssignedEmployees();
+        //fillAssignedVehicles();
     }
 
     public void getApproach() {
@@ -244,10 +261,10 @@ public class CentralControllerFX extends controller.CentralController implements
             if (h.getName().equals("Politie")) {
                 tfApproachPolice.setText(approach);
             }
-            if (h.getName().equals("Brandweer")) {
+            else if (h.getName().equals("Brandweer")) {
                 tfApproachFirefighters.setText(approach);
             }
-            if (h.getName().equals("Ambulance")) {
+            else if (h.getName().equals("Ambulance")) {
                 tfApproachAmbulance.setText(approach);
             }
         }
@@ -291,6 +308,10 @@ public class CentralControllerFX extends controller.CentralController implements
         tvEmpAllAmbulance.getColumns().clear();
         tvEmpAllFire.getColumns().clear();
         tvEmpAllPolice.getColumns().clear();
+        
+        tvEmpAssAmbulance.getColumns().clear();
+        tvEmpAssFire.getColumns().clear();
+        tvEmpAssPolice.getColumns().clear();
 
         List<Field> fieldsEmployees = getColumnsEmployee();
         for (Field f : fieldsEmployees) {
@@ -301,6 +322,17 @@ public class CentralControllerFX extends controller.CentralController implements
                 tc.setResizable(true);
                 tc.setMinWidth(135);
                 tvEmpAllAmbulance.getColumns().add(tc);
+            }
+        }
+        
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAssAmbulance.getColumns().add(tc);
             }
         }
 
@@ -314,6 +346,17 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvEmpAllFire.getColumns().add(tc);
             }
         }
+        
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAssFire.getColumns().add(tc);
+            }
+        }
 
         for (Field f : fieldsEmployees) {
             if (!f.getName().equals("helpline")) {
@@ -323,6 +366,17 @@ public class CentralControllerFX extends controller.CentralController implements
                 tc.setResizable(true);
                 tc.setMinWidth(135);
                 tvEmpAllPolice.getColumns().add(tc);
+            }
+        }
+        
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
+                TableColumn tc = new TableColumn();
+                tc.setText(f.getName());
+                tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+                tc.setResizable(true);
+                tc.setMinWidth(135);
+                tvEmpAssPolice.getColumns().add(tc);
             }
         }
 
@@ -346,12 +400,39 @@ public class CentralControllerFX extends controller.CentralController implements
                 selectedEmployee = tvEmpAllPolice.getSelectionModel().getSelectedItem();
             }
         });
+        
+        //Assigned
+        
+        tvEmpAssAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAssAmbulance.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAssAmbulance.getSelectionModel().getSelectedItem();
+            }
+        });
+
+        tvEmpAssFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAssFire.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAssFire.getSelectionModel().getSelectedItem();
+            }
+        });
+
+        tvEmpAssPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvEmpAssPolice.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Employee: " + newValue.getName());
+                selectedEmployee = tvEmpAssPolice.getSelectionModel().getSelectedItem();
+            }
+        });
     }
 
     public void makeVehicleColumns() {
         tvVehAllAmbulance.getColumns().clear();
         tvVehAllFire.getColumns().clear();
         tvVehAllPolice.getColumns().clear();
+        
+        tvVehAssAmbulance.getColumns().clear();
+        tvVehAssFire.getColumns().clear();
+        tvVehAssPolice.getColumns().clear();
 
         List<Field> fieldsVehicles = getColumnsVehicle();
         for (Field f : fieldsVehicles) {
@@ -362,6 +443,15 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllAmbulance.getColumns().add(tc);
         }
+        
+        for (Field f : fieldsVehicles) {
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAssAmbulance.getColumns().add(tc);
+        }
 
         for (Field f : fieldsVehicles) {
             TableColumn tc = new TableColumn();
@@ -370,6 +460,15 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setResizable(true);
             tc.setMinWidth(135);
             tvVehAllFire.getColumns().add(tc);
+        }
+        
+        for (Field f : fieldsVehicles) {
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAssFire.getColumns().add(tc);
         }
 
         for (Field f : fieldsVehicles) {
@@ -380,25 +479,57 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllPolice.getColumns().add(tc);
         }
+        
+        for (Field f : fieldsVehicles) {
+            TableColumn tc = new TableColumn();
+            tc.setText(f.getName());
+            tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
+            tc.setResizable(true);
+            tc.setMinWidth(135);
+            tvVehAssPolice.getColumns().add(tc);
+        }
 
         tvVehAllAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
             if (tvVehAllAmbulance.getSelectionModel().getSelectedItem() != null) {
-                System.out.println("Selected Employee: " + newValue.getType());
+                System.out.println("Selected Vehicle: " + newValue.getType());
                 selectedVehicle = tvVehAllAmbulance.getSelectionModel().getSelectedItem();
             }
         });
 
         tvVehAllFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
             if (tvVehAllFire.getSelectionModel().getSelectedItem() != null) {
-                System.out.println("Selected Employee: " + newValue.getType());
+                System.out.println("Selected Vehicle: " + newValue.getType());
                 selectedVehicle = tvVehAllFire.getSelectionModel().getSelectedItem();
             }
         });
 
         tvVehAllPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
             if (tvVehAllPolice.getSelectionModel().getSelectedItem() != null) {
-                System.out.println("Selected Employee: " + newValue.getType());
+                System.out.println("Selected Vehicle: " + newValue.getType());
                 selectedVehicle = tvVehAllPolice.getSelectionModel().getSelectedItem();
+            }
+        });
+        
+        //Assigned
+        
+        tvVehAssAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAssAmbulance.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Vehicle: " + newValue.getType());
+                selectedVehicle = tvVehAssAmbulance.getSelectionModel().getSelectedItem();
+            }
+        });
+
+        tvVehAssFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAssFire.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Vehicle: " + newValue.getType());
+                selectedVehicle = tvVehAssFire.getSelectionModel().getSelectedItem();
+            }
+        });
+
+        tvVehAssPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
+            if (tvVehAssPolice.getSelectionModel().getSelectedItem() != null) {
+                System.out.println("Selected Vehicle: " + newValue.getType());
+                selectedVehicle = tvVehAssPolice.getSelectionModel().getSelectedItem();
             }
         });
     }
@@ -431,6 +562,41 @@ public class CentralControllerFX extends controller.CentralController implements
         ObservableList<Vehicle> vehiclesAmbulance = fillVehicles("Ambulance");
         tvVehAllAmbulance.setItems(vehiclesAmbulance);
     }
+    
+    public void fillAssignedEmployees(){
+        
+        ObservableList<Employee> emp = selectedReport.getEmployeesByHelpline(1);
+        tvEmpAssPolice.setItems(emp);
+        
+        emp = selectedReport.getEmployeesByHelpline(2);
+        tvEmpAssAmbulance.setItems(emp);
+        
+        emp = selectedReport.getEmployeesByHelpline(3);
+        tvEmpAssFire.setItems(emp);
+        
+    }
+    
+    public void fillAssignedVehicles(){
+        ObservableList<Vehicle> veh = FXCollections.observableArrayList();
+        
+        for(Employee e : tvEmpAssPolice.getItems()){
+            veh.add(e.getAssignedVehicle());
+        }
+        tvVehAssPolice.setItems(veh);
+        veh.clear();
+        
+        for(Employee e : tvEmpAssAmbulance.getItems()){
+            veh.add(e.getAssignedVehicle());
+        }
+        tvVehAssAmbulance.setItems(veh);
+        veh.clear();
+        
+        for(Employee e : tvEmpAssFire.getItems()){
+            veh.add(e.getAssignedVehicle());
+        }
+        tvVehAssFire.setItems(veh);
+        veh.clear();
+    }
 
     public void closeReport() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -444,7 +610,6 @@ public class CentralControllerFX extends controller.CentralController implements
                 System.out.println("doing nothing");
             }
         });
-
     }
 
     public void setReportClosed() {
@@ -513,4 +678,111 @@ public class CentralControllerFX extends controller.CentralController implements
         }
     }
     
+    public void addOrRemoveEmployee(Event e) {
+        
+        if(selectedEmployee == null && selectedEmployee.getAssignedTo() == null)
+            return;
+        
+        boolean add = true;
+        int helplineID = 0;
+        
+        if(e.getSource() == btnAssignEmpPol)
+            helplineID = 1;
+        
+        else if(e.getSource() == btnRemoveEmpPol){
+            add = false;
+            helplineID = 1;
+        }
+        
+        else if(e.getSource() == btnAssignEmpAmbu)
+            helplineID = 2;
+        
+        else if(e.getSource() == btnRemoveEmpAmbu){
+            add = false;
+            helplineID = 2;
+        }
+        
+        else if(e.getSource() == btnAssignEmpFire)
+            helplineID = 3;
+        
+        else if(e.getSource() == btnRemoveEmpFire){
+            add = false;
+            helplineID = 3;
+        }
+        
+        if(helplineID != 0){
+            
+            Helpline h = getHelplineByID(helplineID);
+            
+            if(h == null)
+                return;
+            
+            if(add){
+                selectedEmployee.setAssignedTo(selectedReport);
+                selectedReport.addEmployee(selectedEmployee);
+            }
+            
+            else{
+                
+                if(selectedEmployee.getAssignedTo() == selectedReport){
+                    selectedEmployee.setAssignedTo(null);
+                    selectedReport.removeEmployee(selectedEmployee);
+                }
+            }
+        }
+    }
+    
+    public void addOrRemoveVehicle(Event e) {
+        
+        if(selectedVehicle == null || selectedVehicle.assignedEmployee == null)
+            return;
+        
+        boolean add = true;
+        int helplineID = 0;
+        
+        if(e.getSource() == btnAssignPolVehicle)
+            helplineID = 1;
+        
+        else if(e.getSource() == btnRemovePolVehicle){
+            add = false;
+            helplineID = 1;
+        }
+        
+        else if(e.getSource() == btnAssignAmbuVehicle)
+            helplineID = 2;
+        
+        else if(e.getSource() == btnRemoveAmbuVehicle){
+            add = false;
+            helplineID = 2;
+        }
+        
+        else if(e.getSource() == btnAssignFireVehicle)
+            helplineID = 3;
+        
+        else if(e.getSource() == btnRemoveFireVehicle){
+            add = false;
+            helplineID = 3;
+        }
+        
+        if(helplineID != 0){
+            
+            Helpline h = getHelplineByID(helplineID);
+            
+            if(h == null)
+                return;
+            
+            if(add){
+                selectedEmployee.setAssignedVehicle(selectedVehicle);
+                selectedVehicle.setAssignedEmployee(selectedEmployee);
+            }
+            
+            else{
+                if(selectedVehicle.getAssignedEmployee() != null){
+                    selectedVehicle.setAssignedEmployee(null);
+                    if(selectedEmployee.getAssignedVehicle() == selectedVehicle)
+                        selectedEmployee.setAssignedVehicle(null);
+                }
+            }
+        }
+    }
 }

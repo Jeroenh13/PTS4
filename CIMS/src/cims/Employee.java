@@ -244,6 +244,14 @@ public class Employee {
         this.end = end;
     }
     
+    public Helpline getHelpline(){
+        return this.helpline;
+    }
+    
+    public void setHelpline(Helpline h){
+        this.helpline = h;
+    }
+    
     /**
      * Method to return a string of employee (name and function) 
      * Example of use is the display (listbox) of employees being set for a report at unit assign

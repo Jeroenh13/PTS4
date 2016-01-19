@@ -231,14 +231,18 @@ public class Helpline implements Serializable{
     {
         employees.clear();
         employees.addAll(dbm.getAllEmployees(name));
-        System.out.println("Number of employees found for " + name + ": " + employees.size());
+        //System.out.println("Number of employees found for " + name + ": " + employees.size());
+        
+        for(Employee e : employees){
+            e.setHelpline(this);
+        }
     }
     
     public void loadAllReports()
     {
         reports.clear();
         reports.addAll(dbm.getAllReports(name));
-        System.out.println("Number of reports found for " + name + ": " + reports.size());
+        //System.out.println("Number of reports found for " + name + ": " + reports.size());
     }
     
     public void addReport(Report rep)
@@ -250,7 +254,7 @@ public class Helpline implements Serializable{
     {
         vehicles.clear();
         vehicles.addAll(dbm.getAllVehicles(ID));
-        System.out.println("Number of vehicles found for " + name + ": " + vehicles.size());
+        //System.out.println("Number of vehicles found for " + name + ": " + vehicles.size());
     }
     
     public void bindReportsToEmployees()
@@ -267,11 +271,12 @@ public class Helpline implements Serializable{
             if(e != null && r != null)
             {
                 e.setAssignedTo(r);
+                r.addEmployee(e);
                 count++;
             }
         }
         
-        System.out.println("Number of assigned reports linked for " + name + ": " + count);
+        //System.out.println("Number of assigned reports linked for " + name + ": " + count);
     }
     
     public void bindVehiclesToEmployees(List<PlannedVehicle> planning)
@@ -285,6 +290,7 @@ public class Helpline implements Serializable{
             {
                 e.setAssignedVehicle(v);
                 v.setAssignedEmployee(e);
+                assignedVehicles.add(v);
             }
         }
     }

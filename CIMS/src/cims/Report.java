@@ -10,6 +10,7 @@ import Server.clientSocket;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -344,7 +345,25 @@ public class Report implements Serializable {
     public void setLongitude(double lng) {
         this.locationGPS = "[" + getLatitude() + "," + lng + "]";
     }
-
+    
+    public ObservableList<Employee> getEmployeesByHelpline(int id){
+        List<Employee> emps = new ArrayList();
+        for (Employee e : employees)
+        {
+            if(e.getHelpline() == null)
+                continue;
+            if (e.getHelpline().getID() == id)
+            {
+                emps.add(e);
+            }
+        }
+        
+        if(emps.isEmpty())
+            return null;
+        else
+            return FXCollections.observableArrayList(emps);
+    }
+    
     public String getHelpLines() {
         return String.join(", ", helpLines.stream().map(Helpline::getName).collect(Collectors.toList()));
     }

@@ -104,8 +104,8 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
-                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <Button fx:id="btnRemoveEmpPol" layoutX="469.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Verwijderen" />
+                                                            <Button fx:id="btnAssignEmpPol" layoutX="581.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Toevoegen" />
                                                             <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
                                                                <content>
                                                                   <TableView fx:id="tvEmpAllPolice" maxWidth="1.7976931348623157E308" prefHeight="382.0" prefWidth="2500.0">
@@ -130,8 +130,8 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <Button fx:id="btnRemovePolVehicle" layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
-                                                            <Button fx:id="btnAssignPolVehicle" layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <Button fx:id="btnRemovePolVehicle" layoutX="469.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveVehicle" text="Verwijderen" />
+                                                            <Button fx:id="btnAssignPolVehicle" layoutX="581.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveVehicle" text="Toevoegen" />
                                                             <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
                                                                <content>
                                                                   <TableView fx:id="tvVehAllPolice" prefHeight="382.0" prefWidth="2500.0">
@@ -178,8 +178,8 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
-                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <Button fx:id="btnRemoveEmpFire" layoutX="469.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Verwijderen" />
+                                                            <Button fx:id="btnAssignEmpFire" layoutX="581.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Toevoegen" />
                                                             <ScrollPane layoutX="8.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
                                                                <content>
                                                                   <TableView fx:id="tvEmpAllFire" prefHeight="382.0" prefWidth="2500.0">
@@ -252,8 +252,8 @@
                                                                   <TableColumn prefWidth="75.0" text="C2" />
                                                                </columns>
                                                             </TableView>
-                                                            <Button layoutX="469.0" layoutY="397.0" mnemonicParsing="false" text="Verwijderen" />
-                                                            <Button layoutX="581.0" layoutY="397.0" mnemonicParsing="false" text="Toevoegen" />
+                                                            <Button fx:id="btnRemoveEmpAmbu" layoutX="469.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Verwijderen" />
+                                                            <Button fx:id="btnAssignEmpAmbu" layoutX="581.0" layoutY="397.0" mnemonicParsing="false" onAction="#addOrRemoveEmployee" text="Toevoegen" />
                                                             <ScrollPane layoutX="9.0" layoutY="439.0" prefHeight="401.0" prefWidth="683.0">
                                                                <content>
                                                                   <TableView fx:id="tvEmpAllAmbulance" prefHeight="382.0" prefWidth="2500.0">
