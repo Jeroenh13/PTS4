@@ -72,7 +72,7 @@ public class Report implements Serializable {
      * @param helpline
      * @param title
      */
-    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title,String locationName) {
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title, String locationName) {
         this.reportID = reportID;
         this.description = description;
         this.extraInformation = extraInformation;
@@ -83,8 +83,8 @@ public class Report implements Serializable {
         this.locationName = locationName;
         this.employees = FXCollections.observableArrayList();
     }
-    
-    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title,String locationName, LocalDateTime startDate, LocalDateTime endDate) {
+
+    public Report(int reportID, String description, String extraInformation, String location, String weather, ArrayList<Helpline> helpline, String title, String locationName, LocalDateTime startDate, LocalDateTime endDate) {
         this.reportID = reportID;
         this.description = description;
         this.extraInformation = extraInformation;
@@ -97,7 +97,7 @@ public class Report implements Serializable {
         this.endDate = endDate;
         this.employees = FXCollections.observableArrayList();
     }
-    
+
     /**
      * gets the report ID
      *
@@ -208,6 +208,7 @@ public class Report implements Serializable {
 
     /**
      * Inserts the report into the database and sends it to the server.
+     *
      * @return if it succeeded
      */
     public boolean saveReport() {
@@ -215,48 +216,53 @@ public class Report implements Serializable {
         dbm = new DatabaseManager();
         try {
             this.reportID = dbm.saveReport(this);
-            if(this.reportID == 0)
+            if (this.reportID == 0) {
                 return succes;
+            }
             for (Helpline help : helpLines) {
-                succes = dbm.saveHelplineReport(this.reportID,help.getID());
+                succes = dbm.saveHelplineReport(this.reportID, help.getID());
             }
         } catch (Exception e) {
             succes = false;
             System.out.println(e);
         }
 
-        clientSocket cs = new clientSocket(this,1);
+        clientSocket cs = new clientSocket(this, 1);
         return succes;
     }
 
     /**
      * Gets the start date
+     *
      * @return the startdate
      */
     public LocalDateTime getStartDate() {
         return this.startDate;
     }
-    
+
     /**
      * Gets the end date
+     *
      * @return the enddate
      */
     public LocalDateTime getEndDate() {
         return this.endDate;
     }
-    
-    public void setEndDate(LocalDateTime date)
-    {
+
+    public void setEndDate(LocalDateTime date) {
         this.endDate = date;
     }
 
     /**
      * Adds an employee to the report
+     *
      * @param emp the employee to be added
      * @return Succeeded
      */
     public boolean addEmployee(Employee emp) {
-        if(emp == null)return false;
+        if (emp == null) {
+            return false;
+        }
         boolean succeeded = false;
         if (!employees.contains(emp)) {
             this.employees.add(emp);
@@ -264,17 +270,18 @@ public class Report implements Serializable {
         }
         return succeeded;
     }
-    
-    public void addHelpline(Helpline h){
+
+    public void addHelpline(Helpline h) {
         helpLines.add(h);
     }
-    
-    public void removeEmployee(Employee emp){
+
+    public void removeEmployee(Employee emp) {
         this.employees.remove(emp);
     }
 
     /**
-     * Gets all assigned employees to this report 
+     * Gets all assigned employees to this report
+     *
      * @return The assigned employees
      */
     public ObservableList<Employee> getEmployees() {
@@ -283,6 +290,7 @@ public class Report implements Serializable {
 
     /**
      * Sets the employee list
+     *
      * @param emps list with employees
      */
     public void setEmployees(ObservableList<Employee> emps) {
@@ -291,60 +299,71 @@ public class Report implements Serializable {
 
     /**
      * Returns the title
+     *
      * @return title
      */
     @Override
     public String toString() {
         return title;
     }
-    
+
     /**
      * gets the latitude
+     *
      * @return latitude of a locationGPS
      */
-    public double getLatitude()
-    {
+    public double getLatitude() {
         String[] lat = locationGPS.split(",");
         return Double.parseDouble(lat[0].replaceAll("\\D+", ""));
     }
-    
+
     /**
      * Get the longitude of a locationGPS
-     * @return 
+     *
+     * @return
      */
-    public double getLongitude()
-    {
+    public double getLongitude() {
         String[] lng = locationGPS.split(",");
         return Double.parseDouble(lng[1].replaceAll("\\D+", ""));
     }
-    
+
     /**
      * sets the latitude
+     *
      * @param lat number to be set
      */
-    public void setLatitude(double lat)
-    {
-        this.locationGPS= "["+lat+","+getLongitude()+"]";
+    public void setLatitude(double lat) {
+        this.locationGPS = "[" + lat + "," + getLongitude() + "]";
     }
-    
+
     /**
-     * sets the longitude 
+     * sets the longitude
+     *
      * @param lng number to be set
      */
-    public void setLongitude(double lng)
-    {
-        this.locationGPS= "["+getLatitude()+","+lng+"]";    
+    public void setLongitude(double lng) {
+        this.locationGPS = "[" + getLatitude() + "," + lng + "]";
     }
-    
-    public String getHelpLines(){
+
+    public String getHelpLines() {
         return String.join(", ", helpLines.stream().map(Helpline::getName).collect(Collectors.toList()));
     }
-    
+
     public String getLocationName() {
         return locationName;
     }
 
     public void setLocationName(String locationName) {
         this.locationName = locationName;
+    }
+
+    public void updateHelplines(int helplineID) {
+        dbm = new DatabaseManager();
+        dbm.saveHelplineReport(this.reportID, helplineID );
+    }
+    
+    public ArrayList<Helpline> getHelplines()
+    {
+        return helpLines;
     }
 }

@@ -70,12 +70,12 @@
                         <Button layoutX="241.0" layoutY="159.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="68.0" text="Aan" />
                         <Button disable="true" layoutX="319.0" layoutY="159.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="72.0" text="Uit" />
                         <Label layoutX="43.0" layoutY="226.0" text="Hulpdienst(en):" />
-                        <ComboBox layoutX="241.0" layoutY="221.0" prefHeight="31.0" prefWidth="211.0" />
-                        <Button layoutX="472.0" layoutY="221.0" mnemonicParsing="false" text="plus" />
+                        <ComboBox fx:id="cbHelplines" layoutX="241.0" layoutY="221.0" prefHeight="31.0" prefWidth="211.0" />
+                        <Button fx:id="btnAddHelpline" layoutX="472.0" layoutY="221.0" mnemonicParsing="false" onAction="#AddHelpline" text="plus" />
                         <Label layoutX="43.0" layoutY="290.0" text="Toegevoegde hulpdiensten:" />
-                        <ListView layoutX="241.0" layoutY="290.0" prefHeight="116.0" prefWidth="212.0" />
+                        <ListView fx:id="lvHelplines" layoutX="241.0" layoutY="290.0" prefHeight="116.0" prefWidth="212.0" />
                         <Button layoutX="472.0" layoutY="285.0" mnemonicParsing="false" text="Route definieren" />
-                        <Button layoutX="472.0" layoutY="375.0" mnemonicParsing="false" text="verwijder" />
+                        <Button disable="true" layoutX="472.0" layoutY="375.0" mnemonicParsing="false" text="verwijder" />
                         <Label layoutX="699.0" layoutY="31.0" text="Belangrijke sociale media berichten van het ongeval:" />
                         <ListView layoutX="699.0" layoutY="97.0" prefHeight="396.0" prefWidth="487.0" />
                         <Button layoutX="548.0" layoutY="493.0" mnemonicParsing="false" text="Verken het gebied" />

@@ -11,6 +11,7 @@ import cims.Employee;
 import cims.Helpline;
 import cims.Report;
 import cims.Vehicle;
+import cims.cbItem;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.DateFormat;
@@ -40,47 +41,90 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class CentralControllerFX extends controller.CentralController implements Initializable, Observer {
 
-    @FXML private TextArea tfApproachPolice;
-    @FXML private Button btnSavePolice;
-    @FXML private TextArea tfApproachFirefighters;
-    @FXML private Button btnSaveFirefighters;
-    @FXML private TextArea tfApproachAmbulance;
-    @FXML private Button btnSaveAmbulance;
-    @FXML private Button btnCloseReport;
+    @FXML
+    private TextArea tfApproachPolice;
+    @FXML
+    private Button btnSavePolice;
+    @FXML
+    private TextArea tfApproachFirefighters;
+    @FXML
+    private Button btnSaveFirefighters;
+    @FXML
+    private TextArea tfApproachAmbulance;
+    @FXML
+    private Button btnSaveAmbulance;
+    @FXML
+    private Button btnCloseReport;
 
-    @FXML private TableView<Vehicle> tvVehAssPolice;
-    @FXML private TableView<Vehicle> tvVehAllPolice;
-    @FXML private TableView<Employee> tvEmpAssPolice;
-    @FXML private TableView<Employee> tvEmpAllPolice;
-    @FXML private TableView<Vehicle> tvVehAssFire;
-    @FXML private TableView<Vehicle> tvVehAllFire;
-    @FXML private TableView<Employee> tvEmpAssFire;
-    @FXML private TableView<Employee> tvEmpAllFire;
-    @FXML private TableView<Vehicle> tvVehAssAmbulance;
-    @FXML private TableView<Vehicle> tvVehAllAmbulance;
-    @FXML private TableView<Employee> tvEmpAssAmbulance;
-    @FXML private TableView<Employee> tvEmpAllAmbulance;
-    @FXML private TableView<Report> tvIncidents;
-    
-    @FXML private Button btnInformationIncident;
-    @FXML private Button btnAssignPolVehicle;
-    @FXML private Button btnRemovePolVehicle;
-    @FXML private Button btnAssignFireVehicle;
-    @FXML private Button btnRemoveFireVehicle;
-    @FXML private Button btnAssignAmbuVehicle;
-    @FXML private Button btnRemoveAmbuVehicle;
+    @FXML
+    private TableView<Vehicle> tvVehAssPolice;
+    @FXML
+    private TableView<Vehicle> tvVehAllPolice;
+    @FXML
+    private TableView<Employee> tvEmpAssPolice;
+    @FXML
+    private TableView<Employee> tvEmpAllPolice;
+    @FXML
+    private TableView<Vehicle> tvVehAssFire;
+    @FXML
+    private TableView<Vehicle> tvVehAllFire;
+    @FXML
+    private TableView<Employee> tvEmpAssFire;
+    @FXML
+    private TableView<Employee> tvEmpAllFire;
+    @FXML
+    private TableView<Vehicle> tvVehAssAmbulance;
+    @FXML
+    private TableView<Vehicle> tvVehAllAmbulance;
+    @FXML
+    private TableView<Employee> tvEmpAssAmbulance;
+    @FXML
+    private TableView<Employee> tvEmpAllAmbulance;
+    @FXML
+    private TableView<Report> tvIncidents;
 
-    @FXML private TextArea taChat;
-    @FXML private TextField tfChatMessage;
-    
-    @FXML private Label lblReportDate;
-    @FXML private Label lblReportDesc;
-    @FXML private Label lblReportLoc;
-    @FXML private Label lblReportExtra;
-    @FXML private Label lblReportWeather;
-    
-    @FXML private TabPane tpTabs;
-    @FXML private Tab tptInfo;
+    @FXML
+    private Button btnInformationIncident;
+    @FXML
+    private Button btnAssignPolVehicle;
+    @FXML
+    private Button btnRemovePolVehicle;
+    @FXML
+    private Button btnAssignFireVehicle;
+    @FXML
+    private Button btnRemoveFireVehicle;
+    @FXML
+    private Button btnAssignAmbuVehicle;
+    @FXML
+    private Button btnRemoveAmbuVehicle;
+
+    @FXML
+    private TextArea taChat;
+    @FXML
+    private TextField tfChatMessage;
+
+    @FXML
+    private Label lblReportDate;
+    @FXML
+    private Label lblReportDesc;
+    @FXML
+    private Label lblReportLoc;
+    @FXML
+    private Label lblReportExtra;
+    @FXML
+    private Label lblReportWeather;
+
+    @FXML
+    private TabPane tpTabs;
+    @FXML
+    private Tab tptInfo;
+
+    @FXML
+    private ListView<cbItem> lvHelplines;
+    @FXML
+    private Button btnAddHelpline;
+    @FXML
+    private ComboBox cbHelplines;
 
     private ChatClient cc = null;
     private Thread chat;
@@ -90,6 +134,9 @@ public class CentralControllerFX extends controller.CentralController implements
     private Report selectedReport;
     private Employee selectedEmployee;
     private Vehicle selectedVehicle;
+    
+    
+    private final ObservableList<cbItem> listItems = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,11 +148,23 @@ public class CentralControllerFX extends controller.CentralController implements
         fillVehicleColumns();
 
         reportListener = new Thread(cr);
-        
+
         reportListener.setDaemon(true);
-        
+
         reportListener.start();
         cr.addObserver(this);
+        
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                lvHelplines.setItems(listItems);
+                Helpline helpline = new Helpline();
+                helpline.getLines().stream().forEach((help) -> {
+                    cbHelplines.getItems().add(new cbItem(help.getID(), help.getName()));
+                });
+            }
+        });
 
     }
 
@@ -132,22 +191,18 @@ public class CentralControllerFX extends controller.CentralController implements
         boolean succes = saveApproach(approach, helpline, reportID);
         approachSaved(succes);
     }
-    
-    public void approachSaved(boolean succes)
-    {
+
+    public void approachSaved(boolean succes) {
         Alert alert;
         String message;
-        if (succes)
-        {
+        if (succes) {
             alert = new Alert(AlertType.CONFIRMATION);
             message = "Approach saved";
-        }
-        else
-        {
+        } else {
             alert = new Alert(AlertType.ERROR);
             message = "Approach not saved";
         }
-            
+
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -159,8 +214,7 @@ public class CentralControllerFX extends controller.CentralController implements
     }
 
     public void informationAccident() {
-        if(selectedReport != null)
-        {
+        if (selectedReport != null) {
             cc = new ChatClient(selectedReport.getReportID());
             chat = new Thread(cc);
             chat.setDaemon(true);
@@ -176,23 +230,26 @@ public class CentralControllerFX extends controller.CentralController implements
         lblReportLoc.setText(selectedReport.getLocationGPS());
         lblReportWeather.setText(selectedReport.getWeather());
         getApproach();
+        fillHelplineLv();
     }
-    
-    public void getApproach()
-    {
+
+    public void getApproach() {
         int reportID = selectedReport.getReportID();
-        for (Helpline h : getHelplines())
-        {   
+        for (Helpline h : getHelplines()) {
             String approach = getApproachReport(reportID, h.getID());
-            if (approach == null)
+            if (approach == null) {
                 approach = "NVT";
+            }
             System.out.println(approach);
-            if (h.getName().equals("Politie"))
+            if (h.getName().equals("Politie")) {
                 tfApproachPolice.setText(approach);
-            if (h.getName().equals("Brandweer"))
+            }
+            if (h.getName().equals("Brandweer")) {
                 tfApproachFirefighters.setText(approach);
-            if (h.getName().equals("Ambulance"))
+            }
+            if (h.getName().equals("Ambulance")) {
                 tfApproachAmbulance.setText(approach);
+            }
         }
     }
 
@@ -200,21 +257,17 @@ public class CentralControllerFX extends controller.CentralController implements
         cc.setText("Centrale: " + tfChatMessage.getText());
     }
 
-    public void makeCollums() 
-    {
+    public void makeCollums() {
         tvIncidents.getColumns().clear();
-        
+
         List<Field> fields = getCollumsReport();
         for (Field f : fields) {
             if (!f.getName().equals("dbm")) {
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
-                if (f.getType().equals(ArrayList.class))
-                {
+                if (f.getType().equals(ArrayList.class)) {
                     tc.setCellValueFactory(new PropertyValueFactory<ArrayList<Helpline>, String>(f.getName()));
-                }
-                else
-                {
+                } else {
                     tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
                 }
                 tc.setResizable(true);
@@ -233,16 +286,15 @@ public class CentralControllerFX extends controller.CentralController implements
             }
         });
     }
-    
-    public void makeEmployeeColumns()
-    {
+
+    public void makeEmployeeColumns() {
         tvEmpAllAmbulance.getColumns().clear();
         tvEmpAllFire.getColumns().clear();
         tvEmpAllPolice.getColumns().clear();
-        
+
         List<Field> fieldsEmployees = getColumnsEmployee();
-        for (Field f : fieldsEmployees){
-            if (!f.getName().equals("helpline")){
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
                 tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -251,9 +303,9 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvEmpAllAmbulance.getColumns().add(tc);
             }
         }
-        
-        for (Field f : fieldsEmployees){
-            if (!f.getName().equals("helpline")){
+
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
                 tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -262,9 +314,9 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvEmpAllFire.getColumns().add(tc);
             }
         }
-        
-        for (Field f : fieldsEmployees){
-            if (!f.getName().equals("helpline")){
+
+        for (Field f : fieldsEmployees) {
+            if (!f.getName().equals("helpline")) {
                 TableColumn tc = new TableColumn();
                 tc.setText(f.getName());
                 tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -273,40 +325,36 @@ public class CentralControllerFX extends controller.CentralController implements
                 tvEmpAllPolice.getColumns().add(tc);
             }
         }
-        
+
         tvEmpAllAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvEmpAllAmbulance.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvEmpAllAmbulance.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getName());
                 selectedEmployee = tvEmpAllAmbulance.getSelectionModel().getSelectedItem();
             }
         });
-        
+
         tvEmpAllFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvEmpAllFire.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvEmpAllFire.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getName());
                 selectedEmployee = tvEmpAllFire.getSelectionModel().getSelectedItem();
             }
         });
-        
+
         tvEmpAllPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvEmpAllPolice.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvEmpAllPolice.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getName());
                 selectedEmployee = tvEmpAllPolice.getSelectionModel().getSelectedItem();
             }
         });
     }
-    
-    public void makeVehicleColumns()
-    {
+
+    public void makeVehicleColumns() {
         tvVehAllAmbulance.getColumns().clear();
         tvVehAllFire.getColumns().clear();
         tvVehAllPolice.getColumns().clear();
-        
+
         List<Field> fieldsVehicles = getColumnsVehicle();
-        for (Field f : fieldsVehicles){
+        for (Field f : fieldsVehicles) {
             TableColumn tc = new TableColumn();
             tc.setText(f.getName());
             tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -314,8 +362,8 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllAmbulance.getColumns().add(tc);
         }
-        
-        for (Field f : fieldsVehicles){
+
+        for (Field f : fieldsVehicles) {
             TableColumn tc = new TableColumn();
             tc.setText(f.getName());
             tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -323,8 +371,8 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllFire.getColumns().add(tc);
         }
-        
-        for (Field f : fieldsVehicles){
+
+        for (Field f : fieldsVehicles) {
             TableColumn tc = new TableColumn();
             tc.setText(f.getName());
             tc.setCellValueFactory(new PropertyValueFactory<>(f.getName()));
@@ -332,107 +380,95 @@ public class CentralControllerFX extends controller.CentralController implements
             tc.setMinWidth(135);
             tvVehAllPolice.getColumns().add(tc);
         }
-        
+
         tvVehAllAmbulance.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvVehAllAmbulance.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvVehAllAmbulance.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getType());
                 selectedVehicle = tvVehAllAmbulance.getSelectionModel().getSelectedItem();
             }
         });
-        
+
         tvVehAllFire.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvVehAllFire.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvVehAllFire.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getType());
                 selectedVehicle = tvVehAllFire.getSelectionModel().getSelectedItem();
             }
         });
-        
+
         tvVehAllPolice.getSelectionModel().selectedItemProperty().addListener((ObservableValue, oldValue, newValue) -> {
-            if (tvVehAllPolice.getSelectionModel().getSelectedItem() != null)
-            {
+            if (tvVehAllPolice.getSelectionModel().getSelectedItem() != null) {
                 System.out.println("Selected Employee: " + newValue.getType());
                 selectedVehicle = tvVehAllPolice.getSelectionModel().getSelectedItem();
             }
         });
     }
-    
+
     public void fillColums() {
         ObservableList<Report> reports = FXCollections.observableArrayList();
         reports = fillIncidents();
         //reports.sort(cmprtr);
         tvIncidents.setItems(reports);
     }
-    
-    public void fillEmployeeColums()
-    {
+
+    public void fillEmployeeColums() {
         ObservableList<Employee> employeesPolice = fillEmployees("Politie");
         tvEmpAllPolice.setItems(employeesPolice);
-        
+
         ObservableList<Employee> employeesFire = fillEmployees("Brandweer");//FXCollections.observableArrayList();
         tvEmpAllFire.setItems(employeesFire);
-        
+
         ObservableList<Employee> employeesAmbulance = fillEmployees("Ambulance");
         tvEmpAllAmbulance.setItems(employeesAmbulance);
     }
-    
-    public void fillVehicleColumns()
-    {
+
+    public void fillVehicleColumns() {
         ObservableList<Vehicle> vehiclesPolice = fillVehicles("Politie");
         tvVehAllPolice.setItems(vehiclesPolice);
-        
+
         ObservableList<Vehicle> vehiclesFire = fillVehicles("Brandweer");
         tvVehAllFire.setItems(vehiclesFire);
-        
+
         ObservableList<Vehicle> vehiclesAmbulance = fillVehicles("Ambulance");
         tvVehAllAmbulance.setItems(vehiclesAmbulance);
     }
-    
-    public void closeReport()
-    {
+
+    public void closeReport() {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Close report");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to close the report: '" + selectedReport.getTitle() + "'?");
         alert.showAndWait().ifPresent(response -> {;
-        if (response == ButtonType.OK){
-            setReportClosed();
-        }
-        else
-        {
-            System.out.println("doing nothing");
-        }
+            if (response == ButtonType.OK) {
+                setReportClosed();
+            } else {
+                System.out.println("doing nothing");
+            }
         });
-        
+
     }
-    
-    public void setReportClosed()
-    {
+
+    public void setReportClosed() {
         System.out.println("OK, closing report");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        LocalDateTime date = LocalDateTime.parse(dateFormat.format(new Date()), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime date = LocalDateTime.parse(dateFormat.format(new Date()), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         boolean succes = closeReport(selectedReport.getReportID(), date);
-        if (succes)
+        if (succes) {
             selectedReport.setEndDate(date);
+        }
         showReportClosed(succes);
     }
-    
-    public void showReportClosed(boolean succes)
-    {
+
+    public void showReportClosed(boolean succes) {
         Alert alert;
         String message;
-        if (succes)
-        {
+        if (succes) {
             alert = new Alert(AlertType.CONFIRMATION);
             message = "Report Closed";
-        }
-        else
-        {
+        } else {
             alert = new Alert(AlertType.ERROR);
             message = "Could not close report";
         }
-            
+
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -456,4 +492,25 @@ public class CentralControllerFX extends controller.CentralController implements
             taChat.setText(taChat.getText() + "\n" + ((ChatClient) o).getText());
         }
     }
+
+    public void AddHelpline() {
+        cbItem cb = (cbItem) cbHelplines.getValue();
+        for (cbItem item : listItems) {
+            if (item.getID() == cb.getID()) {
+                return;
+            }
+        }
+        selectedReport.updateHelplines(cb.getID());
+        listItems.add(cb);
+    }
+    
+    private void fillHelplineLv()
+    {
+        for(Helpline h : selectedReport.getHelplines())
+        {
+           cbItem help =  new cbItem((h.getID()), h.getName());
+           listItems.add(help);
+        }
+    }
+    
 }
