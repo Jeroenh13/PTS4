@@ -30,6 +30,7 @@ public class Helpline implements Serializable{
     private transient ObservableList<Employee> employeesAss;
     private ObservableList<Report> reports;
     private ObservableList<Vehicle> vehicles;
+    private ObservableList<Vehicle> assignedVehicles;
     
     /**
      * initializes an empty Helpline
@@ -52,6 +53,7 @@ public class Helpline implements Serializable{
         this.employeesAss = FXCollections.observableArrayList();
         this.reports = FXCollections.observableArrayList();
         this.vehicles = FXCollections.observableArrayList();
+        this.assignedVehicles = FXCollections.observableArrayList();
     }
     
     public Helpline(int Id)
@@ -95,8 +97,6 @@ public class Helpline implements Serializable{
     public void setReports(ObservableList<Report> reports) {
         this.reports = reports;
     }
-    
-    
     
     /**
      * Gets the name

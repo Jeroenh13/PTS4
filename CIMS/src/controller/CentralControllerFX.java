@@ -61,7 +61,15 @@ public class CentralControllerFX extends controller.CentralController implements
     @FXML private TableView<Employee> tvEmpAssAmbulance;
     @FXML private TableView<Employee> tvEmpAllAmbulance;
     @FXML private TableView<Report> tvIncidents;
+    
     @FXML private Button btnInformationIncident;
+    @FXML private Button btnAssignPolVehicle;
+    @FXML private Button btnRemovePolVehicle;
+    @FXML private Button btnAssignFireVehicle;
+    @FXML private Button btnRemoveFireVehicle;
+    @FXML private Button btnAssignAmbuVehicle;
+    @FXML private Button btnRemoveAmbuVehicle;
+    
 
     @FXML private TextArea taChat;
     @FXML private TextField tfChatMessage;
