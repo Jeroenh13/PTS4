@@ -63,7 +63,9 @@ public class ChatClient extends Observable implements Runnable {
      * @throws ClassNotFoundException 
      */
     public synchronized void readText() throws IOException, ClassNotFoundException {
+        Coder coder = new Coder();
         text = (String) in.readObject();
+        text = coder.decrypt(text);
         setChanged();
         this.notifyObservers();
     }
@@ -74,6 +76,8 @@ public class ChatClient extends Observable implements Runnable {
      */
     public void setText(String text) {
         try {
+            Coder coder = new Coder();
+            text = coder.encrypt(text);
             out.writeObject(text);
         } catch (IOException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
