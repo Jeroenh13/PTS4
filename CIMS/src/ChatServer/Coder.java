@@ -6,6 +6,7 @@
 package ChatServer;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -37,5 +38,9 @@ public class Coder {
             }
         }
         return null;
+    }
+       
+    public Coder () throws NoSuchAlgorithmException{
+        random = SecureRandom.getInstance("SHA1PRNG");
     }
 }

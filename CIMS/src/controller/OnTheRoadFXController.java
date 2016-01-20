@@ -19,6 +19,7 @@ import Database.DatabaseManager;
 import cims.Employee;
 import cims.Helpline;
 import cims.Report;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
@@ -152,7 +153,7 @@ public class OnTheRoadFXController implements Initializable, Observer {
         taChat.setText(taChat.getText() + "\n" + ((ChatClient) o).getText());
     }
 
-    public void btnSendChatClick(Event e) {
+    public void btnSendChatClick(Event e) throws NoSuchAlgorithmException {
         cc.setText("On the Road: " + tfSendChat.getText());
     }
 

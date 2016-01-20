@@ -14,6 +14,7 @@ import cims.Vehicle;
 import cims.cbItem;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -314,7 +315,7 @@ public class CentralControllerFX extends controller.CentralController implements
         }
     }
 
-    public void btnSendChatClick(Event e) {
+    public void btnSendChatClick(Event e) throws NoSuchAlgorithmException {
         cc.setText("Centrale: " + tfChatMessage.getText());
     }
 

@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Server.StaticIPs;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -54,6 +55,8 @@ public class ChatClient extends Observable implements Runnable {
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -62,7 +65,7 @@ public class ChatClient extends Observable implements Runnable {
      * @throws IOException Connection with the server
      * @throws ClassNotFoundException 
      */
-    public synchronized void readText() throws IOException, ClassNotFoundException {
+    public synchronized void readText() throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
         Coder coder = new Coder();
         text = (String) in.readObject();
         text = coder.decrypt(text);
@@ -74,7 +77,7 @@ public class ChatClient extends Observable implements Runnable {
      * Writes the text
      * @param text 
      */
-    public void setText(String text) {
+    public void setText(String text) throws NoSuchAlgorithmException {
         try {
             Coder coder = new Coder();
             text = coder.encrypt(text);
