@@ -65,12 +65,14 @@ public class CentralController  {
     }
 
     public void loadHelplines() {
+        loadVehiclePlanning();
         List<Report> dbreports = new ArrayList();
         helplines = dbm.getHelpLines();
 
         for (Helpline h : helplines) {
             h.loadAllEmployees();
             h.loadAllVehicles();
+            h.bindVehiclesToEmployees(vehiclePlanning);
 
             dbreports.addAll(dbm.getAllReports(h.getName()));
             

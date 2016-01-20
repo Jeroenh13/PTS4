@@ -247,7 +247,7 @@ public class CentralControllerFX extends controller.CentralController implements
         fillHelplineLv();
         
         fillAssignedEmployees();
-        //fillAssignedVehicles();
+        fillAssignedVehicles();
     }
 
     public void getApproach() {
@@ -577,25 +577,43 @@ public class CentralControllerFX extends controller.CentralController implements
     }
     
     public void fillAssignedVehicles(){
-        ObservableList<Vehicle> veh = FXCollections.observableArrayList();
         
-        for(Employee e : tvEmpAssPolice.getItems()){
-            veh.add(e.getAssignedVehicle());
-        }
-        tvVehAssPolice.setItems(veh);
-        veh.clear();
+        List<Vehicle> veh;
         
-        for(Employee e : tvEmpAssAmbulance.getItems()){
-            veh.add(e.getAssignedVehicle());
+        if(tvEmpAssPolice.getItems() != null)
+        {
+            veh = new ArrayList();
+            for(Employee e : tvEmpAssPolice.getItems()){
+                if(e.getAssignedVehicle() != null)
+                    veh.add(e.getAssignedVehicle());
+            }
+            tvVehAssPolice.setItems(FXCollections.observableArrayList(veh));
+            System.out.println("Added " + veh.size() + " to Police");
         }
-        tvVehAssAmbulance.setItems(veh);
-        veh.clear();
         
-        for(Employee e : tvEmpAssFire.getItems()){
-            veh.add(e.getAssignedVehicle());
+        if(tvEmpAssAmbulance.getItems() != null)
+        {
+            veh = new ArrayList();
+            
+            for(Employee e : tvEmpAssAmbulance.getItems()){
+                if(e.getAssignedVehicle() != null)
+                    veh.add(e.getAssignedVehicle());
+            }
+            tvVehAssAmbulance.setItems(FXCollections.observableArrayList(veh));
+            System.out.println("Added " + veh.size() + " to Ambulance");
         }
-        tvVehAssFire.setItems(veh);
-        veh.clear();
+        
+        if(tvEmpAssFire.getItems() != null)
+        {
+            veh = new ArrayList();
+            
+            for(Employee e : tvEmpAssFire.getItems()){
+                if(e.getAssignedVehicle() != null)
+                    veh.add(e.getAssignedVehicle());
+            }
+            tvVehAssFire.setItems(FXCollections.observableArrayList(veh));
+            System.out.println("Added " + veh.size() + " to Fire");
+        }
     }
 
     public void closeReport() {
@@ -685,27 +703,42 @@ public class CentralControllerFX extends controller.CentralController implements
         
         boolean add = true;
         int helplineID = 0;
+        TableView tv = null;
+        TableView tvVeh = null;
         
         if(e.getSource() == btnAssignEmpPol)
+        {
+            tv = tvEmpAssPolice;
             helplineID = 1;
+        }
         
         else if(e.getSource() == btnRemoveEmpPol){
+            tv = tvEmpAssPolice;
+            tvVeh = tvVehAssPolice;
             add = false;
             helplineID = 1;
         }
         
-        else if(e.getSource() == btnAssignEmpAmbu)
+        else if(e.getSource() == btnAssignEmpAmbu){
+            tv = tvEmpAssAmbulance;
             helplineID = 2;
+        }
         
         else if(e.getSource() == btnRemoveEmpAmbu){
+            tv = tvEmpAssAmbulance;
+            tvVeh = tvVehAssAmbulance;
             add = false;
             helplineID = 2;
         }
         
-        else if(e.getSource() == btnAssignEmpFire)
+        else if(e.getSource() == btnAssignEmpFire){
+            tv = tvEmpAssFire;
             helplineID = 3;
+        }
         
         else if(e.getSource() == btnRemoveEmpFire){
+            tv = tvEmpAssFire;
+            tvVeh = tvVehAssFire;
             add = false;
             helplineID = 3;
         }
@@ -714,12 +747,15 @@ public class CentralControllerFX extends controller.CentralController implements
             
             Helpline h = getHelplineByID(helplineID);
             
-            if(h == null)
+            if(h == null || tv == null)
                 return;
             
             if(add){
-                selectedEmployee.setAssignedTo(selectedReport);
-                selectedReport.addEmployee(selectedEmployee);
+                if(selectedEmployee.getAssignedTo() == null){
+                    selectedEmployee.setAssignedTo(selectedReport);
+                    selectedReport.addEmployee(selectedEmployee);
+                    tv.getItems().add(selectedEmployee);
+                }
             }
             
             else{
@@ -727,6 +763,10 @@ public class CentralControllerFX extends controller.CentralController implements
                 if(selectedEmployee.getAssignedTo() == selectedReport){
                     selectedEmployee.setAssignedTo(null);
                     selectedReport.removeEmployee(selectedEmployee);
+                    if(selectedEmployee.getAssignedVehicle() != null && tvVeh != null){
+                        tvVeh.getItems().remove(selectedEmployee.getAssignedVehicle());
+                    }
+                    tv.getItems().remove(selectedEmployee);
                 }
             }
         }
@@ -739,27 +779,37 @@ public class CentralControllerFX extends controller.CentralController implements
         
         boolean add = true;
         int helplineID = 0;
+        TableView tv = null;
         
-        if(e.getSource() == btnAssignPolVehicle)
+        if(e.getSource() == btnAssignPolVehicle){
+            tv = tvVehAssPolice;
             helplineID = 1;
+        }
         
         else if(e.getSource() == btnRemovePolVehicle){
+            tv = tvVehAssPolice;
             add = false;
             helplineID = 1;
         }
         
-        else if(e.getSource() == btnAssignAmbuVehicle)
+        else if(e.getSource() == btnAssignAmbuVehicle){
+            tv = tvVehAssAmbulance;
             helplineID = 2;
+        }
         
         else if(e.getSource() == btnRemoveAmbuVehicle){
+            tv = tvVehAssAmbulance;
             add = false;
             helplineID = 2;
         }
         
-        else if(e.getSource() == btnAssignFireVehicle)
+        else if(e.getSource() == btnAssignFireVehicle){
+            tv = tvVehAssFire;
             helplineID = 3;
+        }
         
         else if(e.getSource() == btnRemoveFireVehicle){
+            tv = tvVehAssFire;
             add = false;
             helplineID = 3;
         }
@@ -768,19 +818,20 @@ public class CentralControllerFX extends controller.CentralController implements
             
             Helpline h = getHelplineByID(helplineID);
             
-            if(h == null)
+            if(h == null || tv == null)
                 return;
             
             if(add){
                 selectedEmployee.setAssignedVehicle(selectedVehicle);
                 selectedVehicle.setAssignedEmployee(selectedEmployee);
+                tv.getItems().add(selectedVehicle);
             }
             
             else{
                 if(selectedVehicle.getAssignedEmployee() != null){
                     selectedVehicle.setAssignedEmployee(null);
-                    if(selectedEmployee.getAssignedVehicle() == selectedVehicle)
-                        selectedEmployee.setAssignedVehicle(null);
+                    selectedEmployee.setAssignedVehicle(null);
+                    tv.getItems().remove(selectedVehicle);
                 }
             }
         }

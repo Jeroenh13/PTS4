@@ -524,12 +524,12 @@ public class DatabaseManager {
                 LocalDateTime reportStart = null;
                 LocalDateTime reportEnd = null;
 
-                if (result.getDate("startDate") != null) {
-                    reportStart = LocalDateTime.parse(result.getString("startDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                if (result.getDate("fromDate") != null) {
+                    reportStart = LocalDateTime.parse(result.getString("fromDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
                 }
 
-                if (result.getDate("endDate") != null) {
-                    reportEnd = LocalDateTime.parse(result.getString("endDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                if (result.getDate("tillDate") != null) {
+                    reportEnd = LocalDateTime.parse(result.getString("tillDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
                 }
                 
                 planning.add(new PlannedVehicle(result.getInt("VehicleID"), result.getInt("EmployeeID"), reportStart, reportEnd));

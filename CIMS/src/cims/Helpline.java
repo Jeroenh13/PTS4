@@ -286,7 +286,7 @@ public class Helpline implements Serializable{
             Employee e = getEmployeeWithID(veh.getEmployeeId());
             Vehicle v = getVehicleWithID(veh.getVehicleId());
             
-            if(e != null && v != null)
+            if(e != null && v != null && v.getEnd() == null)
             {
                 e.setAssignedVehicle(v);
                 v.setAssignedEmployee(e);
