@@ -285,77 +285,86 @@ public class Employee {
         return dbm.getEmployees(userName,password);
     }
     
-    @Override
-    public boolean equals(Object object)
-    {
-        boolean same = true;
-
-        if (object != null && object instanceof Employee)
-        {
-            Employee empOther = (Employee) object;
-            if(this.badgeNR != empOther.getBadgeNR()){
-                same = false;
-            }
-            
-            if(!this.name.equals(empOther.getName())){
-                same = false;
-            }
-            
-            if(!this.available.equals(empOther.getAvailable())){
-                same = false;
-            }
-            
-            if(!this.function.equals(empOther.getFunction())){ 
-                same = false;
-            }
-            
-            if(!this.department.equals(empOther.getDepartment())){
-                same = false;
-            }
-            
-            if(!this.region.equals(empOther.getRegion())){
-                same = false;
-            }
-            
-            if(!this.commune.equals(empOther.getCommune())){
-                same = false;
-            }
-            
-            if(!this.level.equals(empOther.getLevel())){
-                same = false;
-            }
-            
-            if(!this.team.equals(empOther.getTeam())){ 
-                same = false;
-            }
-
-//            if(this.assignedTo.){
-//                
+//    @Override
+//    public boolean equals(Object object)
+//    {
+//        boolean same = true;
+//
+//        if (object != null && object instanceof Employee)
+//        {
+//            Employee empOther = (Employee) object;
+//            if(this.badgeNR != empOther.getBadgeNR()){
+//                return false;
 //            }
-            if(this.start != null && empOther.getStart() != null){
-                if(!this.start.equals(empOther.getStart())){
-                    same = false;
-                }
-            }else if((null == this.start && empOther.getStart() != null) || (null != this.start && empOther.getStart() == null) ){
-                same = false;
-            }
-            
-            if(this.end != null && empOther.getEnd() != null){
-                if(!this.end.equals(empOther.getEnd())){
-                    same = false;
-                }
-            }else if((null == this.end && empOther.getEnd() != null) || (null != this.end && empOther.getEnd() == null) ){
-                same = false;
-            }
-            
-//            if(this.helpline.equals(empOther.geth)){
-//                
+//            
+//            if(!this.name.equals(empOther.getName())){
+//                return false;
 //            }
-
-        }else{
-            same = false;
-        }
-
-        return same;
-    }
+//            
+//            if(!this.available.equals(empOther.getAvailable())){
+//                return false;
+//            }
+//            
+//            if(!this.function.equals(empOther.getFunction())){ 
+//                return false;
+//            }
+//            
+//            if(!this.department.equals(empOther.getDepartment())){
+//                return false;
+//            }
+//            
+//            if(!this.region.equals(empOther.getRegion())){
+//                return false;
+//            }
+//            
+//            if(!this.commune.equals(empOther.getCommune())){
+//                return false;
+//            }
+//            
+//            if(!this.level.equals(empOther.getLevel())){
+//                return false;
+//            }
+//            
+//            if(!this.team.equals(empOther.getTeam())){ 
+//                return false;
+//            }
+//
+////            if((this.assignedTo == null && empOther.getAssignedTo() != null) || (this.assignedTo != null && empOther.getAssignedTo() == null)){
+////                return false;
+////            }else if(this.assignedTo != null && empOther.getAssignedTo() != null){
+////                if(!this.assignedTo.equals(empOther.getAssignedTo())){
+////                    return false;
+////                }
+////            }
+//            
+//            if(this.start != null && empOther.getStart() != null){
+//                if(!this.start.equals(empOther.getStart())){
+//                    return false;
+//                }
+//            }else if((null == this.start && empOther.getStart() != null) || (null != this.start && empOther.getStart() == null) ){
+//                return false;
+//            }
+//            
+//            if(this.end != null && empOther.getEnd() != null){
+//                if(!this.end.equals(empOther.getEnd())){
+//                    return false;
+//                }
+//            }else if((null == this.end && empOther.getEnd() != null) || (null != this.end && empOther.getEnd() == null) ){
+//                return false;
+//            }
+//            
+//            if((this.helpline == null && empOther.getHelpline() != null) || (this.helpline != null && empOther.getHelpline() == null)){
+//                return false;
+//            }else if(this.helpline != null && empOther.getHelpline() != null){
+//                if(!this.helpline.equals(empOther.getHelpline())){
+//                    return false;
+//                }
+//            }
+//
+//        }else{
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }

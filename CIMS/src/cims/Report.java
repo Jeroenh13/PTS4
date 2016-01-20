@@ -385,4 +385,91 @@ public class Report implements Serializable {
     {
         return helpLines;
     }
+    
+//    @Override
+//    public boolean equals(Object object){
+//
+//        if (object != null && object instanceof Report)
+//        {
+//            Report reportOther = (Report) object;
+//            if(!this.description.equals(reportOther.getDescription())){
+//                return false;
+//            }
+//            
+//            if((employees != null && reportOther.getEmployees() == null) || (employees == null && reportOther.getEmployees() != null)){
+//                return false;
+//            }else if(employees != null && reportOther.getEmployees() != null){
+//                if(!employees.equals(reportOther.getEmployees())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((this.endDate != null && reportOther.getEndDate() == null) || (this.endDate == null && reportOther.getEndDate() != null)){
+//                return false;
+//            }else if(this.endDate != null && reportOther.getEndDate() != null){
+//                if(!this.endDate.equals(reportOther.getEndDate())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((this.startDate != null && reportOther.getStartDate() == null) || (this.startDate == null && reportOther.getStartDate() != null)){
+//                return false;
+//            }else if(this.startDate != null && reportOther.getStartDate() != null){
+//                if(!this.startDate.equals(reportOther.getStartDate())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((extraInformation != null && reportOther.getExtraInformation() == null) || (extraInformation == null && reportOther.getExtraInformation() != null)){ 
+//                return false;
+//            } else if(extraInformation != null && reportOther.getExtraInformation() != null){
+//                if(!this.extraInformation.equals(reportOther.getExtraInformation())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((this.helpLines != null && reportOther.getHelplines() == null) || (this.helpLines == null && reportOther.getHelplines() != null)){
+//                return false;
+//            }else if(this.helpLines != null && reportOther.getHelplines() != null){
+//                if(!this.helpLines.equals(reportOther.getHelplines())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((locationGPS != null && reportOther.getLocationGPS() == null) || (locationGPS == null && reportOther.getLocationGPS() != null)){ 
+//                return false;
+//            } else if(locationGPS != null && reportOther.getLocationGPS() != null){
+//                if(!this.locationGPS.equals(reportOther.getLocationGPS())){
+//                    return false;
+//                }
+//            }
+//            
+//            if((locationName != null && reportOther.getLocationName() == null) || (locationName == null && reportOther.getLocationName() != null)){ 
+//                return false;
+//            } else if(locationName != null && reportOther.getLocationName() != null){
+//                if(!this.locationName.equals(reportOther.getLocationName())){
+//                    return false;
+//                }
+//            }
+//            
+//            if(this.reportID != reportOther.getReportID()){
+//                return false;
+//            }
+//            
+//            if(!this.title.equals(reportOther.getTitle())){ 
+//                return false;
+//            }
+//            
+//            if((weather != null && reportOther.getWeather() == null) || (weather == null && reportOther.getWeather() != null)){ 
+//                return false;
+//            } else if(weather != null && reportOther.getWeather() != null){
+//                if(!this.weather.equals(reportOther.getWeather())){
+//                    return false;
+//                } 
+//            }
+//        }else{
+//            return false;
+//        }
+//        return true;
+//    }
 }

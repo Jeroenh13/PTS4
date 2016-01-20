@@ -60,9 +60,6 @@ public final class QueryBuilder {
             // periode er tussen
             start = LocalDateTime.of(fromDate, LocalTime.of(0,0,0));
             end = LocalDateTime.of(tillDate, LocalTime.of(0,0,0));
-//            SELECT * FROM vwemployee 
-//WHERE helpline = 'Politie'
-//AND start >= STR_TO_DATE('2015-09-11','%Y-%c-%e %T') AND end <= STR_TO_DATE('2015-09-31','%Y-%c-%e %T');
             queryGetPersons += "AND startdate >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND (enddate <= STR_TO_DATE('" + end.format(formatter) + "','%Y-%c-%e %T') OR enddate IS NULL)";
         }else if(fromDate == null && tillDate != null){
             // maand voor tilldate
@@ -72,7 +69,6 @@ public final class QueryBuilder {
         }else if(fromDate != null && tillDate == null){
             // start tot sysdate
             start = LocalDateTime.of(fromDate, LocalTime.of(0,0,0));
-            //LocalDateTime now = LocalDateTime.now();
             queryGetPersons += "AND startdate >= STR_TO_DATE('" + start.format(formatter) + "','%Y-%c-%e %T') AND (enddate <= " + "SYSDATE() OR enddate IS NULL)";
         }
         
