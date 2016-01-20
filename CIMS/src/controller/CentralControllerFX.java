@@ -282,6 +282,7 @@ public class CentralControllerFX extends controller.CentralController implements
                 chat = null;
                 System.gc();
             }
+            taChat.setText("");
             cc = new ChatClient(selectedReport.getReportID());
             chat = new Thread(cc);
             chat.setDaemon(true);
@@ -325,6 +326,7 @@ public class CentralControllerFX extends controller.CentralController implements
 
     public void btnSendChatClick(Event e) throws NoSuchAlgorithmException {
         cc.setText("Centrale: " + tfChatMessage.getText());
+        tfChatMessage.setText("");
     }
 
     public void makeCollums() {
