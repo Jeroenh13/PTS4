@@ -36,7 +36,7 @@ public class ReportTest {
     
     @Before
     public void setUp() {
-        //r = new Report(1, "Cat in tree again", "Cat climbed into tree, does not want to leave.", "-51,54.5566", "Tat of sunshine", null, "Cat in a tree");
+        r = new Report(1, "Cat in tree again", "Cat climbed into tree, does not want to leave.", "-51,54.5566", "Tat of sunshine", null, "Cat in a tree",null);
         r2 = new Report(2, "Fire", "Mexican Food Bathroom", LocalDateTime.of(1994, Month.MARCH, 2, 10, 59), LocalDateTime.now());
     }
     
