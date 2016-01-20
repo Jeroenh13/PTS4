@@ -177,6 +177,7 @@ public class CentralController  {
 //        });
 
         ObservableList<Report> reps = FXCollections.observableArrayList();
+        reps.clear();
         for (Report r : reports)
         {
             if (r.getEndDate() == null)

@@ -15,7 +15,9 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Server.StaticIPs;
+import controller.CentralControllerFX;
 import java.security.NoSuchAlgorithmException;
+import java.util.Observer;
 
 /**
  *
@@ -93,5 +95,5 @@ public class ChatClient extends Observable implements Runnable {
      */
     public String getText() {
         return text;
-    }
+    } 
 }

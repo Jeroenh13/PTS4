@@ -274,6 +274,14 @@ public class CentralControllerFX extends controller.CentralController implements
 
     public void informationAccident() {
         if (selectedReport != null) {
+            if(cc != null)
+            {
+                chat.stop();
+                //cc.deleteObserver(this);
+                cc = null;
+                chat = null;
+                System.gc();
+            }
             cc = new ChatClient(selectedReport.getReportID());
             chat = new Thread(cc);
             chat.setDaemon(true);
