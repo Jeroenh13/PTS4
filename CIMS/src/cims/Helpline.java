@@ -194,6 +194,18 @@ public class Helpline implements Serializable{
     public Employee getEmployeeWithID(int id){
         Employee emp = null;
         
+        for(Employee emplo: this.employeesAss){
+                if(emplo.getBadgeNR() == id){
+                    emp = emplo;
+                }
+        }
+        
+        return emp;
+    }
+    
+    public Employee getAllEmployeeWithID(int id){
+        Employee emp = null;
+        
         for(Employee emplo: this.employees){
                 if(emplo.getBadgeNR() == id){
                     emp = emplo;
@@ -202,6 +214,7 @@ public class Helpline implements Serializable{
         
         return emp;
     }
+    
     
     public Report getReportWithID(int id){
         Report rep = null;
@@ -265,7 +278,7 @@ public class Helpline implements Serializable{
         
         for (Map.Entry<Integer, Integer> entry : assigned.entrySet())
         {
-            Employee e = getEmployeeWithID(entry.getKey());
+            Employee e = getAllEmployeeWithID(entry.getKey());
             Report r = getReportWithID(entry.getValue());
             
             if(e != null && r != null)
@@ -275,7 +288,6 @@ public class Helpline implements Serializable{
                 count++;
             }
         }
-        
         //System.out.println("Number of assigned reports linked for " + name + ": " + count);
     }
     
@@ -283,7 +295,7 @@ public class Helpline implements Serializable{
     {
         for(PlannedVehicle veh : planning)
         {
-            Employee e = getEmployeeWithID(veh.getEmployeeId());
+            Employee e = getAllEmployeeWithID(veh.getEmployeeId());
             Vehicle v = getVehicleWithID(veh.getVehicleId());
             
             if(e != null && v != null && v.getEnd() == null)

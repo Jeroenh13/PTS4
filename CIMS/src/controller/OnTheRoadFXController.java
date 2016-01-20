@@ -193,7 +193,7 @@ public class OnTheRoadFXController implements Initializable, Observer {
         for (Helpline h : helplines) {
             for (Employee empl : h.getEmployees()) {
                 if (empl.getBadgeNR() == (id)) {
-                    Employee temp = h.getEmployeeWithID(id);
+                    Employee temp = h.getAllEmployeeWithID(id);
                     System.out.println(temp.getName());
                     emp = temp;
                 }
