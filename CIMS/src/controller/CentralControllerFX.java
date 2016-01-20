@@ -700,6 +700,7 @@ public class CentralControllerFX extends controller.CentralController implements
         if (succes) {
             alert = new Alert(AlertType.CONFIRMATION);
             message = "Report Closed";
+            fillColums();
         } else {
             alert = new Alert(AlertType.ERROR);
             message = "Could not close report";
