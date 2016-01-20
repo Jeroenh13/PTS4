@@ -155,6 +155,7 @@ public class OnTheRoadFXController implements Initializable, Observer {
 
     public void btnSendChatClick(Event e) throws NoSuchAlgorithmException {
         cc.setText("On the Road: " + tfSendChat.getText());
+        taChat.setText("");
     }
 
     public void setEmployee(Employee emp) {

@@ -25,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -41,6 +42,7 @@ public class LoginOnTheRoadController implements Initializable {
     private TextField txtName;
     @FXML
     private Button btnLogin;
+    @FXML AnchorPane root;
 
     /**
      * Initializes the controller class.
@@ -92,4 +94,22 @@ public class LoginOnTheRoadController implements Initializable {
         }
     }
 
+    public void setLocale(Event evt) {
+        if(localeSettings.tempLocale == 0)
+        {
+            localeSettings.setLocale("nl", "NL");
+            localeSettings.tempLocale = 1;
+        }
+        else{
+            localeSettings.setLocale("en", "US");
+            localeSettings.tempLocale = 0;
+        }
+        
+        Scene scene = root.getScene();
+        try {
+            scene.setRoot(FXMLLoader.load(getClass().getResource("/gui/LoginOnTheRoad.fxml"),localeSettings.getResourceBundle()));
+        } catch (IOException ex) {
+            Logger.getLogger(gui.UnitsAssignFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
