@@ -19,26 +19,26 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <TextField layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="300.0" />
-                                    <Button layoutX="325.0" layoutY="14.0" mnemonicParsing="false" text="Zoek" />
+                                    <TextField fx:id="cgSearchName" layoutX="14.0" layoutY="14.0" onAction="#cgSearchFunction" prefHeight="31.0" prefWidth="300.0" />
+                                    <Button fx:id="cgSearchButton" layoutX="325.0" layoutY="14.0" mnemonicParsing="false" onAction="#cgSearchFunction" text="Zoek" />
                                     <Label layoutX="37.0" layoutY="79.0" text="Datum van:" />
                                     <Label layoutX="37.0" layoutY="146.0" text="Lokatie:" />
                                     <Label layoutX="37.0" layoutY="209.0" text="Afgehandeld:" />
                                     <Label layoutX="37.0" layoutY="273.0" text="Nieuw:" />
-                                    <ComboBox layoutX="155.0" layoutY="74.0" prefWidth="150.0" />
                                     <ComboBox layoutX="155.0" layoutY="141.0" prefWidth="150.0" />
                                     <ComboBox layoutX="155.0" layoutY="204.0" prefWidth="150.0" />
                                     <ComboBox layoutX="155.0" layoutY="268.0" prefWidth="150.0" />
                                     <Label layoutX="325.0" layoutY="79.0" text="tot:" />
-                                    <ComboBox layoutX="416.0" layoutY="74.0" prefWidth="150.0" />
                                     <Label layoutX="653.0" layoutY="79.0" text="betrokkenhulpdienst(en):" />
                                     <Label layoutX="653.0" layoutY="135.0" text="Toegevoegde hulpdiensten:" />
                                     <Label layoutX="653.0" layoutY="273.0" text="Soort:" />
-                                    <ComboBox layoutX="884.0" layoutY="74.0" prefHeight="31.0" prefWidth="213.0" />
+                                    <ComboBox fx:id="cgSearchComboLines" layoutX="884.0" layoutY="74.0" onAction="#cgSearchFunction" prefHeight="31.0" prefWidth="213.0" />
                                     <Button layoutX="1122.0" layoutY="74.0" mnemonicParsing="false" text="Plus" />
-                                    <ListView layoutX="884.0" layoutY="123.0" prefHeight="114.0" prefWidth="213.0" />
-                                    <Button layoutX="1122.0" layoutY="204.0" mnemonicParsing="false" text="Verwijder" />
+                                    <ListView fx:id="cgSearchSelectedLines" layoutX="884.0" layoutY="123.0" prefHeight="114.0" prefWidth="213.0" />
+                                    <Button fx:id="cgSearchAddLineButton" layoutX="1122.0" layoutY="204.0" mnemonicParsing="false" onAction="#removeSearchHelpline" text="Verwijder" />
                                     <ComboBox layoutX="883.0" layoutY="268.0" prefHeight="31.0" prefWidth="214.0" />
+                                    <DatePicker fx:id="cgSearchDateStart" layoutX="131.0" layoutY="75.0" onAction="#cgSearchFunction" />
+                                    <DatePicker fx:id="cgSearchDateEnd" layoutX="368.0" layoutY="75.0" onAction="#cgSearchFunction" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

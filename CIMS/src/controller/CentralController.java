@@ -48,6 +48,15 @@ public class CentralController  {
         
         return null;
     }
+    
+    public Helpline getHelplineByName(String name){
+        for(Helpline h : helplines){
+            if(h.getName().equals(name))
+                return h;
+        }
+        
+        return null;
+    }
 
     public boolean saveApproach(String approach, String helpline, int reportID) {
         boolean succes = false;

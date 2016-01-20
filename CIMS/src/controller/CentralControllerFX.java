@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -55,6 +56,26 @@ public class CentralControllerFX extends controller.CentralController implements
     private Button btnSaveAmbulance;
     @FXML
     private Button btnCloseReport;
+    
+    /* Search Controls */
+    
+    @FXML
+    private Button cgSearchButton;
+    @FXML
+    private Button cgSearchAddLineButton;
+    @FXML
+    private TextField cgSearchName;
+    @FXML
+    private DatePicker cgSearchDateStart;
+    @FXML
+    private DatePicker cgSearchDateEnd;
+    @FXML
+    private ComboBox cgSearchComboLines;
+    @FXML
+    private ListView cgSearchSelectedLines;
+    
+    /* End of Search Controls */
+    
 
     @FXML
     private TableView<Vehicle> tvVehAssPolice;
@@ -149,6 +170,8 @@ public class CentralControllerFX extends controller.CentralController implements
     private Employee selectedEmployee;
     private Vehicle selectedVehicle;
     
+    private ObservableList<Helpline> hLines = FXCollections.observableArrayList();
+    
     
     private final ObservableList<cbItem> listItems = FXCollections.observableArrayList();
 
@@ -160,6 +183,8 @@ public class CentralControllerFX extends controller.CentralController implements
         fillEmployeeColums();
         makeVehicleColumns();
         fillVehicleColumns();
+        
+        loadSearchComboLines();
 
         reportListener = new Thread(cr);
 
@@ -180,6 +205,25 @@ public class CentralControllerFX extends controller.CentralController implements
             }
         });
 
+    }
+    
+    public void loadSearchComboLines(){
+        
+        for(Helpline h : getHelplines()){
+            cgSearchComboLines.getItems().add(h.getName());
+            cgSearchSelectedLines.getItems().add(h.getName());
+        }
+    }
+    
+    public void addSearchComboLine(){
+        String selected = cgSearchComboLines.getSelectionModel().getSelectedItem().toString();
+        if(!hLines.contains(getHelplineByName(selected))){
+            hLines.add(getHelplineByName(selected));
+        }
+    }
+    
+    public void removeSearchHelpline(){
+        
     }
 
     public void saveApproachPolice(Event evnt) {
@@ -833,6 +877,56 @@ public class CentralControllerFX extends controller.CentralController implements
                     selectedEmployee.setAssignedVehicle(null);
                     tv.getItems().remove(selectedVehicle);
                 }
+            }
+        }
+    }
+    
+    public void cgSearchFunction(Event e){
+        
+        System.out.println("Starting search...");
+        
+        ObservableList<Report> found = FXCollections.observableArrayList();
+        
+        for(Helpline h : getHelplines()){
+            for(Report r : h.getReports()){
+                found.add(r);
+            }
+        }
+        
+        tvIncidents.setItems(found);
+        
+        if(!cgSearchName.getText().isEmpty()){
+            
+            String query = cgSearchName.getText().toLowerCase();
+            
+            for(Object r : found.toArray()){
+                Report rep = (Report)r;
+                if(!rep.getTitle().toLowerCase().contains(query) && !rep.getDescription().toLowerCase().contains(query))
+                    found.remove(rep);
+            }
+            
+            cgSearchName.setText("");
+        }
+        
+        if(cgSearchDateStart.getValue() != null){
+            
+            LocalDate date = cgSearchDateStart.getValue();
+            
+            for(Object r : found.toArray()){
+                Report rep = (Report)r;
+                if(rep.getStartDate().toLocalDate().isBefore(date))
+                    found.remove(rep);
+            }
+        }
+        
+        if(cgSearchDateEnd.getValue() != null){
+            
+            LocalDate date = cgSearchDateEnd.getValue();
+            
+            for(Object r : found.toArray()){
+                Report rep = (Report)r;
+                if(rep.getEndDate().toLocalDate().isAfter(date))
+                    found.remove(rep);
             }
         }
     }
